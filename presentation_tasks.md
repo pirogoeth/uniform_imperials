@@ -11,8 +11,8 @@
       - [ ] Show a list of the kind of information that will be stored in your model.
       - [ ] Provide a list and short descriptions of what Java classes will be needed for the model.
 - [ ] Briefly describe the controller portion of your team project.
-      -[ ] Provide a list and short descriptions of what Java classes will be needed for the controller.
-      -[ ] Briefly describe two milestones for your team project.
+      - [ ] Provide a list and short descriptions of what Java classes will be needed for the controller.
+      - [ ] Briefly describe two milestones for your team project.
 - [ ] Describe an "easy" milestone that you expect to achieve relatively quickly (within the first two weeks).
 - [ ] Describe a "hard" milestone that you hope to achieve as time permits.
 
