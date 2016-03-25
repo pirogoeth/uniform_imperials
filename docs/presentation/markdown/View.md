@@ -8,11 +8,11 @@ See also: [Github](https://github.com/pirogoeth/uniform_imperials)
   ### App Mockup
   
   ### Desktop Mockup
-  
   note classname
+  
   ### Class names
-    note class descript
-    ### brief descript
+    
+    ### brief descript note class descript
 
 ## Members
 
