@@ -1,7 +1,7 @@
 # Presentation Tasklist
 
-#####Based on provided guidelines
-#####To mark off a task, place an X inside the braces
+###### (Based on provided guidelines)
+###### To mark off a task, place an X inside the braces
 
 ### Guidelines
 - [x] Show a title page with the name of your project and the names of your team members. --pirogoeth
@@ -11,11 +11,11 @@
 - [ ] Briefly describe the model portion of your team project. --gustavomm
       - [ ] Show a list of the kind of information that will be stored in your model.
       - [ ] Provide a list and short descriptions of what Java classes will be needed for the model.
-- [ ] Briefly describe the controller portion of your team project.
+- [ ] Briefly describe the controller portion of your team project. --jaherrera5
       - [ ] Provide a list and short descriptions of what Java classes will be needed for the controller.
       - [ ] Briefly describe two milestones for your team project.
-- [ ] Describe an "easy" milestone that you expect to achieve relatively quickly (within the first two weeks).
-- [ ] Describe a "hard" milestone that you hope to achieve as time permits.
+- [ ] Describe an "easy" milestone that you expect to achieve relatively quickly (within the first two weeks). --pirogoeth
+- [ ] Describe a "hard" milestone that you hope to achieve as time permits. --pirogoeth
 
 ### Additional Breakdowns
 - [ ] reveal.js framework --pirogoeth
