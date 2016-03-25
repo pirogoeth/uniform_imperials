@@ -3,18 +3,18 @@
 
 See also: [Github](https://github.com/pirogoeth/uniform_imperials)
 
-# View Description
+## View Description
   
-  ## App Mockup
+  ### App Mockup
   
-  ## Desktop Mockup
+  ### Desktop Mockup
   
   note classname
-  ## Class names
+  ### Class names
     note class descript
-    ## brief descript
+    ### brief descript
 
-# Members
+## Members
 
 - Gustavo Mendes
 - Jorge Herrera
