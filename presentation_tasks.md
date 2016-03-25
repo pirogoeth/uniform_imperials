@@ -6,7 +6,7 @@
 ### Guidelines
 - [ ] Show a title page with the name of your project and the names of your team members.
 - [ ] Briefly describe the view portion of your team project.
-      - [ ] Show two or three pictures/drawings/sketches of how your application will look.
+      - [ ] Show two or three mockups of how your application will look.  --mh1723
       - [ ] List and briefely describe what Java classes are needed for the view.
 - [ ] Briefly describe the model portion of your team project.
       - [ ] Show a list of the kind of information that will be stored in your model.
@@ -18,8 +18,8 @@
 - [ ] Describe a "hard" milestone that you hope to achieve as time permits.
 
 ### Additional Breakdowns
-- [ ] reveal.js framework @pirogoeth
-- [ ] 
+- [ ] reveal.js framework --pirogoeth
+- [ ] Autodeploy for presentation updates --pirogoeth
 
 
 
