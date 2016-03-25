@@ -5,7 +5,7 @@
 
 ### Guidelines
 - [ ] Show a title page with the name of your project and the names of your team members.
-- [ ] Briefly describe the view portion of your team project.
+- [ ] Briefly describe the view portion of your team project. --mh1723
       - [ ] Show two or three mockups of how your application will look.  --mh1723
       - [ ] List and briefely describe what Java classes are needed for the view.
 - [ ] Briefly describe the model portion of your team project.
