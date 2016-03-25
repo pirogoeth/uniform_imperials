@@ -4,11 +4,11 @@
 #####To mark off a task, place an X inside the braces
 
 ### Guidelines
-- [ ] Show a title page with the name of your project and the names of your team members.
+- [x] Show a title page with the name of your project and the names of your team members. --pirogoeth
 - [ ] Briefly describe the view portion of your team project. --mh1723
       - [ ] Show two or three mockups of how your application will look.  --mh1723
       - [ ] List and briefely describe what Java classes are needed for the view.
-- [ ] Briefly describe the model portion of your team project.
+- [ ] Briefly describe the model portion of your team project. --gustavomm
       - [ ] Show a list of the kind of information that will be stored in your model.
       - [ ] Provide a list and short descriptions of what Java classes will be needed for the model.
 - [ ] Briefly describe the controller portion of your team project.
