@@ -1,8 +1,9 @@
 # Presentation Tasklist
 
-#### Based on provided guidelines
-#### To mark off a task, place an X inside the braces
+#####Based on provided guidelines
+#####To mark off a task, place an X inside the braces
 
+### Guidelines
 - [ ] Show a title page with the name of your project and the names of your team members.
 - [ ] Briefly describe the view portion of your team project.
       - [ ] Show two or three pictures/drawings/sketches of how your application will look.
@@ -16,7 +17,9 @@
 - [ ] Describe an "easy" milestone that you expect to achieve relatively quickly (within the first two weeks).
 - [ ] Describe a "hard" milestone that you hope to achieve as time permits.
 
-
+### Additional Breakdowns
+- [ ] reveal.js framework @pirogoeth
+- [ ] 
 
 
 
