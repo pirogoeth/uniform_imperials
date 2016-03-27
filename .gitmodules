@@ -1,0 +1,4 @@
+[submodule "docs/presentation"]
+	path = docs/static
+	url = git@github.com:pirogoeth/uniform_imperials.git
+	branch = gh-pages
