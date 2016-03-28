@@ -1,7 +1,8 @@
 
 ###A Project for Mirroring Notifications
-See also: [Github](https://github.com/pirogoeth/uniform_imperials)
 ========================================
+See also: [Github](https://github.com/pirogoeth/uniform_imperials)
+
 ####View Description
         
 ####App Mockup
