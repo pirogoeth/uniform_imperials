@@ -7,8 +7,10 @@ See also: [Github](https://github.com/pirogoeth/uniform_imperials)
         
 ####App Mockup
 
-Color Palletes
-        [Pallete 1](uniform_imperials/presentation/assets/3.PNG)        [Pallete 2](uniform_imperials/presentation/assets/4.PNG)        [Pallete 3](uniform_imperials/presentation/assets/4.PNG)
+Color Palettes
+- [![Palette 1](../assets/3.PNG)]
+- [![Palette 2](../assets/4.PNG)]
+- [![Palette 3](../assets/4.PNG)]
 
 ####Desktop Mockup
 
