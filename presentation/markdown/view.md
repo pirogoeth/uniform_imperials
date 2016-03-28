@@ -1,20 +1,20 @@
 
-        ###A Project for Mirroring Notifications
-        ========================================
+###A Project for Mirroring Notifications
+========================================
 
-        See also: [Github](https://github.com/pirogoeth/uniform_imperials)
+See also: [Github](https://github.com/pirogoeth/uniform_imperials)
 
-        ##View Description
+##View Description
         
-        ###App Mockup
-        -------------
-        ###Desktop Mockup
-        -----------------
-        
-        ###Classes
-        --------------
+###App Mockup
+-------------
+###Desktop Mockup
+-----------------
+
+###Classes
+--------------
           
-          ##appConfiguration
+          ## appConfiguration
           allows for the setup and changes to customize app settings
           
           ##deviceSelector
