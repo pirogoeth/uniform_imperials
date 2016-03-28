@@ -1,5 +1,4 @@
-<section data-markdown>
-    <script type="text/template">
+
         ###A Project for Mirroring Notifications
         ========================================
 
@@ -46,6 +45,3 @@
       - Matt Humphries
       - Sean Johnson
    
-
- </script>
-</section># Uniform Imperials
