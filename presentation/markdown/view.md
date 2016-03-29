@@ -1,4 +1,4 @@
-#View
+# View
 * Provides consistent GUI based on material design. 
 * The primary tool to
     * build personal notifications network
@@ -7,7 +7,7 @@
 
         
 ### App Design
-    Color Palettes
+#### Color Palettes
 - ![Palette 1](../assets/3.PNG)
 - ![Palette 2](../assets/4.PNG)
 - ![Palette 3](../assets/4.PNG)
@@ -15,13 +15,10 @@
 
 ### Desktop Mockup
 
+... **in progress** ..
 
-###Classes
-* view_Notifications
-   - allows for the setup and changes to customize app settings
-* view_Devices
-   - displays current devices notifications are being pushed to
-* view_Apps
-   - displays apps which notifications are being pushed also available apps to add to the list 
-* view_Settings
-   - displays current devices notifications are being pushed to
+### View classes
+* **Notifications**: displays a log/history of recently pushed/pulled notifications
+* **Devices**: displays devices currently connected to the "channel"
+* **Apps**: displays device apps and allows for more granular notification routing
+* **Settings**: allows for the setup and changes to customize app settings
