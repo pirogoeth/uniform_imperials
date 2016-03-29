@@ -48,4 +48,4 @@
 
 ### Receiver Flow
  1. Target device(s) receive the message, verify the metadata, attempt to decrypt the payload with the *shared* encryption key, and check the signature of the payload.
- 2. Notification is displayed!
+ 2. *Notification is displayed*!
