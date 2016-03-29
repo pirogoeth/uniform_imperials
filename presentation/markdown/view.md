@@ -13,15 +13,15 @@
 
 
 ##### Palette 1: Subtle
-![Palette 1](assets/3.PNG) <!-- .element: style="width=80%" -->
+- ![Palette 1](assets/3.PNG) <!-- .element: style="width=80%" -->
 
 
 ##### Palette 2: Bright
-![Palette 2](assets/4.PNG) <!-- .element: style="width=80%" -->
+- ![Palette 2](assets/4.PNG) <!-- .element: style="width=80%" -->
 
 
 ##### Palette 3: Dr. Strange
-![Palette 3](assets/5.PNG) <!-- .element: style="width=80%" -->
+- ![Palette 3](assets/5.PNG) <!-- .element: style="width=80%" -->
 
 
 ### Desktop Mockup
