@@ -19,6 +19,9 @@
          }
     }
     ```
+
+
+### Device Flow (cont.)
  4. Payload is combined with the user's encryption key and hashed with HMAC-SHA1 algorithm.
  5. A wrapped payload is generated:
     ```
