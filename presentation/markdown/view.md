@@ -5,7 +5,8 @@
     * receive notifications
     * push additional content (text, files, photos, etc) 
 
-        
+
+ 
 ### App Design
 #### Color Palettes
 - ![Palette 1](../assets/3.PNG)
@@ -13,9 +14,12 @@
 - ![Palette 3](../assets/4.PNG)
 
 
+
 ### Desktop Mockup
 
 ... **in progress** ..
+
+
 
 ### View classes
 * **Notifications**: displays a log/history of recently pushed/pulled notifications
