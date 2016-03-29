@@ -1,13 +1,22 @@
-#Milestones
+# Milestones
+## Project goals!
+
+### Main Milestones
+1. Notification mirroring across *n* many Android devices
+2. Open-source, reliable, scalable notification dispatcher
+3. Simplistic, cross-platform desktop application utilizing [SwingFx's Twinkle](http://www.swingfx.ch/)
 
 
-### Easy Milestone
-* Android Notification Mirroring
+### Secondary Milestones
+1. Push files, images, notes, *et cetera* between devices
+2. CLI Application for pushing and receiving notifications in a terminal session
 
-
-### Hard Milestones (Future Updates)
-* SMS utilizing Conversation Manager
-* Support for
-  * Android Auto
-  * Android Wear
-  * Pebble
+### Stretch Milestones (Future Updates)
+1. SMS Support
+  - Viewing SMS threads
+  - Responding to SMS messages directly from any device
+2. Support for:
+  - Android Wear
+  - Pebble
+  - Android Auto
+3. iOS Support
