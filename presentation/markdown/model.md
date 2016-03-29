@@ -11,8 +11,9 @@
        * We will use Java Hibernate or something similar to manage the database
 
 
-### Information (cont.) 
-* SMS (*stretch milestone*)
-    * Phone Number
-    * Contact Name (If number in contacts)
-    * Text
+* Hard Milestones
+   * SMS 
+       * Conversation History
+       * Phone Number
+       * Contact Name (If number in contacts)
+       * Text
