@@ -1,4 +1,4 @@
-#view
+#View
 ### View Description
 
         
@@ -24,11 +24,3 @@
    
    view_Settings
         displays current devices notifications are being pushed to
- 
- 
-#####Members
-    - Gustavo Mendes
-    - Jorge Herrera
-    - Matt Humphries
-    - Sean Johnson
-   
