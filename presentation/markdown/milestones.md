@@ -1,6 +1,7 @@
 # Milestones
 ## Project goals!
 
+
 ### Main Milestones
 1. Notification mirroring across *n* many Android devices
 2. Open-source, reliable, scalable notification dispatcher
@@ -10,6 +11,7 @@
 ### Secondary Milestones
 1. Push files, images, notes, *et cetera* between devices
 2. CLI Application for pushing and receiving notifications in a terminal session
+
 
 ### Stretch Milestones (Future Updates)
 1. SMS Support
