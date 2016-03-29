@@ -13,7 +13,7 @@
 
 
 ##### Palette 1: Subtle
-[![Palette 1](assets/3.PNG)(http://paletton.com/#uid=60y0P1kof+jhTPjlNWcpC++qO++kN6N6PxYKP6TVE2-tvmsxkktp36zQTdZx7qqiaBx7Fk4qhCavhk4IeS4YbU4O8I)
+[![Palette 1](assets/3.PNG)](http://paletton.com/#uid=60y0P1kof+jhTPjlNWcpC++qO++kN6N6PxYKP6TVE2-tvmsxkktp36zQTdZx7qqiaBx7Fk4qhCavhk4IeS4YbU4O8I)
 
 
 ##### Palette 2: Bright
