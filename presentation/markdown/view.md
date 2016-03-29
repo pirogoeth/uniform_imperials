@@ -10,9 +10,18 @@
 
 ### App Design
 #### Color Palettes
-- ![Palette 1](../assets/3.PNG)
-- ![Palette 2](../assets/4.PNG)
-- ![Palette 3](../assets/4.PNG)
+
+
+##### Palette 1: Subtle
+![Palette 1](assets/3.PNG)
+
+
+##### Palette 2: Bright
+![Palette 2](assets/4.PNG)
+
+
+##### Palette 3: Dr. Strange
+![Palette 3](assets/4.PNG)
 
 
 ### Desktop Mockup
