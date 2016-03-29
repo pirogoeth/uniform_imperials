@@ -21,7 +21,7 @@
 
 
 ##### Palette 3: Dr. Strange
-![Palette 3](assets/4.PNG)
+![Palette 3](assets/5.PNG)
 
 
 ### Desktop Mockup
