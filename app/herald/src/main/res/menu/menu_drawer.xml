@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_nh"
+            android:icon="@drawable/nh_nav_icon"
+            android:title="@string/nav_nh_title" />
+
+        <item
+            android:id="@+id/nav_am"
+            android:icon="@drawable/am_nav_icon"
+            android:title="@string/nav_am_title" />
+
+        <item
+            android:id="@+id/nav_dm"
+            android:icon="@drawable/dm_nav_icon"
+            android:title="@string/nav_dm_title" />
+
+        <item android:title="Bullshit 'R' Us">
+            <menu>
+                <item
+                    android:id="@+id/nav_sp"
+                    android:icon="@drawable/sp_nav_icon"
+                    android:title="@string/nav_sp_title" />
+
+                <item
+                    android:id="@+id/nav_ap"
+                    android:icon="@drawable/ap_nav_icon"
+                    android:title="@string/nav_ap_title" />
+            </menu>
+        </item>
+    </group>
+</menu>

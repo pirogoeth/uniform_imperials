@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Herald</string>
-    <string name="action_settings">Settings</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="nav_nh_title">Notifications</string>
+    <string name="nav_am_title">Applications</string>
+    <string name="nav_dm_title">Devices</string>
+    <string name="nav_sp_title">Settings</string>
+    <string name="nav_ap_title">About this App</string>
 </resources>
