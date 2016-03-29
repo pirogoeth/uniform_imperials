@@ -1,19 +1,29 @@
 # Model
+- Models will be stored in Android's built-in SQLite system.
+- Model storage will be orchestrated with an ORM system such as Hibernate.
 
 
-### What kind of information will be stored in the model?
-* Notifications
-    * App ID
-    * App Name
-    * Notification Icon
-    * Notification Data
-       * Will be stored using Android's SQLite
-       * We will use Java Hibernate or something similar to manage the database
+### What kind of data will be stored?
+- Notifications (notification history)
+  - App ID
+  - App Name
+  - Notification Icon
+  - Notification Content
+  - Other notification metadata
 
 
-* Hard Milestones
-   * SMS 
-       * Conversation History
-       * Phone Number
-       * Contact Name (If number in contacts)
-       * Text
+- Per-Application Settings
+  - App ID
+  - Notification setting
+
+
+- Devices
+  - Device UUID
+  - "Friendly" name
+  - Last seen time
+
+
+- Settings
+  - Key
+  - Value
+  - Last set time
