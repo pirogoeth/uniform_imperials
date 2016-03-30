@@ -10,8 +10,8 @@ Devices can be relatively transient and storing them in a database locally can p
 
 ### Model Types
 Models will be written in several styles:
-- Pure Database/ORM ~> Only stored locally in the on-device database.
-- Pure HTTP/RESTful ~> Only retrieved from the REST API, cached in memory during app run.
+- Pure Database/ORM ~> Stored locally in the on-device database.
+- Pure HTTP/RESTful ~> Retrieved from the REST API, cached in memory during app run.
 - Hybrid ORM+REST ~> Updated from REST API, but cached to local database.
 
 
