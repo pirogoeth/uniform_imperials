@@ -31,7 +31,7 @@
 
 
 ### View classes
-* **Notifications**: displays a log/history of recently pushed/pulled notifications
-* **Devices**: displays devices currently connected to the "channel"
-* **Apps**: displays device apps and allows for more granular notification routing
-* **Settings**: allows for the setup and changes to customize app settings
+* **Notifications** ~> displays a log/history of recently pushed/pulled notifications
+* **Devices** ~> displays devices currently connected to the "channel"
+* **Apps** ~> displays device apps and allows for more granular notification routing
+* **Settings** ~> allows for the setup and changes to customize app settings
