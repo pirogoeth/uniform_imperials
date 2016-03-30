@@ -7,6 +7,8 @@
 All of our data can not be represented by database models — and in fact, we *do not* want to represent some of it in a database.
 Devices can be relatively transient and storing them in a database locally can prove problematic while synching up.
 
+
+### Model Types
 Models will be written in several styles:
 - Pure Database/ORM ~> Only stored locally in the on-device database.
 - Pure HTTP/RESTful ~> Only retrieved from the REST API, cached in memory during app run.
