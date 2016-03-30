@@ -4,7 +4,7 @@
 
 
 ### Model Style
-All of our data can not be represented by database models — some if it, we *do not* want to represent in a database.
+All of our data can not be represented by database models — and in fact, we *do not* want to represent some of it in a database.
 Devices can be relatively transient and storing them in a database locally can prove problematic while synching up.
 
 Models will be written in several styles:
