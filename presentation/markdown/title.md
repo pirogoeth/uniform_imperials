@@ -11,3 +11,8 @@ See also: [Github](https://github.com/pirogoeth/uniform_imperials)
 - Gustavo Mendes
 - Matt Humphries
 - Sean Johnson
+
+
+# Code Name: Herald
+
+![Bringer of News](assets/disambiguation.png)
