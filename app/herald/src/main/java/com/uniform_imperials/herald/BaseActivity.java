@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.uniform_imperials.herald.activities.MainActivity;
+import com.uniform_imperials.herald.fragments.NotificationHistoryFragment;
 
 import butterknife.ButterKnife;
 
@@ -224,7 +225,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 // cFrag = DeviceManagerActivity.class;
                 break;
             case R.id.nav_nh:  // Notification history pane1
-                // cFrag = NotificationHistoryActivity.class;
+                cFrag = NotificationHistoryFragment.class;
                 break;
             case R.id.nav_sp:  // Settings pane
                 // cFrag = SettingsActivity.class;
@@ -238,6 +239,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         try {
+            if (cFrag == null) {
+                System.out.println("WARNING: Fragment class was null!");
+                this.mDrawer.closeDrawer(GravityCompat.START);
+            }
             mFrag = (Fragment) cFrag.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
