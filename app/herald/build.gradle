@@ -37,4 +37,5 @@ dependencies {
 
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.joshdholtz.sentry:sentry-android:1.2.1'
 }
