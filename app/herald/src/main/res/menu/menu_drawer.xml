@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_nh"
@@ -16,7 +17,7 @@
             android:icon="@drawable/dm_nav_icon"
             android:title="@string/nav_dm_title" />
 
-        <item android:title="Bullshit 'R' Us">
+        <item android:title="Configure">
             <menu>
                 <item
                     android:id="@+id/nav_sp"
@@ -27,6 +28,17 @@
                     android:id="@+id/nav_ap"
                     android:icon="@drawable/ap_nav_icon"
                     android:title="@string/nav_ap_title" />
+
+            </menu>
+        </item>
+
+        <item android:title="Quick Toggles">
+            <menu>
+                <item
+                    android:id="@+id/nav_disable_mirror"
+                    android:icon="@drawable/mirror_status"
+                    app:actionLayout="@layout/action_disable_global"
+                    android:title="Disable Mirroring" />
             </menu>
         </item>
     </group>

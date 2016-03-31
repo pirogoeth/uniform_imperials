@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.joshdholtz.sentry.Sentry;
 import com.uniform_imperials.herald.activities.MainActivity;
 import com.uniform_imperials.herald.fragments.NotificationHistoryFragment;
 
@@ -113,20 +114,22 @@ public abstract class BaseActivity extends AppCompatActivity {
             this.mNavView = (NavigationView) findViewById(R.id.nav_view);
         }
 
-        // Override the navigation icon.
-        this.mToolbar.setNavigationIcon(R.drawable.nav_drop);
-
         // Override the actionbar with a new MD toolbar.
         setSupportActionBar(this.mToolbar);
         try {
+            // Override the navigation icon with a nav drop.
+            this.mToolbar.setNavigationIcon(R.drawable.nav_drop);
+            this.mToolbar.setTitleTextAppearance(
+                    getApplicationContext(), R.style.Subtle_ActionBar_Text
+            );
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (Exception e) {
-            System.out.println("Something went horribly wrong...");
-            e.printStackTrace();
+            Sentry.captureException(e);
         }
 
         // Set up the linked mDrawer + mToolbar toggle
         mDrawerToggle = setupDrawerToggle();
+        this.mDrawer.addDrawerListener(mDrawerToggle);
 
         // Run the routine to build nav drawer content.
         setupDrawerContent(this.mNavView);
@@ -233,6 +236,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             case R.id.nav_ap:  // About pane
                 // cFrag = AboutPanelActivity.class
                 break;
+            case R.id.nav_disable_mirror:  // Nav toggle
+                return;
             default:
                 cFrag = MainActivity.class;
                 break;

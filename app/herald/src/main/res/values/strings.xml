@@ -12,4 +12,7 @@
     <string name="nav_dm_title">Devices</string>
     <string name="nav_sp_title">Settings</string>
     <string name="nav_ap_title">About this App</string>
+
+    <string name="notif_enabled">Notification mirroring enabled!</string>
+    <string name="notif_disabled">Notification mirroring disabled!</string>
 </resources>
