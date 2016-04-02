@@ -39,5 +39,10 @@ setup(
         'nose',
         'coverage',
     ],
+    entry_points={
+        "console_scripts": [
+            "unwind-server = unwind.entrypoint:main",
+        ],
+    },
     zip_safe=True
 )

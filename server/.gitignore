@@ -10,6 +10,7 @@ pip-selfcheck.json
 
 # python files
 *.pyc
+*.egg-info
 
 # testing configs
 api.ini

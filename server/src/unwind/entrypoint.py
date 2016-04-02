@@ -3,17 +3,18 @@
 from datetime import datetime
 from rest_api import routing
 from rest_api.manager import RESTAPIManager
-from malibu.util import log, scheduler
+from malibu.util import log
+from malibu.util.scheduler import Scheduler
 
 from unwind import migrations
 from unwind import models
 
 
-if __name__ == "__main__":
+def main():
 
     manager = RESTAPIManager()
 
-    scheduler = scheduler.Scheduler()
+    scheduler = Scheduler()
     scheduler.save_state("default")
 
     manager.load_logging()
