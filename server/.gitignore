@@ -1,0 +1,16 @@
+# virtualenv things to ignore
+bin
+include
+lib
+var
+man
+
+# pip stuff
+pip-selfcheck.json
+
+# python files
+*.pyc
+
+# testing configs
+api.ini
+unwind.ini
