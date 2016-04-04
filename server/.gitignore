@@ -15,3 +15,7 @@ pip-selfcheck.json
 # testing configs
 api.ini
 unwind.ini
+
+# vim swapfiles
+*.swp
+*.swo
