@@ -31,11 +31,18 @@ repositories {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12-beta-3'
+
+    // Design and compat libraries.
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:design:23.2.1'
     compile 'com.android.support:recyclerview-v7:23.2.1'
 
+    // Development and debugging dependencies.
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.joshdholtz.sentry:sentry-android:1.2.1'
+
+    // Database & ORM dependencies
+    compile 'io.requery:sqlite-android:3.12.0'
+    compile 'io.requery:requery-android:1.0.0-beta11'
 }
