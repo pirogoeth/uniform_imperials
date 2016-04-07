@@ -1,7 +1,6 @@
 import json
 import uuid
 
-from bottle import request
 from malibu.util import log
 
 from rest_api import routing
@@ -21,6 +20,12 @@ class ChannelAPIRouter(routing.base.APIRouter):
         GET /channel/:uuid-or-:alias/devices
         DELETE /channel/:uuid-or-:alias
     """
+
+    def __init__(self, manager):
+
+        routing.base.APIRouter.__init__(self, manager)
+
+        self.__log = log.LoggingDriver.find_logger()
 
     @api_route(path="/channel/create",
                actions=["POST"],
@@ -46,7 +51,7 @@ class ChannelAPIRouter(routing.base.APIRouter):
 
         return json.dumps(resp) + "\n"
 
-    @api_route(path="/channel/:identifier",
+    @api_route(path="/channel/<identifier>",
                actions=["GET"],
                returns="application/json")
     def channel_get_info(identifier):
@@ -87,4 +92,47 @@ class ChannelAPIRouter(routing.base.APIRouter):
                 "devices": len(d),
             },
         }
+        return json.dumps(resp) + "\n"
+
+    @api_route(path="/channel/<identifier>/push",
+               actions=["POST"],
+               returns="application/json")
+    def channel_push_payload(identifier):
+        """ POST /channel/:identifier/push
+
+            Accepts a structured JSON payload and forwards it onward to
+            the GCM servers for the available registered devices.
+
+            TODO: Instead of directly forwarding notifications, we should
+                  enqueue the push job with Huey and assign a job ID to
+                  retrieve results later.
+
+            Request data:
+                {
+                    "metadata": {
+                        "received_at": <unix ts>,
+                        "pushed_at": <unix ts>,
+                        "from_id": "<device uuid>",
+                        "to_id": [
+                            "<device uuid>",
+                            "<device uuid>",
+                            ...
+                        ],
+                    },
+                    "payload": "<aes256 encrypted JSON payload>",
+                    "signature": "<salted HMAC-SHA payload signature>"
+                }
+
+            Return data:
+                {
+                    "timestamp": <unix ts>,
+                    "status": "<accepted|rejected>",
+                    "message": "<Error message|okay>"
+                    "job_id": <long push id> -or- "<push uuid>"
+                }
+        """
+
+        resp = routing.base.generate_error_response(code=501)
+        resp["message"] = "Not yet implemented."
+
         return json.dumps(resp) + "\n"
