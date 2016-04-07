@@ -136,3 +136,47 @@ class ChannelAPIRouter(routing.base.APIRouter):
         resp["message"] = "Not yet implemented."
 
         return json.dumps(resp) + "\n"
+
+    @api_route(path="/channel/<identifier>/devices",
+               actions=["GET"],
+               returns="application/json")
+    def channel_get_devices(identifier):
+        """ GET /channel/:identifier/devices
+
+            Lists the device ids that are registered to this channel.
+
+            Return data:
+                {
+                    "channel": "<uuid>",
+                    "devices": [
+                        "<device uuid>",
+                        "<device uuid>",
+                        ...
+                    ]
+                }
+        """
+
+        resp = routing.base.generate_error_response(code=501)
+        resp["message"] = "Not yet implemented."
+
+        return json.dumps(resp) + "\n"
+
+    @api_route(path="/channel/<identifier>",
+               actions=["DELETE"],
+               returns="application/json")
+    def channel_delete(identifier):
+        """ DELETE /channel/:identifier
+
+            Allows deletion of a channel.
+
+            Return data:
+                {
+                    "channel": "<uuid>",
+                    "status": "deleted"
+                }
+        """
+
+        resp = routing.base.generate_error_response(code=501)
+        resp["message"] = "Not yet implemented."
+
+        return json.dumps(resp) + "\n"
