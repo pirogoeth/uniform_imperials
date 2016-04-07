@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="JJSearchViewAnim-49a43019d6">
+    <ANNOTATIONS>
+      <root url="jar://$PROJECT_DIR$/app/herald/build/intermediates/exploded-aar/com.github.android-cjj/JJSearchViewAnim/49a43019d6/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/herald/build/intermediates/exploded-aar/com.github.android-cjj/JJSearchViewAnim/49a43019d6/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/herald/build/intermediates/exploded-aar/com.github.android-cjj/JJSearchViewAnim/49a43019d6/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
