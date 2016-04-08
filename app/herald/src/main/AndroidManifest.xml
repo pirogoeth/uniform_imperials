@@ -9,6 +9,9 @@
     <!-- Permission for barcode scanner lib. -->
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <!-- Permissions required for application core functions. -->
+    <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" />
+
     <application
         android:name="com.uniform_imperials.herald.MainApplication"
         android:allowBackup="true"
@@ -19,10 +22,17 @@
         <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".services.NotificationMonitoringService"
+            android:label="@string/notification_monitoring_service"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

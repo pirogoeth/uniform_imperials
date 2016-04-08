@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Herald</string>
+    <string name="notification_monitoring_service">Herald: Notification Monitoring</string>
 
     <string name="sentry_url">https://sentry.maio.me</string>
     <string name="sentry_dsn">https://fa7080abd3a84674b724b36055692f53:ad2aa4eac17c42e2ada13749515529af@sentry.maio.me/5</string>
