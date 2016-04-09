@@ -37,6 +37,10 @@ class Channel(BaseModel):
         unique=True,
         primary_key=True,
         null=False)
+    signature = peewee.BlobField(
+        index=True,
+        unique=True,
+        null=False)
 
     # Statistic fields
     message_count = peewee.IntegerField(

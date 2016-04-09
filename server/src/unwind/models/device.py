@@ -18,6 +18,11 @@ class Device(BaseModel):
     uuid = peewee.UUIDField(
         default=uuid4)
     channel = peewee.ForeignKeyField(chan.Channel)
+    friendly_name = peewee.CharField()
+    signature = peewee.BlobField(
+        null=False,
+        unique=True,
+        index=True)
 
     class Meta:
         order_by = ('uuid', 'last_ping',)
