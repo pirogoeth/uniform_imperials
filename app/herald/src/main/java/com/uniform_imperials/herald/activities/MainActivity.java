@@ -15,6 +15,8 @@ import com.uniform_imperials.herald.R;
 
 public class MainActivity extends BaseActivity {
 
+    public final String TAG = this.getClass().getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +34,9 @@ public class MainActivity extends BaseActivity {
             @Override
             public boolean onMenuItemClick(MenuItem mi) {
                 try {
+                    disableSwitch.invalidate();
                     disableSwitch.performClick();
+
                     return true;
                 } catch (NullPointerException e) {
                     Sentry.captureMessage("Could not toggle mirroring switch.");
@@ -49,6 +53,8 @@ public class MainActivity extends BaseActivity {
                 } else {
                     Snackbar.make(topView, R.string.notif_enabled, Snackbar.LENGTH_SHORT).show();
                 }
+
+                // TODO: Call to the settings model to disable notification pushing.
             }
         });
 
