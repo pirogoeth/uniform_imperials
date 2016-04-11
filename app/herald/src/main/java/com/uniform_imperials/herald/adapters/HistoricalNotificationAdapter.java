@@ -6,7 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.uniform_imperials.herald.R;
-import com.uniform_imperials.herald.models.HistoricalNotification;
+import com.uniform_imperials.herald.model.HistoricalNotificationEntity;
+
+import io.requery.Persistable;
+import io.requery.rx.SingleEntityStore;
 
 /**
  * Created by Sean Johnson on 3/29/2016.
@@ -14,9 +17,14 @@ import com.uniform_imperials.herald.models.HistoricalNotification;
 public class HistoricalNotificationAdapter extends RecyclerView.Adapter<HistoricalNotificationAdapter.ViewHolder> {
 
     /**
+     * Datastore to load from.
+     */
+    private SingleEntityStore<Persistable> dataStore;
+
+    /**
      * Dataset to display
      */
-    private HistoricalNotification[] mDataSet;
+    private HistoricalNotificationEntity[] mDataSet;
 
     /**
      * Encapsulates all views needed to display a single dataset item
@@ -29,8 +37,10 @@ public class HistoricalNotificationAdapter extends RecyclerView.Adapter<Historic
         }
     }
 
-    public HistoricalNotificationAdapter(HistoricalNotification[] notifs) {
-        this.mDataSet = notifs;
+    public HistoricalNotificationAdapter(SingleEntityStore<Persistable> dataStore) {
+        this.dataStore = dataStore;
+        // TODO: Actually load the dataset from the store.
+        this.mDataSet = null;
     }
 
     /**

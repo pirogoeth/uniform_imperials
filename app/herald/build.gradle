@@ -80,7 +80,6 @@ dependencies {
 
     // Database & ORM dependencies
     compile 'io.requery:sqlite-android:3.12.0'
-    // compile 'com.github.satyan:sugar:1.4'
     compile 'io.requery:requery:1.0.0-beta13'
     compile 'io.requery:requery-android:1.0.0-beta13'
     apt 'io.requery:requery-processor:1.0.0-beta13'

@@ -18,7 +18,7 @@ import io.requery.Persistable;
  * Represents each app setting in the form of a key->value pair.
  */
 @Entity
-public interface AppSetting extends Observable, Parcelable, Persistable {
+public interface IAppSetting extends Observable, Parcelable, Persistable {
 
     /**
      * The unique identifier representing an AppSetting object.

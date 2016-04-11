@@ -17,39 +17,34 @@ import io.requery.Key;
 import io.requery.OneToOne;
 import io.requery.Persistable;
 
+@Entity
 public interface HistoricalNotification extends Observable, Parcelable, Persistable{
     @Key
     @Generated
     int getId();
 
     @Bindable
-    String notif_title();
-
-    void notif_title(String title);
-
-    @Bindable
-    String notif_subtext();
-
-    void notif_subtext(String subtext);
+    String getNotificationTitle();
+    void setNotificationTitle(String s);
 
     @Bindable
-    String notif_content();
-
-    void notif_content(String content);
-
-    @Bindable
-    String source_application();
-
-    void source_application(String application);
+    String getNotificationSubtext();
+    void setNotificationSubtext(String s);
 
     @Bindable
-    String app_icon();
-
-    void app_icon(String icon);
+    String getNotificationContent();
+    void setNotificationContent(String s);
 
     @Bindable
-    Date recv_date();
+    String getSourceApplication();
+    void setSourceApplication(String s);
 
-    void recv_date(Date date);
+    @Bindable
+    String getAppIcon();
+    void setAppIcon(String s);
+
+    @Bindable
+    Date getReceiveDate();
+    void setReceiveDate(Date d);
 
 }

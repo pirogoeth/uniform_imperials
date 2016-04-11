@@ -1,7 +1,15 @@
 package com.uniform_imperials.herald.util;
 
+import android.util.Log;
+
 import com.uniform_imperials.herald.MainApplication;
-import com.uniform_imperials.herald.model.AppSettingEntity;
+import com.uniform_imperials.herald.model.AppSetting;
+
+import java.util.Date;
+
+import io.requery.Persistable;
+import io.requery.query.Result;
+import io.requery.rx.SingleEntityStore;
 
 /**
  * Created by Sean Johnson on 4/10/2016.
@@ -50,11 +58,28 @@ public class DefaultSettings {
      * they will be created and set to the corresponding default value.
      */
     public static void ensureSettingsExist(MainApplication mApp) {
+        SingleEntityStore<Persistable> dataStore = mApp.getData();
+
         for (int i = 0; i < default_keys.length; i++) {
-            AppSettingEntity as = new AppSettingEntity();
-            as.setKey(default_keys[i]);
-            as.setValue(default_values[i]);
-            mApp.getData().insert(as);
+            // TODO: Check if this key exists.
+            Result<AppSetting> res = dataStore
+                    .select(AppSetting.class)
+                    .where(AppSetting.KEY.eq(default_keys[i]))
+                    .get();
+
+            if (res.firstOrNull() == null) {
+                Log.d(TAG, String.format(
+                        "Applying default setting {%s => %s}",
+                        default_keys[i],
+                        default_values[i]
+                ));
+
+                AppSetting as = new AppSetting();
+                as.setKey(default_keys[i]);
+                as.setValue(default_values[i]);
+                as.setLastModifiedDate(new Date());
+                dataStore.insert(as, AppSetting.class);
+            }
         }
     }
 }
