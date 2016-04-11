@@ -9,7 +9,6 @@ import java.util.Date;
 import io.requery.Column;
 import io.requery.Entity;
 import io.requery.Generated;
-import io.requery.Index;
 import io.requery.Key;
 import io.requery.Persistable;
 
@@ -32,11 +31,13 @@ public interface AppSetting extends Observable, Parcelable, Persistable {
 
     /**
      * String representing the settings key.
+     *
+     * NOTE: A key should NOT have its value changed after an initial set.
      */
     @Bindable
-    @Index
     @Column(unique = true)
     String getKey();
+    void setKey(String s);
 
     /**
      * String representing a settings value.

@@ -1,10 +1,7 @@
 package com.uniform_imperials.herald.util;
 
-import android.util.Log;
-
-import com.uniform_imperials.herald.model.AppSetting;
-
-import java.util.List;
+import com.uniform_imperials.herald.MainApplication;
+import com.uniform_imperials.herald.model.AppSettingEntity;
 
 /**
  * Created by Sean Johnson on 4/10/2016.
@@ -52,24 +49,12 @@ public class DefaultSettings {
      * Iterates through the list of default settings. If they do not exist in the database,
      * they will be created and set to the corresponding default value.
      */
-    public static void ensureSettingsExist() {
+    public static void ensureSettingsExist(MainApplication mApp) {
         for (int i = 0; i < default_keys.length; i++) {
-            List<AppSetting> result = AppSetting.find(
-                    AppSetting.class,
-                    "key = ?",
-                    default_keys[i]
-            );
-
-            if (result.size() == 0) {                   // Matching setting was not found :(
-                Log.d(
-                        TAG,
-                        String.format("Applying default setting %s ==> %s",
-                                default_keys[i],
-                                default_values[i]));
-
-                AppSetting s = new AppSetting(default_keys[i], default_values[i]);
-                AppSetting.save(s);
-            }
+            AppSettingEntity as = new AppSettingEntity();
+            as.setKey(default_keys[i]);
+            as.setValue(default_values[i]);
+            mApp.getData().insert(as);
         }
     }
 }
