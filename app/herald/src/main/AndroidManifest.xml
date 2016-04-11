@@ -33,6 +33,10 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+        <meta-data android:name="DATABASE" android:value="herald.db" />
+        <meta-data android:name="VERSION" android:value="1" />
+        <meta-data android:name="QUERY_LOG" android:value="false" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.uniform_imperials.herald.model" />
     </application>
 
 </manifest>

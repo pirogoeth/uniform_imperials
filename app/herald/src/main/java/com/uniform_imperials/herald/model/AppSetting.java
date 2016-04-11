@@ -6,6 +6,7 @@ import android.os.Parcelable;
 
 import java.util.Date;
 
+import io.requery.Column;
 import io.requery.Entity;
 import io.requery.Generated;
 import io.requery.Index;
@@ -14,42 +15,38 @@ import io.requery.Persistable;
 
 /**
  * Created by Sean Johnson on 4/9/2016.
+ *
+ * Represents each app setting in the form of a key->value pair.
  */
-
 @Entity
 public interface AppSetting extends Observable, Parcelable, Persistable {
 
     /**
-     * Primary setting id.
+     * The unique identifier representing an AppSetting object.
      *
-     * @return int
+     * @return <int> Record id.
      */
     @Key
     @Generated
-    int getSettingId();
+    int getId();
 
     /**
-     * Setting key reference. Can not be changed after initial set.
-     *
-     * @return String
+     * String representing the settings key.
      */
-    @Index
     @Bindable
+    @Index
+    @Column(unique = true)
     String getKey();
 
     /**
-     * Mutable setting value.
-     *
-     * @return String
+     * String representing a settings value.
      */
     @Bindable
     String getValue();
-    void setValue(String value);
+    void setValue(String s);
 
     /**
-     * Mutable modification date/time.
-     *
-     * @return Date
+     * Last modified time for a settings value.
      */
     @Bindable
     Date getLastModifiedDate();

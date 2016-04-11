@@ -59,8 +59,6 @@ public class MainActivity extends BaseActivity {
         });
 
         this.createNavDrawer();
-
-
     }
 
     @Override
