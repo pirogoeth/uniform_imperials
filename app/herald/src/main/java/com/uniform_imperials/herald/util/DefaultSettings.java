@@ -9,7 +9,7 @@ import java.util.Date;
 
 import io.requery.Persistable;
 import io.requery.query.Result;
-import io.requery.rx.SingleEntityStore;
+import io.requery.sql.EntityDataStore;
 
 /**
  * Created by Sean Johnson on 4/10/2016.
@@ -58,7 +58,7 @@ public class DefaultSettings {
      * they will be created and set to the corresponding default value.
      */
     public static void ensureSettingsExist(MainApplication mApp) {
-        SingleEntityStore<Persistable> dataStore = mApp.getData();
+        EntityDataStore<Persistable> dataStore = mApp.getData();
 
         for (int i = 0; i < default_keys.length; i++) {
             // TODO: Check if this key exists.
@@ -77,8 +77,7 @@ public class DefaultSettings {
                 AppSetting as = new AppSetting();
                 as.setKey(default_keys[i]);
                 as.setValue(default_values[i]);
-                as.setLastModifiedDate(new Date());
-                dataStore.insert(as, AppSetting.class);
+                dataStore.insert(as);
             }
         }
     }

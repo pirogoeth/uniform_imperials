@@ -4,6 +4,7 @@ import android.databinding.Bindable;
 import android.databinding.Observable;
 import android.os.Parcelable;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import io.requery.Column;
@@ -45,11 +46,4 @@ public interface IAppSetting extends Observable, Parcelable, Persistable {
     @Bindable
     String getValue();
     void setValue(String s);
-
-    /**
-     * Last modified time for a settings value.
-     */
-    @Bindable
-    Date getLastModifiedDate();
-    void setLastModifiedDate(Date d);
 }

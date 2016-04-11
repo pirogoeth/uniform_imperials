@@ -4,18 +4,17 @@ import android.app.Application;
 
 import com.joshdholtz.sentry.Sentry;
 
-import com.uniform_imperials.herald.model.AppSetting;
 import com.uniform_imperials.herald.model.Models;
 import com.uniform_imperials.herald.util.DefaultSettings;
+import static com.uniform_imperials.herald.util.JSONUnpacker.*;
+
+import java.util.List;
 
 import io.requery.Persistable;
 import io.requery.android.sqlite.DatabaseSource;
-import io.requery.rx.RxSupport;
-import io.requery.rx.SingleEntityStore;
 import io.requery.sql.Configuration;
 import io.requery.sql.EntityDataStore;
 import io.requery.sql.TableCreationMode;
-import rx.Observable;
 
 /**
  * Created by Sean Johnson on 3/29/2016.
@@ -25,7 +24,15 @@ import rx.Observable;
  */
 public class MainApplication extends Application {
 
-    private SingleEntityStore<Persistable> dataStore;
+    /**
+     * Entity store to use for persistence.
+     */
+    private EntityDataStore<Persistable> dataStore;
+
+    /**
+     * Database schema version
+     */
+    public static final int DB_SCHEMA_VERSION = 1;
 
     @Override
     public void onCreate() {
@@ -36,6 +43,7 @@ public class MainApplication extends Application {
         Sentry.init(this.getApplicationContext(),
                 getString(R.string.sentry_url),
                 getString(R.string.sentry_dsn));
+
     }
 
     @Override
@@ -45,14 +53,13 @@ public class MainApplication extends Application {
         this.getData().close();
     }
 
-    public SingleEntityStore<Persistable> getData() {
+    public EntityDataStore<Persistable> getData() {
         if (this.dataStore == null) {
-            DatabaseSource source = new DatabaseSource(this, Models.DEFAULT, 1);
+            DatabaseSource source = new DatabaseSource(this, Models.DEFAULT, DB_SCHEMA_VERSION);
 
             // Release-based table modes
             if (BuildConfig.DEBUG) {
-                System.out.println("DEBUG | Setting CREATE_NOT_EXISTS table policy");
-                source.setTableCreationMode(TableCreationMode.CREATE_NOT_EXISTS);
+                source.setTableCreationMode(TableCreationMode.DROP_CREATE);
             } else {
                 source.setTableCreationMode(TableCreationMode.CREATE_NOT_EXISTS);
             }
@@ -63,9 +70,7 @@ public class MainApplication extends Application {
             Configuration conf = source.getConfiguration();
 
             // Create the reactive data source
-            this.dataStore = RxSupport.toReactiveStore(
-                    new EntityDataStore<Persistable>(conf)
-            );
+            this.dataStore = new EntityDataStore<Persistable>(conf);
         }
         return this.dataStore;
     }

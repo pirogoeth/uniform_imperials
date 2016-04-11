@@ -1,10 +1,17 @@
 package com.uniform_imperials.herald.services;
 
+import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.service.notification.NotificationListenerService;
+import android.service.notification.StatusBarNotification;
+import android.util.Log;
+
+import com.uniform_imperials.herald.util.NotificationUtil;
+
+import java.util.List;
 
 /**
  * Created by Sean Johnson on 4/8/2016.
@@ -27,6 +34,20 @@ public class NotificationMonitoringService extends NotificationListenerService {
         IntentFilter f = new IntentFilter();
 
         this.registerReceiver(this.mReceiver, f);
+    }
+
+    @Override
+    public void onNotificationPosted(StatusBarNotification notification) {
+        Notification n = notification.getNotification();
+        NotificationUtil.CapturedNotification cn = NotificationUtil.getData(n);
+        cn.srcPackage = notification.getPackageName();
+
+        Log.i(TAG, "NOTIFICATION POSTED: " + cn.text);
+    }
+
+    @Override
+    public void onNotificationRemoved(StatusBarNotification notification) {
+
     }
 
     class NMSReceiver extends BroadcastReceiver {
