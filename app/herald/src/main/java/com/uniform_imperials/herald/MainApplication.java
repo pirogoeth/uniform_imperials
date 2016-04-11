@@ -52,7 +52,7 @@ public class MainApplication extends Application {
             // Release-based table modes
             if (BuildConfig.DEBUG) {
                 System.out.println("DEBUG | Setting CREATE_NOT_EXISTS table policy");
-                source.setTableCreationMode(TableCreationMode.DROP_CREATE);
+                source.setTableCreationMode(TableCreationMode.CREATE_NOT_EXISTS);
             } else {
                 source.setTableCreationMode(TableCreationMode.CREATE_NOT_EXISTS);
             }
