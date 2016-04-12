@@ -16,4 +16,6 @@
 
     <string name="notif_enabled">Notification mirroring enabled!</string>
     <string name="notif_disabled">Notification mirroring disabled!</string>
+
+    <string name="debug_xmit_setting">debug.allow_event_xmit</string>
 </resources>

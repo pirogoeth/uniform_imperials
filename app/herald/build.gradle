@@ -6,11 +6,13 @@ buildscript {
 
     dependencies {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
     }
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 23
@@ -18,13 +20,13 @@ android {
 
     compileOptions {
         encoding "UTF-8"
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     defaultConfig {
         applicationId "com.uniform_imperials.herald"
-        minSdkVersion 20
+        minSdkVersion 23
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -40,6 +42,11 @@ android {
     dataBinding {
         enabled = true
     }
+}
+
+retrolambda {
+    jdk         System.getenv("JAVA8_HOME")
+    oldJdk      System.getenv("JAVA7_HOME")
 }
 
 repositories {
@@ -63,6 +70,7 @@ dependencies {
 
     // Development and debugging dependencies.
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.squareup.moshi:moshi:1.1.0'
     compile 'me.dm7.barcodescanner:zxing:1.8.4'
     compile 'com.github.android-cjj:JJSearchViewAnim:49a43019d6'
     compile 'com.jakewharton:butterknife:7.0.1'
@@ -72,7 +80,7 @@ dependencies {
 
     // Database & ORM dependencies
     compile 'io.requery:sqlite-android:3.12.0'
-    compile 'io.requery:requery:1.0.0-beta12'
-    compile 'io.requery:requery-android:1.0.0-beta12'
-    apt 'io.requery:requery-processor:1.0.0-beta12'
+    compile 'io.requery:requery:1.0.0-beta13'
+    compile 'io.requery:requery-android:1.0.0-beta13'
+    apt 'io.requery:requery-processor:1.0.0-beta13'
 }
