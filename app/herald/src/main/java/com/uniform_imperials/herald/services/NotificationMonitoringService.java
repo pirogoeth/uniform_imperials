@@ -11,8 +11,6 @@ import android.util.Log;
 
 import com.uniform_imperials.herald.util.NotificationUtil;
 
-import java.util.List;
-
 /**
  * Created by Sean Johnson on 4/8/2016.
  *
@@ -23,7 +21,7 @@ import java.util.List;
  */
 public class NotificationMonitoringService extends NotificationListenerService {
 
-    private final String TAG = this.getClass().getSimpleName();
+    private static final String TAG = NotificationMonitoringService.class.getSimpleName();
     private NMSReceiver mReceiver;
 
     @Override

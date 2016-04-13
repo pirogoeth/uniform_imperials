@@ -21,8 +21,6 @@ public class NotificationUtil {
     /**
      * Rips all text from the Notification text views.
      *
-     * Source: http://stackoverflow.com/questions/9292032/extract-notification-text-from-parcelable-contentview-or-contentintent
-     *
      * @param notification notif to dig in to
      * @return CapturedNotification
      */
