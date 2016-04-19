@@ -156,8 +156,26 @@ class ChannelAPIRouter(routing.base.APIRouter):
                 }
         """
 
-        resp = routing.base.generate_error_response(code=501)
-        resp["message"] = "Not yet implemented."
+        try:
+            identifier = str(uuid.UUID(identifier))
+        except:
+            identifier = Channel.uuid_by_alias(identifier)
+
+        c = Channel.get(uuid=identifier)
+        if not c:
+            resp = routing.base.generate_error_response(code=404)
+            resp["message"] = "Could not find channel: %s" % (identifier)
+            return json.dumps(resp) + "\n"
+
+        devices = (Device.select()
+                         .where(Device.channel == c))
+
+        resp = routing.base.generate_bare_response()
+        resp["channel"] = c.uuid
+        resp["devices"] = []
+
+        for d in devices:
+            resp["devices"].append(d.uuid)
 
         return json.dumps(resp) + "\n"
 
