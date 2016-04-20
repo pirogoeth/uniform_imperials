@@ -6,9 +6,6 @@ import com.joshdholtz.sentry.Sentry;
 
 import com.uniform_imperials.herald.model.Models;
 import com.uniform_imperials.herald.util.DefaultSettings;
-import static com.uniform_imperials.herald.util.JSONUnpacker.*;
-
-import java.util.List;
 
 import io.requery.Persistable;
 import io.requery.android.sqlite.DatabaseSource;
@@ -32,7 +29,7 @@ public class MainApplication extends Application {
     /**
      * Database schema version
      */
-    public static final int DB_SCHEMA_VERSION = 1;
+    public static final int DB_SCHEMA_VERSION = 2;
 
     @Override
     public void onCreate() {

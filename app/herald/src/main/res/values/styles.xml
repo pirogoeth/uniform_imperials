@@ -16,6 +16,7 @@
         <item name="android:textColor">@color/subtle_textColor</item>
         <item name="android:actionBarStyle">@style/Subtle.ActionBar</item>
         <item name="android:colorActivatedHighlight">@color/subtle_colorActivatedHighlight</item>
+        <item name="android:textAppearanceListItem">@android:color/black</item>
     </style>
 
     <style name="Subtle.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">

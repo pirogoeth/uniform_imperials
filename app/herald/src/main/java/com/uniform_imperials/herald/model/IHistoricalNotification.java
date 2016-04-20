@@ -23,17 +23,22 @@ public interface IHistoricalNotification extends Observable, Parcelable, Persist
     @Generated
     int getId();
 
+    /**
+     * NOTE: Notification title may or may not be used.
+     *
+     * @return
+     */
     @Bindable
     String getNotificationTitle();
     void setNotificationTitle(String s);
 
     @Bindable
-    String getNotificationSubtext();
-    void setNotificationSubtext(String s);
-
-    @Bindable
     String getNotificationContent();
     void setNotificationContent(String s);
+
+    @Bindable
+    String getNotificationKey();
+    void setNotificationKey(String s);
 
     @Bindable
     String getSourceApplication();

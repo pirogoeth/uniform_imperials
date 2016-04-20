@@ -7,9 +7,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
 
+import com.uniform_imperials.herald.MainApplication;
+import com.uniform_imperials.herald.model.HistoricalNotification;
 import com.uniform_imperials.herald.util.NotificationUtil;
+
+import java.util.Date;
+
+import io.requery.Persistable;
+import io.requery.sql.EntityDataStore;
 
 /**
  * Created by Sean Johnson on 4/8/2016.
@@ -23,11 +29,13 @@ public class NotificationMonitoringService extends NotificationListenerService {
 
     private static final String TAG = NotificationMonitoringService.class.getSimpleName();
     private NMSReceiver mReceiver;
+    private EntityDataStore<Persistable> dataStore;
 
     @Override
     public void onCreate() {
         super.onCreate();
         this.mReceiver = new NMSReceiver();
+        this.dataStore = ((MainApplication) this.getApplication()).getData();
 
         IntentFilter f = new IntentFilter();
 
@@ -38,9 +46,20 @@ public class NotificationMonitoringService extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification notification) {
         Notification n = notification.getNotification();
         NotificationUtil.CapturedNotification cn = NotificationUtil.getData(n);
+        if (cn == null) {
+            return;
+        }
+
         cn.srcPackage = notification.getPackageName();
 
-        Log.i(TAG, "NOTIFICATION POSTED: " + cn.text);
+        // TODO: Steal the application's notification icon from the app context resources
+        HistoricalNotification hn = new HistoricalNotification();
+        hn.setReceiveDate(new Date(cn.postedTime));
+        hn.setNotificationKey(notification.getKey());
+        hn.setNotificationContent(cn.text);
+        hn.setSourceApplication(cn.srcPackage);
+        hn.setAppIcon(null);
+        this.dataStore.insert(hn);
     }
 
     @Override

@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import com.joshdholtz.sentry.Sentry;
 import com.uniform_imperials.herald.activities.MainActivity;
 import com.uniform_imperials.herald.fragments.NotificationHistoryFragment;
+import com.uniform_imperials.herald.fragments.SettingFragment;
 
 import butterknife.ButterKnife;
 
@@ -49,6 +50,11 @@ public abstract class BaseActivity extends AppCompatActivity {
      * Linked state for the nav icon animation.
      */
     protected ActionBarDrawerToggle mDrawerToggle;
+
+    /**
+     * Id of the last selected menu item.
+     */
+    protected int mSelectedItemId = -1;
 
     /**
      * This method is the entry point for a given activity. In this method,
@@ -134,9 +140,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         this.mDrawer.addDrawerListener(mDrawerToggle);
 
         // Run the routine to build nav drawer content.
-        setupDrawerContent(this.mNavView);
+        this.setupDrawerContent(this.mNavView);
     }
 
+    /**
+     * Sets up the drawer toggle in the toolbar.
+     *
+     * @return created ActionBarDrawerToggle
+     */
     private ActionBarDrawerToggle setupDrawerToggle() {
         return new ActionBarDrawerToggle(
                 this,
@@ -206,6 +217,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem item) {
                         selectDrawerItem(item);
+                        supportInvalidateOptionsMenu();
                         return true;
                     }
                 }
@@ -213,9 +225,24 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
+     * Sets the current displayed fragment based on a given menu item id.
+     *
+     * @param item Menu item id to load.
+     */
+    public void selectDrawerItem(int item) {
+        MenuItem mi = this.mNavView.getMenu().findItem(item);
+        if (mi == null) {
+            System.out.println("WARNING: Could not resolve menu item id: " + item);
+            return;
+        }
+
+        selectDrawerItem(mi);
+    }
+
+    /**
      * Sets the current displayed fragment based on a clicked nav menu item.
      *
-     * @param item Menu item that was selected.
+     * @param item Menu item that was selected
      */
     public void selectDrawerItem(MenuItem item) {
         // Create a fragment to show the activity specified by the nav item.
@@ -233,7 +260,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 cFrag = NotificationHistoryFragment.class;
                 break;
             case R.id.nav_sp:  // Settings pane
-                // cFrag = SettingsActivity.class;
+                cFrag = SettingFragment.class;
                 break;
             case R.id.nav_ap:  // About pane
                 // cFrag = AboutPanelActivity.class
@@ -249,6 +276,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             if (cFrag == null) {
                 System.out.println("WARNING: Fragment class was null!");
                 this.mDrawer.closeDrawer(GravityCompat.START);
+                return;
             }
             mFrag = (Fragment) cFrag.newInstance();
         } catch (Exception e) {
@@ -261,8 +289,15 @@ public abstract class BaseActivity extends AppCompatActivity {
            .replace(R.id.content_frame, mFrag)
            .commit();
 
+        // Uncheck the old item.
+        if (this.mSelectedItemId != -1) {
+            MenuItem oldItem = this.mNavView.getMenu().findItem(this.mSelectedItemId);
+            oldItem.setChecked(false);
+        }
+
         // Highlight the current fragment in the nav drawer.
         item.setChecked(true);
+        this.mNavView.setCheckedItem(item.getItemId());
 
         // Set toolbar title.
         setTitle(item.getTitle());

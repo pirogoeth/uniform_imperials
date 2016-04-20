@@ -12,8 +12,11 @@ import android.view.View;
 import com.joshdholtz.sentry.Sentry;
 import com.uniform_imperials.herald.BaseActivity;
 import com.uniform_imperials.herald.R;
+import com.uniform_imperials.herald.fragments.SettingFragment;
+import com.uniform_imperials.herald.fragments.content.AppSettingContent;
+import com.uniform_imperials.herald.model.AppSetting;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements SettingFragment.AppSettingFragmentInteractionListener {
 
     public final String TAG = this.getClass().getSimpleName();
 
@@ -59,6 +62,9 @@ public class MainActivity extends BaseActivity {
         });
 
         this.createNavDrawer();
+
+        // Open the default fragment view.
+        this.selectDrawerItem(R.id.nav_nh);
     }
 
     @Override
@@ -66,5 +72,9 @@ public class MainActivity extends BaseActivity {
         super.onPostCreate(savedInstanceState);
 
         // this.mDrawer.openDrawer(GravityCompat.START);
+    }
+
+    public void onAppSettingFragmentInteraction(AppSetting setting) {
+        // TODO: Trigger a modification dialog for the appropriate key value.
     }
 }

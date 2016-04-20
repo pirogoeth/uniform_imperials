@@ -28,10 +28,15 @@ public class NotificationUtil {
         if (notification == null) return null;
 
         CapturedNotification cn = new CapturedNotification();
-        cn.text = notification.tickerText.toString();
-        cn.smallIcon = notification.getSmallIcon();
-        cn.largeIcon = notification.getLargeIcon();
-        cn.postedTime = notification.when;
+        try {
+            cn.text = notification.tickerText.toString();
+            cn.smallIcon = notification.getSmallIcon();
+            cn.largeIcon = notification.getLargeIcon();
+            cn.postedTime = notification.when;
+        } catch (NullPointerException e) {
+            // TODO: Wrapper for posting exception traces to Sentry.
+            return null;
+        }
 
         return cn;
     }

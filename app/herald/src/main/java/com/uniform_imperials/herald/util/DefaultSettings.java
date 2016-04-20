@@ -6,6 +6,8 @@ import com.uniform_imperials.herald.MainApplication;
 import com.uniform_imperials.herald.model.AppSetting;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.requery.Persistable;
 import io.requery.query.Result;
@@ -19,6 +21,7 @@ import io.requery.sql.EntityDataStore;
 public class DefaultSettings {
 
     public static final String TAG = DefaultSettings.class.getSimpleName();
+    private static final Map<String, String> keyDescriptions = new HashMap<>();
 
     /**
      * Default setting keys.
@@ -54,6 +57,26 @@ public class DefaultSettings {
     };
 
     /**
+     * Description of setting value.
+     */
+    private static String[] key_desc = {
+            "Globally disable notification mirroring",  // global.mirroring_disabled
+            "Set the begin time for quiet time",        // global.quiet_time_begin
+            "Set the end time for quiet time",          // global.quiet_time_end
+            "Push service URI",                         // server.uri
+            "Force usage of secure HTTP (HTTPS)",       // server.force_https
+            "Notification channel ID",                  // server.channel_uuid
+            "Allow submission of crash diagnostics",    // debug.allow_event_xmit
+    };
+
+    // Create the key -> description relation.
+    static {
+        for (int i = 0; i < default_keys.length; i++) {
+            keyDescriptions.put(default_keys[i], key_desc[i]);
+        }
+    }
+
+    /**
      * Iterates through the list of default settings. If they do not exist in the database,
      * they will be created and set to the corresponding default value.
      */
@@ -79,6 +102,19 @@ public class DefaultSettings {
                 as.setValue(default_values[i]);
                 dataStore.insert(as);
             }
+        }
+    }
+
+    /**
+     * Return a key description from the given key.
+     *
+     * @returns description or null
+     */
+    public static String getKeyDescription(String key) {
+        try {
+            return keyDescriptions.get(key);
+        } catch (Exception e) {
+            return null;
         }
     }
 }

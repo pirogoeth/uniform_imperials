@@ -45,8 +45,8 @@ android {
 }
 
 retrolambda {
-    jdk         System.getenv("JAVA8_HOME")
-    oldJdk      System.getenv("JAVA7_HOME")
+    jdk System.getenv("JAVA8_HOME")
+    oldJdk System.getenv("JAVA7_HOME")
 }
 
 repositories {
@@ -61,26 +61,24 @@ dependencies {
     testCompile 'junit:junit:4.12-beta-3'
 
     // Design and compat libraries.
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.github.android-cjj:JJSearchViewAnim:49a43019d6'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'com.android.support:recyclerview-v7:23.3.0'
     compile 'com.android.databinding:library:1.0-rc5'
     compile 'com.android.databinding:adapters:1.0-rc5'
+    compile 'me.dm7.barcodescanner:zxing:1.8.4'
     compile 'com.github.mmin18:flexlayout:1.2.0'
 
     // Development and debugging dependencies.
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.squareup.moshi:moshi:1.1.0'
-    compile 'me.dm7.barcodescanner:zxing:1.8.4'
-    compile 'com.github.android-cjj:JJSearchViewAnim:49a43019d6'
-    compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.joshdholtz.sentry:sentry-android:1.2.1'
-    compile 'io.reactivex:rxjava:1.1.2'
-    compile 'io.reactivex:rxandroid:1.1.0'
 
     // Database & ORM dependencies
+    apt 'io.requery:requery-processor:1.0.0-beta13'
     compile 'io.requery:sqlite-android:3.12.0'
     compile 'io.requery:requery:1.0.0-beta13'
     compile 'io.requery:requery-android:1.0.0-beta13'
-    apt 'io.requery:requery-processor:1.0.0-beta13'
 }

@@ -17,20 +17,15 @@
             android:icon="@drawable/dm_nav_icon"
             android:title="@string/nav_dm_title" />
 
-        <item android:title="Configure">
-            <menu>
-                <item
-                    android:id="@+id/nav_sp"
-                    android:icon="@drawable/sp_nav_icon"
-                    android:title="@string/nav_sp_title" />
+        <item
+            android:id="@+id/nav_sp"
+            android:icon="@drawable/sp_nav_icon"
+            android:title="@string/nav_sp_title" />
 
-                <item
-                    android:id="@+id/nav_ap"
-                    android:icon="@drawable/ap_nav_icon"
-                    android:title="@string/nav_ap_title" />
-
-            </menu>
-        </item>
+        <item
+            android:id="@+id/nav_ap"
+            android:icon="@drawable/ap_nav_icon"
+            android:title="@string/nav_ap_title" />
 
         <item android:title="Quick Toggles">
             <menu>
