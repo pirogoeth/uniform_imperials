@@ -1,6 +1,10 @@
 package com.uniform_imperials.herald.util;
 
 import android.app.Notification;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 
 /**
@@ -39,5 +43,20 @@ public class NotificationUtil {
         }
 
         return cn;
+    }
+
+    public static Bitmap getNotificationIconBitmap(String pack, Context context){
+        Context remotePackageContext = null;
+        Bitmap bmp = null;
+        try {
+            remotePackageContext = context.getApplicationContext().createPackageContext(pack, 0);
+            Drawable icon = remotePackageContext.getPackageManager().getApplicationIcon(pack);
+            if(icon !=null) {
+                bmp = ((BitmapDrawable) icon).getBitmap();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bmp;
     }
 }
