@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.github.mmin18.widget.FlexLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item_height"
     android:orientation="horizontal"
-    android:theme="@style/Subtle">
+    android:theme="@style/Subtle"
+    android:layoutMode="clipBounds">
 
     <TextView
         android:id="@+id/appsetting_key"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:textSize="20dp"
+        android:layout_marginStart="20dp"
+        android:textSize="25dp"
         android:textAlignment="textStart"
         android:textColor="@android:color/black" />
 
@@ -21,6 +21,9 @@
         android:id="@+id/appsetting_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:textColor="@android:color/black" />
-</LinearLayout>
+        android:layout_marginTop="40dp"
+        android:layout_gravity="bottom"
+        android:textColor="@android:color/black"
+        android:paddingTop="40dp"
+        android:textSize="20dp" />
+</com.github.mmin18.widget.FlexLayout>
