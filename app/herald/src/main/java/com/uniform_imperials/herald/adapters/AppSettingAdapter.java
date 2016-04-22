@@ -19,7 +19,7 @@ import java.util.List;
  * specified {@link AppSettingFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class AppSettingAdapter extends RecyclerView.Adapter<AppSettingAdapter.ViewHolder> {
+public class AppSettingAdapter extends RecyclerView.Adapter<AppSettingAdapter.ASViewHolder> {
 
     private final List<AppSetting> mValues;
     private final AppSettingFragmentInteractionListener mListener;
@@ -33,14 +33,14 @@ public class AppSettingAdapter extends RecyclerView.Adapter<AppSettingAdapter.Vi
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ASViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_setting, parent, false);
-        return new ViewHolder(view);
+        return new ASViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ASViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mKeyView.setText(mValues.get(position).getKey());
         holder.mDescriptionView.setText(DefaultSettings.getKeyDescription(holder.mItem.getKey()));
@@ -62,13 +62,13 @@ public class AppSettingAdapter extends RecyclerView.Adapter<AppSettingAdapter.Vi
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ASViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mKeyView;
         public final TextView mDescriptionView;
         public AppSetting mItem;
 
-        public ViewHolder(View view) {
+        public ASViewHolder(View view) {
             super(view);
             mView = view;
             mKeyView = (TextView) view.findViewById(R.id.appsetting_key);

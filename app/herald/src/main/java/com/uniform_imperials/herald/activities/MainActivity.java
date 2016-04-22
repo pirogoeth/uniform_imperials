@@ -12,11 +12,12 @@ import android.view.View;
 import com.joshdholtz.sentry.Sentry;
 import com.uniform_imperials.herald.BaseActivity;
 import com.uniform_imperials.herald.R;
+import com.uniform_imperials.herald.fragments.NotificationHistoryFragment;
 import com.uniform_imperials.herald.fragments.SettingFragment;
 import com.uniform_imperials.herald.model.AppSetting;
+import com.uniform_imperials.herald.model.HistoricalNotification;
 
-public class MainActivity extends BaseActivity
-        implements SettingFragment.AppSettingFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements SettingFragment.AppSettingFragmentInteractionListener, NotificationHistoryFragment.HistoricalNotificationFragmentInteractionListener {
 
     public final String TAG = this.getClass().getSimpleName();
 
@@ -75,6 +76,10 @@ public class MainActivity extends BaseActivity
     }
 
     public void onAppSettingFragmentInteraction(AppSetting setting) {
+        // TODO: Trigger a modification dialog for the appropriate key value.
+    }
+
+    public void onHistoricalNotificationFragmentInteraction(HistoricalNotification notification) {
         // TODO: Trigger a modification dialog for the appropriate key value.
     }
 }

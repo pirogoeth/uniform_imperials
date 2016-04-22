@@ -4,43 +4,40 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.uniform_imperials.herald.MainApplication;
 import com.uniform_imperials.herald.R;
+import com.uniform_imperials.herald.fragments.NotificationHistoryFragment;
 import com.uniform_imperials.herald.model.HistoricalNotification;
 
-import io.requery.Persistable;
-import io.requery.rx.SingleEntityStore;
+import java.util.List;
 
 /**
  * Created by Sean Johnson on 3/29/2016.
+ * Modified by Gustavo Moreira on 4/22/2016
  */
-public class HistoricalNotificationAdapter extends RecyclerView.Adapter<HistoricalNotificationAdapter.ViewHolder> {
+public class HistoricalNotificationAdapter extends RecyclerView.Adapter<HistoricalNotificationAdapter.HNViewHolder> {
+
 
     /**
-     * Datastore to load from.
+     * List of Notification Objects
      */
-    private SingleEntityStore<Persistable> dataStore;
+    private final List<HistoricalNotification> mValues;
 
     /**
-     * Dataset to display
+     * List of Notification Objects
      */
-    private HistoricalNotification[] mDataSet;
+    private final NotificationHistoryFragment.HistoricalNotificationFragmentInteractionListener mListener;
 
-    /**
-     * Encapsulates all views needed to display a single dataset item
-     */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        // TODO: Figure out how items will be displayed in the view.
-
-        public ViewHolder(View v) {
-            super(v);
-        }
-    }
-
-    public HistoricalNotificationAdapter(SingleEntityStore<Persistable> dataStore) {
-        this.dataStore = dataStore;
+    public HistoricalNotificationAdapter(NotificationHistoryFragment.HistoricalNotificationFragmentInteractionListener mListener) {
+        this.mValues = MainApplication.getEntitySourceInstance()
+                .select(HistoricalNotification.class)
+                .get()
+                .toList();
         // TODO: Actually load the dataset from the store.
-        this.mDataSet = null;
+        this.mListener = mListener;
     }
 
     /**
@@ -51,15 +48,15 @@ public class HistoricalNotificationAdapter extends RecyclerView.Adapter<Historic
      * @return new ViewHolder
      */
     @Override
-    public HistoricalNotificationAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                       int viewType) {
+    public HNViewHolder onCreateViewHolder(ViewGroup parent,
+                                           int viewType) {
         // Create the view
         View v = LayoutInflater.from(parent.getContext())
                                .inflate(R.layout.anh_notification_view, parent, false);
 
         // TODO: Set the necessary data in the view.
 
-        ViewHolder vh = new ViewHolder(v);
+        HNViewHolder vh = new HNViewHolder(v);
         return vh;
     }
 
@@ -70,9 +67,24 @@ public class HistoricalNotificationAdapter extends RecyclerView.Adapter<Historic
      * @param position dataset position
      */
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        // Get dataset element and replace view contents
-        // -- holder.whateverview.setText(this.mDataSet[position]) ...
+    public void onBindViewHolder(HNViewHolder holder, int position) {
+        holder.mItem = mValues.get(position);
+        holder.mTitleView.setText(mValues.get(position).getNotificationTitle());
+        holder.mDescriptionView.setText(mValues.get(position).getNotificationContent());
+        //TODO get decoded Icon from Notifications UTIL
+        //holder.mIconView.setImageBitmap(mValues.get(position).getAppIcon());
+        holder.mDateView.setText(mValues.get(position).getReceiveDate().toString());
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onHistoricalNotificationFragmentInteraction(holder.mItem);
+                }
+            }
+        });
         return;
     }
 
@@ -83,7 +95,30 @@ public class HistoricalNotificationAdapter extends RecyclerView.Adapter<Historic
      */
     @Override
     public int getItemCount() {
-        return this.mDataSet.length;
+        return this.mValues.size();
+    }
+
+    public class HNViewHolder extends RecyclerView.ViewHolder {
+        public final View mView;
+        public final TextView mTitleView;
+        public final TextView mDescriptionView;
+        public final ImageView mIconView;
+        public final TextView mDateView;
+        public HistoricalNotification mItem;
+
+        public HNViewHolder(View view) {
+            super(view);
+            mView = view;
+            mTitleView = (TextView) view.findViewById(R.id.nh_item_title);
+            mDescriptionView = (TextView) view.findViewById(R.id.nh_item_content);
+            mIconView = (ImageView) view.findViewById(R.id.nh_item_icon);
+            mDateView = (TextView) view.findViewById(R.id.nh_item_date);
+        }
+
+        @Override
+        public String toString() {
+            return super.toString() + " '" + mTitleView.getText() + "'";
+        }
     }
 
 }
