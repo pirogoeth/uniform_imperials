@@ -1,8 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<com.github.mmin18.widget.FlexLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:paddingTop="10dp"
+        android:paddingStart="10dp"
+        android:id="@+id/nh_item_icon" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/nh_item_title" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/nh_item_content" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nh_item_date" />
+
+</com.github.mmin18.widget.FlexLayout>

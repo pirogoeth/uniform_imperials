@@ -78,7 +78,7 @@ public class SettingFragment extends BaseFragment {
             recyclerView.addItemDecoration(new DividerItemDecoration(this.getActivity()));
 
             // Create the adapter and attach it to the view.
-            recyclerView.setAdapter(new AppSettingAdapter(appContext, this.mListener));
+            recyclerView.setAdapter(new AppSettingAdapter(this.mListener));
         }
         return view;
     }

@@ -80,8 +80,8 @@ public class DefaultSettings {
      * Iterates through the list of default settings. If they do not exist in the database,
      * they will be created and set to the corresponding default value.
      */
-    public static void ensureSettingsExist(MainApplication mApp) {
-        EntityDataStore<Persistable> dataStore = mApp.getData();
+    public static void ensureSettingsExist() {
+        EntityDataStore<Persistable> dataStore = MainApplication.getEntitySourceInstance();
 
         for (int i = 0; i < default_keys.length; i++) {
             // TODO: Check if this key exists.

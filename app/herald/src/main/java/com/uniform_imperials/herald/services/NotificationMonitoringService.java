@@ -35,7 +35,7 @@ public class NotificationMonitoringService extends NotificationListenerService {
     public void onCreate() {
         super.onCreate();
         this.mReceiver = new NMSReceiver();
-        this.dataStore = ((MainApplication) this.getApplication()).getData();
+        this.dataStore = MainApplication.getEntitySourceInstance();
 
         IntentFilter f = new IntentFilter();
 

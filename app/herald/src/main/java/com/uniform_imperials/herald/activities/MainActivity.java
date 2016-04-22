@@ -13,10 +13,10 @@ import com.joshdholtz.sentry.Sentry;
 import com.uniform_imperials.herald.BaseActivity;
 import com.uniform_imperials.herald.R;
 import com.uniform_imperials.herald.fragments.SettingFragment;
-import com.uniform_imperials.herald.fragments.content.AppSettingContent;
 import com.uniform_imperials.herald.model.AppSetting;
 
-public class MainActivity extends BaseActivity implements SettingFragment.AppSettingFragmentInteractionListener {
+public class MainActivity extends BaseActivity
+        implements SettingFragment.AppSettingFragmentInteractionListener {
 
     public final String TAG = this.getClass().getSimpleName();
 

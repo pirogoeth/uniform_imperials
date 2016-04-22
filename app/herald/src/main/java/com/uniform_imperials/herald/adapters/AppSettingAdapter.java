@@ -12,7 +12,6 @@ import com.uniform_imperials.herald.fragments.SettingFragment.AppSettingFragment
 import com.uniform_imperials.herald.model.AppSetting;
 import com.uniform_imperials.herald.util.DefaultSettings;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,8 +24,11 @@ public class AppSettingAdapter extends RecyclerView.Adapter<AppSettingAdapter.Vi
     private final List<AppSetting> mValues;
     private final AppSettingFragmentInteractionListener mListener;
 
-    public AppSettingAdapter(MainApplication app, AppSettingFragmentInteractionListener listener) {
-        this.mValues = app.getData().select(AppSetting.class).get().toList();
+    public AppSettingAdapter(AppSettingFragmentInteractionListener listener) {
+        this.mValues = MainApplication.getEntitySourceInstance()
+                                      .select(AppSetting.class)
+                                      .get()
+                                      .toList();
         this.mListener = listener;
     }
 

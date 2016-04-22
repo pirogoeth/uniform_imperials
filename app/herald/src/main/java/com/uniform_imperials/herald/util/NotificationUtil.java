@@ -51,7 +51,7 @@ public class NotificationUtil {
         try {
             remotePackageContext = context.getApplicationContext().createPackageContext(pack, 0);
             Drawable icon = remotePackageContext.getPackageManager().getApplicationIcon(pack);
-            if(icon !=null) {
+            if (icon != null) {
                 bmp = ((BitmapDrawable) icon).getBitmap();
             }
         } catch (Exception e) {
