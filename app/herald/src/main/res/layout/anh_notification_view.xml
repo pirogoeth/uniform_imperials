@@ -20,6 +20,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -44,15 +45,17 @@
                 android:textColor="@android:color/black"
                 app:layout_left="nh_item_icon.right+10dp"
                 app:layout_top="nh_item_title.bottom+2dp"
+                app:layout_right="parent.width-5dp"
                 android:textSize="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nh_item_date"
-                android:textColor="@android:color/black"
-                app:layout_left="nh_item_icon.right+10dp"
+                android:textColor="@android:color/darker_gray"
+                app:layout_right="100%-2dp"
                 app:layout_top="nh_item_content.bottom+2dp"
+                android:layout_gravity="right"
                 android:textSize="15dp"/>
 
         </com.github.mmin18.widget.FlexLayout>

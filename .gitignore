@@ -1,6 +1,6 @@
 # Compiled classes, library specs, and gradle files.
 *.class
-/.idea/libraries
+/.idea
 .gradle
 
 # Mobile Tools for Java (J2ME)
