@@ -13,6 +13,9 @@ import io.requery.sql.Configuration;
 import io.requery.sql.EntityDataStore;
 import io.requery.sql.TableCreationMode;
 
+import android.content.Context;
+import android.util.Log;
+
 /**
  * Created by Sean Johnson on 3/29/2016.
  *
@@ -22,9 +25,19 @@ import io.requery.sql.TableCreationMode;
 public class MainApplication extends Application {
 
     /**
+     * String tag used for log messages.
+     */
+    public static final String TAG = MainApplication.class.getSimpleName();
+
+    /**
      * Entity store to use for persistence.
      */
-    private EntityDataStore<Persistable> dataStore;
+    private static EntityDataStore<Persistable> dataStore = null;
+
+    /**
+     * Base context instance.
+     */
+    private static Context baseContext = null;
 
     /**
      * Database schema version
@@ -35,7 +48,10 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        DefaultSettings.ensureSettingsExist(this);
+        this.getData();
+        baseContext = this.getBaseContext();
+
+        DefaultSettings.ensureSettingsExist();
 
         Sentry.init(this.getApplicationContext(),
                 getString(R.string.sentry_url),
@@ -50,8 +66,35 @@ public class MainApplication extends Application {
         this.getData().close();
     }
 
+    /**
+     * Returns the statically assigned dataStore instance.
+     * If the stored instance is null, logs an error for debugging purposes.
+     *
+     * @return dataStore
+     */
+    public static EntityDataStore<Persistable> getEntitySourceInstance() {
+        if (dataStore == null) {
+            Log.w(TAG, "getEntitySourceInstance returns null -- dataStore uninitialized");
+        }
+
+        return dataStore;
+    }
+
+    /**
+     * Returns the statically created baseContext instance.
+     * If the stored context is null, logs an error for debugging purposes.
+     *
+     * @return baseContext
+     */
+    public static Context getStaticBaseContext() {
+        if (baseContext == null) {
+            Log.w(TAG, "getStaticBaseContext returns null -- baseContext uninitialized");
+        }
+
+        return baseContext;
+    }
     public EntityDataStore<Persistable> getData() {
-        if (this.dataStore == null) {
+        if (dataStore == null) {
             DatabaseSource source = new DatabaseSource(this, Models.DEFAULT, DB_SCHEMA_VERSION);
 
             // Release-based table modes
@@ -67,8 +110,8 @@ public class MainApplication extends Application {
             Configuration conf = source.getConfiguration();
 
             // Create the reactive data source
-            this.dataStore = new EntityDataStore<Persistable>(conf);
+            dataStore = new EntityDataStore<>(conf);
         }
-        return this.dataStore;
+        return dataStore;
     }
 }
