@@ -49,7 +49,7 @@ public interface IHistoricalNotification extends Observable, Parcelable, Persist
     void setAppIcon(String s);
 
     @Bindable
-    Date getReceiveDate();
-    void setReceiveDate(Date d);
+    String getReceiveDate();
+    void setReceiveDate(String d);
 
 }

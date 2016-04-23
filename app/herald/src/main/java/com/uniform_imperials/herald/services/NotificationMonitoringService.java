@@ -55,7 +55,7 @@ public class NotificationMonitoringService extends NotificationListenerService {
 
         // TODO: Steal the application's notification icon from the app context resources
         HistoricalNotification hn = new HistoricalNotification();
-        hn.setReceiveDate(new Date(cn.postedTime));
+        hn.setReceiveDate(new Date(cn.postedTime).toString());
         hn.setNotificationKey(notification.getKey());
         hn.setNotificationContent(cn.text);
         hn.setSourceApplication(cn.srcPackage);

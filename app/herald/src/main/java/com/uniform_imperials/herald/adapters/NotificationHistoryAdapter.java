@@ -13,6 +13,9 @@ import com.uniform_imperials.herald.fragments.NotificationHistoryFragment;
 import com.uniform_imperials.herald.model.HistoricalNotification;
 import static com.uniform_imperials.herald.util.NotificationUtil.base64DecodeBitmap;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -71,7 +74,17 @@ public class NotificationHistoryAdapter
         holder.mTitleView.setText(mValues.get(position).getSourceApplication());
         holder.mDescriptionView.setText(mValues.get(position).getNotificationContent());
         holder.mIconView.setImageBitmap(base64DecodeBitmap(mValues.get(position).getAppIcon()));
-        holder.mDateView.setText(mValues.get(position).getReceiveDate().toString());
+
+        Date d;
+        try {
+            d = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(
+                    mValues.get(position).getReceiveDate()
+            );
+        } catch (ParseException e) {
+            long epochTime = Long.parseLong(mValues.get(position).getReceiveDate());
+            d = new Date(epochTime);
+        }
+        holder.mDateView.setText(d.toString());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
