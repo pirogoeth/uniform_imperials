@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
@@ -58,7 +59,7 @@ public class NotificationMonitoringService extends NotificationListenerService {
         hn.setNotificationKey(notification.getKey());
         hn.setNotificationContent(cn.text);
         hn.setSourceApplication(cn.srcPackage);
-        hn.setAppIcon(null);
+        hn.setAppIcon(cn.largeIcon);
         this.dataStore.insert(hn);
     }
 

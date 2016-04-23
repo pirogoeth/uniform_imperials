@@ -2,7 +2,6 @@ package com.uniform_imperials.herald.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,22 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.uniform_imperials.herald.BaseFragment;
-import com.uniform_imperials.herald.MainApplication;
 import com.uniform_imperials.herald.R;
-import com.uniform_imperials.herald.adapters.HistoricalNotificationAdapter;
-import com.uniform_imperials.herald.drawables.DividerItemDecoration;
+import com.uniform_imperials.herald.adapters.NotificationHistoryAdapter;
 import com.uniform_imperials.herald.model.HistoricalNotification;
 
 /**
  * Created by Sean Johnson on 3/29/2016.
+ * Modified by Gustavo Moreira on 4/22/2016
  */
 public class NotificationHistoryFragment extends BaseFragment {
 
-    // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
-
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
     private HistoricalNotificationFragmentInteractionListener mListener;
 
     /**
@@ -35,14 +28,16 @@ public class NotificationHistoryFragment extends BaseFragment {
     public NotificationHistoryFragment() {
     }
 
+    public static NotificationHistoryFragment newInstance() {
+        NotificationHistoryFragment fragment = new NotificationHistoryFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            this.mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
-        }
     }
 
     @Override
@@ -54,15 +49,10 @@ public class NotificationHistoryFragment extends BaseFragment {
             // To get main app, traverse to the parent context (MainActivity), and then get the app ctx.
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
-
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-
-            // Attach the item decorator for the divider
-            recyclerView.addItemDecoration(new DividerItemDecoration(this.getActivity()));
-
             // Create the adapter and attach it to the view.
-            recyclerView.setAdapter(new HistoricalNotificationAdapter(this.mListener));
+            recyclerView.setAdapter(new NotificationHistoryAdapter(this.mListener));
         }
         return view;
     }

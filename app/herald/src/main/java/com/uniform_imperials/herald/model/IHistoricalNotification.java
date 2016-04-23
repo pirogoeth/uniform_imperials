@@ -18,7 +18,7 @@ import io.requery.OneToOne;
 import io.requery.Persistable;
 
 @Entity
-public interface IHistoricalNotification extends Observable, Parcelable, Persistable{
+public interface IHistoricalNotification extends Observable, Parcelable, Persistable {
     @Key
     @Generated
     int getId();

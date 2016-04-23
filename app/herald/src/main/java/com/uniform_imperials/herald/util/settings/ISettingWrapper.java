@@ -17,6 +17,11 @@ public interface ISettingWrapper {
     String settingKey = null;
 
     /**
+     * Value of the setting we are representing.
+     */
+    String settingValue = null;
+
+    /**
      * Database entry for this key.
      */
     AppSetting settingInstance = null;
@@ -31,6 +36,29 @@ public interface ISettingWrapper {
      */
     View displayView = null;
 
+    /**
+     * Getters and setters for setting values.
+     */
+    View getDisplayView();
+    View getModificationView();
 
+    void setDisplayView();
+    void setModificationView();
+
+    AppSetting getSettingInstance();
+
+    String getSettingKey();
+
+    /**
+     * Returns JSON-encoded setting value.
+     *
+     * @return String
+     */
+    String getSettingValue();
+
+    /**
+     * Stores a JSON-encoded setting into the database.
+     */
+    void storeSettingValue(String v);
 
 }

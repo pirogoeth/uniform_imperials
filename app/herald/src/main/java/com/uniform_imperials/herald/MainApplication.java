@@ -13,6 +13,7 @@ import io.requery.sql.Configuration;
 import io.requery.sql.EntityDataStore;
 import io.requery.sql.TableCreationMode;
 
+import android.content.Context;
 import android.util.Log;
 
 /**
@@ -34,6 +35,11 @@ public class MainApplication extends Application {
     private static EntityDataStore<Persistable> dataStore = null;
 
     /**
+     * Base context instance.
+     */
+    private static Context baseContext = null;
+
+    /**
      * Database schema version
      */
     public static final int DB_SCHEMA_VERSION = 2;
@@ -43,6 +49,7 @@ public class MainApplication extends Application {
         super.onCreate();
 
         this.getData();
+        baseContext = this.getBaseContext();
 
         DefaultSettings.ensureSettingsExist();
 
@@ -73,6 +80,19 @@ public class MainApplication extends Application {
         return dataStore;
     }
 
+    /**
+     * Returns the statically created baseContext instance.
+     * If the stored context is null, logs an error for debugging purposes.
+     *
+     * @return baseContext
+     */
+    public static Context getStaticBaseContext() {
+        if (baseContext == null) {
+            Log.w(TAG, "getStaticBaseContext returns null -- baseContext uninitialized");
+        }
+
+        return baseContext;
+    }
     public EntityDataStore<Persistable> getData() {
         if (dataStore == null) {
             DatabaseSource source = new DatabaseSource(this, Models.DEFAULT, DB_SCHEMA_VERSION);

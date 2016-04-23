@@ -8,7 +8,6 @@
     android:name="com.uniform_imperials.herald.fragments.SettingFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:divider="@color/subtle_colorPrimaryDark"
     app:layoutManager="LinearLayoutManager"
     tools:context="com.uniform_imperials.herald.fragments.SettingFragment"
     tools:listitem="@layout/fragment_setting"

@@ -11,6 +11,7 @@ import com.uniform_imperials.herald.MainApplication;
 import com.uniform_imperials.herald.R;
 import com.uniform_imperials.herald.fragments.NotificationHistoryFragment;
 import com.uniform_imperials.herald.model.HistoricalNotification;
+import static com.uniform_imperials.herald.util.NotificationUtil.base64DecodeBitmap;
 
 import java.util.List;
 
@@ -18,8 +19,8 @@ import java.util.List;
  * Created by Sean Johnson on 3/29/2016.
  * Modified by Gustavo Moreira on 4/22/2016
  */
-public class HistoricalNotificationAdapter extends RecyclerView.Adapter<HistoricalNotificationAdapter.HNViewHolder> {
-
+public class NotificationHistoryAdapter
+        extends RecyclerView.Adapter<NotificationHistoryAdapter.HNViewHolder> {
 
     /**
      * List of Notification Objects
@@ -31,12 +32,13 @@ public class HistoricalNotificationAdapter extends RecyclerView.Adapter<Historic
      */
     private final NotificationHistoryFragment.HistoricalNotificationFragmentInteractionListener mListener;
 
-    public HistoricalNotificationAdapter(NotificationHistoryFragment.HistoricalNotificationFragmentInteractionListener mListener) {
+    public NotificationHistoryAdapter(NotificationHistoryFragment.HistoricalNotificationFragmentInteractionListener mListener) {
         this.mValues = MainApplication.getEntitySourceInstance()
                 .select(HistoricalNotification.class)
+                .limit(50)
                 .get()
                 .toList();
-        // TODO: Actually load the dataset from the store.
+
         this.mListener = mListener;
     }
 
@@ -54,10 +56,7 @@ public class HistoricalNotificationAdapter extends RecyclerView.Adapter<Historic
         View v = LayoutInflater.from(parent.getContext())
                                .inflate(R.layout.anh_notification_view, parent, false);
 
-        // TODO: Set the necessary data in the view.
-
-        HNViewHolder vh = new HNViewHolder(v);
-        return vh;
+        return new HNViewHolder(v);
     }
 
     /**
@@ -69,10 +68,9 @@ public class HistoricalNotificationAdapter extends RecyclerView.Adapter<Historic
     @Override
     public void onBindViewHolder(HNViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mTitleView.setText(mValues.get(position).getNotificationTitle());
+        holder.mTitleView.setText(mValues.get(position).getSourceApplication());
         holder.mDescriptionView.setText(mValues.get(position).getNotificationContent());
-        //TODO get decoded Icon from Notifications UTIL
-        //holder.mIconView.setImageBitmap(mValues.get(position).getAppIcon());
+        holder.mIconView.setImageBitmap(base64DecodeBitmap(mValues.get(position).getAppIcon()));
         holder.mDateView.setText(mValues.get(position).getReceiveDate().toString());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
