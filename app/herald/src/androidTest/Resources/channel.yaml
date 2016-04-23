@@ -1,0 +1,19 @@
+// !import packagename?
+ !import creation_time.yaml
+ !import friendly_name.yaml
+ !import uuid.yaml
+ !import signature.yaml
+ !import message_count.yaml
+ !import channel_alias.yaml
+ !import channel_name.yaml
+
+- channel:
+    channel_name:
+    message_count:
+    channel_alias:
+
+- channel(BaseModel):
+    creation_time:
+    friendly_name:
+    uuid:
+    signature:

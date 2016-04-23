@@ -1,0 +1,21 @@
+// !import packagename?
+ !import registered_at.yaml
+ !import last_ping.yaml
+ !import uuid.yaml
+ !import channel.yaml
+ !import friendly_name.yaml
+ !import signature.yaml
+ !import channel_uuid.yaml
+ !import channel_alias.yaml
+
+- Device(BaseModel):
+    registered_at:
+    last_ping:
+    uuid:
+    channel:
+    friendly_name:
+    signature:
+
+- device:
+ channel_uuid:
+ channel_alias:

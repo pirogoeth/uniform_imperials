@@ -35,6 +35,7 @@ public class SettingFragment extends BaseFragment {
      * fragment (e.g. upon screen orientation changes).
      */
     public SettingFragment() {
+
     }
 
     // TODO: Customize parameter initialization

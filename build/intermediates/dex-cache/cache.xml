@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="a0b5d60246cd9d4f3f2443611b3b4c25265840b5">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-vector-drawable-23.3.0_eec8d24bfd94ea2d089d9c1d8be828fdd854c7cd\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\me.dm7.barcodescanner\core\1.8.4\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="af8d42f1f020e936b8cd9f5cb6c75993194895a3">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\me.dm7.barcodescanner-core-1.8.4_cd896b34d8aa659ffb514f8b59d36cb4549494d8\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\com.android.support\design\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="f0001e71cea6ae432a00021c6f727f5ef0f3d27e">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-design-23.3.0_e5587c0271e1658272c1e15089c864cfcf607067\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\com.android.databinding\library\1.0-rc5\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="83118a37ee518f1068b6aefab176a83a25761e52">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.databinding-library-1.0-rc5_40146468e726400a05eca5ba491d2107cf8b0284\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="8a034dd16c0dfd75fe86c52c2cd581592acc684a">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.3.0_2f7a1a63b4db1d76ddac10b93be9b1f97858f741\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="23be6993826b8fd88bbc8d14928bb3b8960d3d4e">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-animated-vector-drawable-23.3.0_84f93868663cfe2ebaa16885f6502ca9e5dddc1f\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\.gradle\caches\modules-2\files-2.1\com.squareup.okhttp3\okhttp\3.2.0\f7873a2ebde246a45c2a8d6f3247108b4c88a879\okhttp-3.2.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="f7873a2ebde246a45c2a8d6f3247108b4c88a879">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\okhttp-3.2.0_af9abfd76a8d71e8109dc812a3ffbb627e8973b9\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\.gradle\caches\modules-2\files-2.1\com.google.zxing\core\3.2.1\2287494d4f5f9f3a9a2bb6980e3f32053721b315\core-3.2.1.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="2287494d4f5f9f3a9a2bb6980e3f32053721b315">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\core-3.2.1_a5c15e55cb734779b7bb61f15cda87e7c66a49a1\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\me.dm7.barcodescanner\zxing\1.8.4\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="68ef1daf85c69fca8fddf7bbb947fc51cc9f8ca3">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\me.dm7.barcodescanner-zxing-1.8.4_611c37eb8c265cb7c2b4a32a92cd8a678cfa3f53\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\.gradle\caches\modules-2\files-2.1\com.squareup.okio\okio\1.6.0\98476622f10715998eacf9240d6b479f12c66143\okio-1.6.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="98476622f10715998eacf9240d6b479f12c66143">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\okio-1.6.0_c932cad598e8ead9a1b8f5722fb1e83fa7f7f58c\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\io.requery\sqlite-android\3.12.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="1695a4b972192a0800ea050fa7efa195535db7bc">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\io.requery-sqlite-android-3.12.0_5f8c7f154f9ea48c1ef3a44dcfa8f32cad423ce1\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\.gradle\caches\modules-2\files-2.1\com.squareup.moshi\moshi\1.1.0\9c665b797ef9427f6d73572642dcb5f90270f7d3\moshi-1.1.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="9c665b797ef9427f6d73572642dcb5f90270f7d3">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\moshi-1.1.0_620e24163ed31fbb25f36c9f7e6dfe4e629f081a\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="1b8e03daaa43fb0a4cd57e378167c2fd70454c1e">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.3.0_ec01aa45bff6399d12f3b41f948974617683936c\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\com.joshdholtz.sentry\sentry-android\1.2.1\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="b29292485f0248c93eceb9e4d485c7e55f502f54">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\com.joshdholtz.sentry-sentry-android-1.2.1_60dba2ddc44ac4353be9f3c95be6fb494a593698\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="969094a63686b03f217e60a02ea95241f5adedbc">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_b3021b5857316dd3c523303533dadec08eb181a0\classes.dex" />
+    </item>
+    <item
+        jar="C:\Program Files\Android\Android Studio1\gradle\m2repository\com\android\databinding\baseLibrary\2.0.0\baseLibrary-2.0.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="b8b808a164595b20caac1c1f342b475d0036ad21">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\baseLibrary-2.0.0_983281c6f2a12eb2280d127aa1fe2724ede78064\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\.gradle\caches\modules-2\files-2.1\io.requery\requery\1.0.0-beta13\d1460315ff278b3e096691f3869f735a73b8863e\requery-1.0.0-beta13.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="d1460315ff278b3e096691f3869f735a73b8863e">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\requery-1.0.0-beta13_5e64eb0b88aafaa80a56aa0e163486832223ef1d\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.3.0\support-annotations-23.3.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="db7791d75a07fef9844d06236c1c59ba7bf6997c">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.3.0_109a138b36f1a3e509ab3c76355e66f73543d6ad\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\com.android.databinding\adapters\1.0-rc5\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="09804ef3ea3b68a21f819f06e68877fe441f958c">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.databinding-adapters-1.0-rc5_fabe60d951668a3b19672a371866b98bd0b441b9\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife\7.0.1\d5d13ea991eab0252e3710e5df3d6a9d4b21d461\butterknife-7.0.1.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="d5d13ea991eab0252e3710e5df3d6a9d4b21d461">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\butterknife-7.0.1_3abc87eab19a2c95fc7f4a4e43a599a7c2cea6b9\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\libs\internal_impl-23.3.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="4da5a4d697d32497c6f85567a5112e62fdfd0676">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.3.0_171d662f63eee9b4392129a41518925950e33853\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\com.github.android-cjj\JJSearchViewAnim\49a43019d6\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="bf3d484033263e08bf7eddb5abcbdb96ecd80559">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\com.github.android-cjj-JJSearchViewAnim-49a43019d6_34694a1de916ce37074af14b370f2b22b5793974\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\io.requery\requery-android\1.0.0-beta13\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="101165d9778770298f3488e059474a3460f69a33">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\io.requery-requery-android-1.0.0-beta13_953b2638c50ced13d8666a0cf502e84cc76f6738\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\com.github.mmin18\flexlayout\1.2.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="25f89d99cc134a07df8082364170c38eab05cbb9">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\com.github.mmin18-flexlayout-1.2.0_11cc5729d563c4efda37d5f0cdb2cdbceb33d673\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="566998d3226ea2abc6420cfd333d2fb1611a1a9d">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_8a5d85e45da2967bda97575dcbf2aba62ed0a786\classes.dex" />
+    </item>
+    <item
+        jar="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="debf30ce0a7560396b6235edef77e447006454c2">
+        <dex dex="C:\Users\Matt\Documents\GitHub\herald_app\app\herald\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-recyclerview-v7-23.3.0_e76b47a27f5ba3bf15c3a779e7adf7151b8ed573\classes.dex" />
+    </item>
+
+</items>
