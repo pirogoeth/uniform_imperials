@@ -7,6 +7,8 @@
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_quicktoggles">Quick Toggles</string>
+    <string name="drawer_qt_mirror">Disable Mirroring</string>
 
     <string name="nav_nh_title">Notifications</string>
     <string name="nav_am_title">Applications</string>

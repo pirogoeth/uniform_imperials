@@ -1,12 +1,10 @@
 package com.uniform_imperials.herald.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,11 +14,12 @@ import com.uniform_imperials.herald.MainApplication;
 import com.uniform_imperials.herald.R;
 import com.uniform_imperials.herald.fragments.NotificationHistoryFragment;
 import com.uniform_imperials.herald.model.HistoricalNotification;
+import com.uniform_imperials.herald.util.DisplayUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import static com.uniform_imperials.herald.util.NotificationUtil.base64DecodeBitmap;
 
@@ -34,7 +33,7 @@ public class NotificationHistoryAdapter
     /**
      * List of Notification Objects
      */
-    private List<HistoricalNotification> mValues;
+    private ArrayList<HistoricalNotification> mValues;
 
     /**
      * List of Notification Objects
@@ -42,34 +41,64 @@ public class NotificationHistoryAdapter
     private final NotificationHistoryFragment.HistoricalNotificationFragmentInteractionListener mListener;
 
     public NotificationHistoryAdapter(NotificationHistoryFragment.HistoricalNotificationFragmentInteractionListener mListener) {
-        this.mValues = MainApplication.getEntitySourceInstance()
-                .select(HistoricalNotification.class)
-                .orderBy(HistoricalNotification.EPOCH.desc())
-                .limit(50)
-                .get()
-                .toList();
+        this.mValues = new ArrayList<>();
+
+        this.loadAllNotifications();
 
         this.mListener = mListener;
     }
 
     /**
-     * Reloads the notification list on an event call from NMSListener -> NHFragment
-     *
-     * NOTE: Potentially deprecated by different reloading behaviour.
+     * Reloads all notification data (up to +limit+) into the data set.
      */
-    @Deprecated
-    public void reloadNotifications() {
-        System.out.println("Reloading notifications....");
+    public void loadAllNotifications() {
+        this.mValues.clear();
 
-        this.mValues = null;
-        this.mValues = MainApplication.getEntitySourceInstance()
-                .select(HistoricalNotification.class)
-                .orderBy(HistoricalNotification.EPOCH.desc())
-                .limit(50)
-                .get()
-                .toList();
+        this.mValues.addAll(
+                MainApplication.getEntitySourceInstance()
+                        .select(HistoricalNotification.class)
+                        .orderBy(HistoricalNotification.EPOCH.desc())
+                        .limit(50)
+                        .get()
+                        .toList()
+        );
 
         this.notifyDataSetChanged();
+    }
+
+    /**
+     * Loads newest notifications into the NHFragment's RecyclerView.
+     *
+     * NOTE: We should really make sure that this doesn't hang everything up -- it has the potential
+     * to be very expensive.
+     */
+    public void loadNewNotifications() {
+        // Reloading all of the notifications is moderately inefficient; try to get only the newest.
+        // We can do this by using the latest epoch time as a where condition.
+        long newestNotif;
+        try {
+            newestNotif = this.mValues.get(0).getEpoch();
+        } catch (IndexOutOfBoundsException exc) {
+            newestNotif = 0;
+        }
+
+        ArrayList<HistoricalNotification> addedNotifs = new ArrayList<>();
+        addedNotifs.addAll(
+                MainApplication.getEntitySourceInstance()
+                        .select(HistoricalNotification.class)
+                        .where(HistoricalNotification.EPOCH.gt(newestNotif))
+                        .orderBy(HistoricalNotification.EPOCH.desc())
+                        .limit(50)
+                        .get()
+                        .toList());
+
+        // The new notifications should be pushed on to the front of the adapter's data set.
+        // This requires a small loop :(
+        for (int i = addedNotifs.size() - 1; i >= 0; i--) {
+            this.mValues.add(0, addedNotifs.get(i));
+            // Are there consequences to doing this?
+            this.notifyDataSetChanged();
+        }
     }
 
     /**
@@ -114,6 +143,8 @@ public class NotificationHistoryAdapter
             holder.mDateView.setText(mValues.get(position).getReceiveDate());
         }
 
+        // Do some display math to set the maxEms on mContentView
+
         // Animate for the list item entry.
         this.runEnterAnimation(holder.mView);
 
@@ -127,7 +158,6 @@ public class NotificationHistoryAdapter
                 }
             }
         });
-        return;
     }
 
     /**
@@ -157,14 +187,7 @@ public class NotificationHistoryAdapter
      * @param view View to animate
      */
     private void runEnterAnimation(View view) {
-        DisplayMetrics metrics = new DisplayMetrics();
-        Context ctx = MainApplication.getStaticBaseContext()
-                .getApplicationContext();
-
-        WindowManager wm = (WindowManager) ctx
-                .getSystemService(Context.WINDOW_SERVICE);
-
-        wm.getDefaultDisplay().getMetrics(metrics);
+        final DisplayMetrics metrics = DisplayUtil.getDisplayMetrics();
 
         view.setTranslationY(metrics.heightPixels);
         view.animate()
@@ -180,14 +203,7 @@ public class NotificationHistoryAdapter
      * @param view View to animate
      */
     private void runExitAnimation(View view) {
-        DisplayMetrics metrics = new DisplayMetrics();
-        Context ctx = MainApplication.getStaticBaseContext()
-                .getApplicationContext();
-
-        WindowManager wm = (WindowManager) ctx
-                .getSystemService(Context.WINDOW_SERVICE);
-
-        wm.getDefaultDisplay().getMetrics(metrics);
+        final DisplayMetrics metrics = DisplayUtil.getDisplayMetrics();
 
         view.setTranslationX(0);
         view.animate()

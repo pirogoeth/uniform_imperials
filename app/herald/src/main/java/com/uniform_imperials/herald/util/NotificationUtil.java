@@ -8,13 +8,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
+import android.service.notification.StatusBarNotification;
 import android.util.Base64;
 
 import com.joshdholtz.sentry.Sentry;
 import com.uniform_imperials.herald.MainApplication;
 
-import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.util.Locale;
 
 /**
  * Created by Sean Johnson on 4/11/2016.
@@ -34,24 +36,43 @@ public class NotificationUtil {
     /**
      * Rips all text from the Notification text views.
      *
-     * @param notification notif to dig in to
+     * @param sbn notif to dig in to
      * @return CapturedNotification
      */
-    public static CapturedNotification getData(Notification notification) {
+    public static CapturedNotification getData(StatusBarNotification sbn, Context ctx) {
+        Notification notification = sbn.getNotification();
         if (notification == null) return null;
 
         CapturedNotification cn = new CapturedNotification();
         try {
             cn.text = notification.tickerText.toString();
-            cn.smallIcon = base64EncodeIcon(notification.getSmallIcon());
-            cn.largeIcon = base64EncodeIcon(notification.getLargeIcon());
             cn.postedTime = notification.when;
+
+            try {
+                cn.smallIcon = base64EncodeIcon(notification.getSmallIcon());
+                cn.largeIcon = base64EncodeIcon(notification.getLargeIcon());
+            } catch (NoSuchMethodError e) {
+                // API version < 23, use getNotificationIconBitmap
+                Bitmap b = getNotificationIconBitmap(sbn.getPackageName(), ctx);
+                cn.smallIcon = null;
+                cn.largeIcon = base64EncodeBitmap(b);
+            }
         } catch (NullPointerException e) {
             // TODO: Wrapper for posting exception traces to Sentry.
             return null;
         }
 
         return cn;
+    }
+
+    public static String getNotificationKey(StatusBarNotification sbn) {
+        return String.format(
+                Locale.getDefault(),
+                "%s|%s|%d",
+                sbn.getId(),
+                sbn.getPackageName(),
+                sbn.getPostTime()
+        );
     }
 
     /**
@@ -62,7 +83,7 @@ public class NotificationUtil {
      * @return Bitmap
      */
     public static Bitmap getNotificationIconBitmap(String pack, Context context){
-        Context remotePackageContext = null;
+        Context remotePackageContext;
         Bitmap bmp = null;
         try {
             remotePackageContext = context.getApplicationContext().createPackageContext(pack, 0);
@@ -100,7 +121,13 @@ public class NotificationUtil {
             return null;
         }
 
-        Drawable d = i.loadDrawable(MainApplication.getStaticBaseContext());
+        Drawable d;
+        try {
+            d = i.loadDrawable(MainApplication.getStaticBaseContext());
+        } catch (NoSuchMethodError e) {
+            return null;
+        }
+
         Bitmap bmp = ((BitmapDrawable) d).getBitmap();
 
         return base64EncodeBitmap(bmp);

@@ -43,10 +43,10 @@ public class NotificationMonitoringService extends NotificationListenerService {
      * Allows use of notificationAccessEnabled flag to determine if notification hooking has
      * been granted by the user.
      *
-     * @returns boolean Notification listener was successfully bound.
+     * @return boolean Notification listener was successfully bound.
      */
     public static boolean isNotificationAccessEnabled() {
-        return notificationAccessEnabled == true;
+        return notificationAccessEnabled;
     }
 
     /**
@@ -130,7 +130,9 @@ public class NotificationMonitoringService extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification notification) {
         Notification n = notification.getNotification();
 
-        NotificationUtil.CapturedNotification cn = NotificationUtil.getData(n);
+        NotificationUtil.CapturedNotification cn = NotificationUtil.getData(
+                notification,
+                this.getApplicationContext());
         if (cn == null) {
             return;
         }
@@ -140,7 +142,11 @@ public class NotificationMonitoringService extends NotificationListenerService {
         HistoricalNotification hn = new HistoricalNotification();
         hn.setEpoch(cn.postedTime);
         hn.setReceiveDate(new Date(cn.postedTime).toString());
-        hn.setNotificationKey(notification.getKey());
+        try {
+            hn.setNotificationKey(notification.getKey());
+        } catch (NoSuchMethodError e) {
+            hn.setNotificationKey(NotificationUtil.getNotificationKey(notification));
+        }
         hn.setNotificationContent(cn.text);
         hn.setNotificationTitle(NotificationUtil.resolveApplicationName(cn.srcPackage));
         hn.setSourceApplication(cn.srcPackage);
@@ -163,7 +169,6 @@ public class NotificationMonitoringService extends NotificationListenerService {
     class NMSReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            return;
         }
     }
 }

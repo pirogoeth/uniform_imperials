@@ -7,11 +7,10 @@
 
     <com.github.mmin18.widget.FlexLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/nh_empty_container"
+        android:id="@+id/nh_flex_wrapper"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -34,19 +33,19 @@
 
         </android.support.v7.widget.CardView>
 
-    </com.github.mmin18.widget.FlexLayout>
+        <android.support.v7.widget.RecyclerView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/nh_list"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:name="com.uniform_imperials.herald.fragments.NotificationHistoryFragment"
+            tools:context="com.uniform_imperials.herald.fragments.NotificationHistoryFragment"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/anh_notification_view" />
 
-    <android.support.v7.widget.RecyclerView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/nh_list"
-        android:scrollbars="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.uniform_imperials.herald.fragments.NotificationHistoryFragment"
-        tools:context="com.uniform_imperials.herald.fragments.NotificationHistoryFragment"
-        app:layoutManager="LinearLayoutManager"
-        tools:listitem="@layout/anh_notification_view" />
+    </com.github.mmin18.widget.FlexLayout>
 
 </android.support.v4.widget.SwipeRefreshLayout>

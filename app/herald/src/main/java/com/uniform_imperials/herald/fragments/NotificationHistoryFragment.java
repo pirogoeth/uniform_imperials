@@ -31,6 +31,11 @@ public class NotificationHistoryFragment
     private HistoricalNotificationFragmentInteractionListener mListener;
 
     /**
+     * "Parent" view layout for this set of views.
+     */
+    private View parentView = null;
+
+    /**
      * Internal recycler view instance.
      */
     private RecyclerView nestedView = null;
@@ -58,10 +63,21 @@ public class NotificationHistoryFragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        // Create the broadcast receiver.
-//        this.mABRecv = new NMSActionBroadcastReceiver();
-//        IntentFilter mIf = new IntentFilter(IntentUtil.NHF_ACTION_RELOAD);
-//        this.getActivity().registerReceiver(this.mABRecv, mIf);
+        if (this.mABRecv == null) {
+            this.mABRecv = new NMSActionBroadcastReceiver();
+            IntentFilter mIf = new IntentFilter(IntentUtil.NHF_ACTION_RELOAD);
+            this.getActivity().registerReceiver(this.mABRecv, mIf);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (this.mABRecv != null) {
+            this.getActivity().unregisterReceiver(this.mABRecv);
+            this.mABRecv = null;
+        }
     }
 
     @Override
@@ -70,6 +86,7 @@ public class NotificationHistoryFragment
 
         if (this.mABRecv != null) {
             this.getActivity().unregisterReceiver(this.mABRecv);
+            this.mABRecv = null;
         }
     }
 
@@ -86,9 +103,9 @@ public class NotificationHistoryFragment
 
     @Override
     public View createView(LayoutInflater inflater, ViewGroup container) {
-        View parent = inflater.inflate(R.layout.activity_notif_history, container, false);
-        View view = parent.findViewById(R.id.nh_list);
-        View refreshLayout = parent.findViewById(R.id.nh_swipe_refresh_frame);
+        this.parentView = inflater.inflate(R.layout.activity_notif_history, container, false);
+        View view = this.parentView.findViewById(R.id.nh_list);
+        View refreshLayout = this.parentView.findViewById(R.id.nh_swipe_refresh_frame);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -99,20 +116,13 @@ public class NotificationHistoryFragment
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-            // Create the adapter and attach it to the view.
-            recyclerView.setAdapter(new NotificationHistoryAdapter(this.mListener));
-        }
+            // Set the event handler for adapter updates.
+            NotificationHistoryAdapter nha = new NotificationHistoryAdapter(this.mListener);
 
-        // TODO: Make the emptyMsgView not swallow the Recycler
-        // Display the "empty" content if adapter is empty.
-        if (this.nestedView.getAdapter().getItemCount() == 0) {
-            View emptyMsgView = parent.findViewById(R.id.nh_empty_container);
-            emptyMsgView.setVisibility(View.VISIBLE);
-        } else {
-            View emptyMsgView = parent.findViewById(R.id.nh_empty_container);
-            if (emptyMsgView.getVisibility() == View.VISIBLE) {
-                emptyMsgView.setVisibility(View.GONE);
-            }
+            // Create the adapter and attach it to the view.
+            recyclerView.setAdapter(nha);
+
+            updateEmptyDataView();
         }
 
         // Set up the swipe refresh layout
@@ -124,14 +134,19 @@ public class NotificationHistoryFragment
                 @Override
                 public void onRefresh() {
                     nestedView.removeAllViewsInLayout();
-                    NotificationHistoryAdapter adapter = new NotificationHistoryAdapter(mListener);
-                    nestedView.setAdapter(adapter);
+//                    NotificationHistoryAdapter adapter = new NotificationHistoryAdapter(mListener);
+//                    nestedView.setAdapter(adapter);
+
+                    NotificationHistoryAdapter nha = (NotificationHistoryAdapter) nestedView.getAdapter();
+                    nha.loadNewNotifications();
+                    updateEmptyDataView();
+
                     srl.setRefreshing(false);
                 }
             });
         }
 
-        return parent;
+        return this.parentView;
     }
 
     @Override
@@ -153,14 +168,29 @@ public class NotificationHistoryFragment
     }
 
     /**
+     * Updates the "nh list empty" view with the proper visibility setting.
+     */
+    private void updateEmptyDataView() {
+        System.out.println("Updating data-empty view visibility");
+
+        // TODO: Make the emptyMsgView not swallow the Recycler
+        // Display the "empty" content if adapter is empty.
+        if (this.nestedView.getAdapter().getItemCount() == 0) {
+            View emptyMsgView = this.parentView.findViewById(R.id.nh_empty);
+            emptyMsgView.setVisibility(View.VISIBLE);
+        } else {
+            View emptyMsgView = this.parentView.findViewById(R.id.nh_empty);
+            if (emptyMsgView.getVisibility() == View.VISIBLE) {
+                emptyMsgView.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
      */
     public interface HistoricalNotificationFragmentInteractionListener {
         // TODO: Update argument type and name
@@ -171,8 +201,9 @@ public class NotificationHistoryFragment
         @Override
         public void onReceive(Context mContext, Intent mIntent) {
             if (mIntent.getAction().equals(IntentUtil.NHF_ACTION_RELOAD)) {
-                NotificationHistoryAdapter adapter = new NotificationHistoryAdapter(mListener);
-                nestedView.setAdapter(adapter);
+                NotificationHistoryAdapter nha = (NotificationHistoryAdapter) nestedView.getAdapter();
+                nha.loadNewNotifications();
+                updateEmptyDataView();
             }
         }
     }
