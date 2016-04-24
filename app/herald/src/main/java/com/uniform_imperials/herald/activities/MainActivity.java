@@ -1,6 +1,9 @@
 package com.uniform_imperials.herald.activities;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.MenuItemCompat;
@@ -16,6 +19,7 @@ import com.uniform_imperials.herald.fragments.NotificationHistoryFragment;
 import com.uniform_imperials.herald.fragments.SettingFragment;
 import com.uniform_imperials.herald.model.AppSetting;
 import com.uniform_imperials.herald.model.HistoricalNotification;
+import com.uniform_imperials.herald.services.NotificationMonitoringService;
 
 public class MainActivity extends BaseActivity implements SettingFragment.AppSettingFragmentInteractionListener, NotificationHistoryFragment.HistoricalNotificationFragmentInteractionListener {
 
@@ -66,11 +70,50 @@ public class MainActivity extends BaseActivity implements SettingFragment.AppSet
 
         // Open the default fragment view.
         this.selectDrawerItem(R.id.nav_nh);
+
+
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
+
+        // Show a notification snackbar if notification monitoring is disabled.
+        if (!(NotificationMonitoringService.isNotificationAccessEnabled())) {
+            View topView = findViewById(R.id.content_frame);
+            if (topView == null) {
+                topView = this.getCurrentFocus();
+            }
+
+            Snackbar notifWarning = Snackbar.make(
+                    topView,
+                    "Notification permissions have not been granted.",
+                    Snackbar.LENGTH_INDEFINITE
+            );
+
+            // Add action to launch app permissions intent!
+            notifWarning.setAction(
+                    "Fix",
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final Intent settingsActivity = new Intent();
+
+                            settingsActivity.setAction(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+                            settingsActivity.addCategory(Intent.CATEGORY_DEFAULT);
+
+                            settingsActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            settingsActivity.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                            settingsActivity.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+
+                            getApplicationContext().startActivity(settingsActivity);
+                        }
+                    }
+            );
+
+            // Show the snackbar!
+            notifWarning.show();
+        }
 
         // this.mDrawer.openDrawer(GravityCompat.START);
     }

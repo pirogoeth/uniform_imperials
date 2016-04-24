@@ -1,5 +1,6 @@
 package com.uniform_imperials.herald.adapters;
 
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,7 @@ public class NotificationHistoryAdapter
     /**
      * List of Notification Objects
      */
-    private final List<HistoricalNotification> mValues;
+    private List<HistoricalNotification> mValues;
 
     /**
      * List of Notification Objects
@@ -44,6 +45,22 @@ public class NotificationHistoryAdapter
                 .toList();
 
         this.mListener = mListener;
+    }
+
+    /**
+     * Reloads the notification list on an event call from NMSListener -> NHFragment
+     */
+    public void reloadNotifications() {
+        System.out.println("Reloading notifications....");
+
+        this.mValues.clear();
+        this.mValues.addAll(MainApplication.getEntitySourceInstance()
+                .select(HistoricalNotification.class)
+                .limit(50)
+                .get()
+                .toList());
+
+        this.notifyDataSetChanged();
     }
 
     /**

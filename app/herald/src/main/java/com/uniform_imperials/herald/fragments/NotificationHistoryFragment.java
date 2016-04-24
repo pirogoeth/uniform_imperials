@@ -12,14 +12,20 @@ import com.uniform_imperials.herald.BaseFragment;
 import com.uniform_imperials.herald.R;
 import com.uniform_imperials.herald.adapters.NotificationHistoryAdapter;
 import com.uniform_imperials.herald.model.HistoricalNotification;
+import com.uniform_imperials.herald.services.NotificationMonitoringService;
+import com.uniform_imperials.herald.util.NotificationUtil;
 
 /**
  * Created by Sean Johnson on 3/29/2016.
  * Modified by Gustavo Moreira on 4/22/2016
  */
-public class NotificationHistoryFragment extends BaseFragment {
+public class NotificationHistoryFragment
+        extends BaseFragment
+        implements NotificationMonitoringService.INMSListener {
 
     private HistoricalNotificationFragmentInteractionListener mListener;
+
+    private RecyclerView nestedView = null;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -46,6 +52,8 @@ public class NotificationHistoryFragment extends BaseFragment {
 
         // Set the adapter
         if (view instanceof RecyclerView) {
+            this.nestedView = (RecyclerView) view;
+
             // To get main app, traverse to the parent context (MainActivity), and then get the app ctx.
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
@@ -71,7 +79,38 @@ public class NotificationHistoryFragment extends BaseFragment {
     @Override
     public void onDetach() {
         super.onDetach();
+
         mListener = null;
+    }
+
+    /**
+     * Implementation of the receiver for NMS onNotificationRecv event
+     *
+     * @param cn captured notification data
+     */
+    public void onNotificationReceived(NotificationUtil.CapturedNotification cn) {
+        RecyclerView.Adapter adapter = this.nestedView.getAdapter();
+        if (adapter instanceof NotificationHistoryAdapter) {
+            NotificationHistoryAdapter nha = (NotificationHistoryAdapter) adapter;
+            nha.reloadNotifications();
+        }
+    }
+
+    /**
+     * Implementation of the receiver for NMS onNotificationRmvd event
+     *
+     * @param cn captured notification data
+     */
+    public void onNotificationRemoved(NotificationUtil.CapturedNotification cn) {
+        // no-op
+    }
+
+    /**
+     * Implementation of the receiver for NMS onNMSDisable event
+     */
+    public void onNMSDisable() {
+        NotificationMonitoringService nms = this.getActivity().getSystemService(NotificationMonitoringService.class);
+        nms.unregisterHandler(this);
     }
 
     /**
