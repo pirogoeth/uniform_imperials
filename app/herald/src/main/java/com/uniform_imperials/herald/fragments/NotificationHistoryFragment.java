@@ -134,7 +134,7 @@ public class NotificationHistoryFragment
                 @Override
                 public void onRefresh() {
                     NotificationHistoryAdapter nha = (NotificationHistoryAdapter) nestedView.getAdapter();
-                    nha.loadNewNotifications();
+                    nha.loadAllNotifications();
                     updateEmptyDataView();
 
                     srl.setRefreshing(false);

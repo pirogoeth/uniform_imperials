@@ -9,4 +9,17 @@
     <color name="subtle_colorAccent">#FFB671</color>
     <color name="subtle_textColor">#FFFFFF</color>
     <color name="subtle_colorActivatedHighlight">#02C5E9</color>
+
+    <color name="monokai_dark_grey">#272822</color>
+    <color name="monokai_light_grey">#E6E6E6</color>
+    <color name="monokai_lighter_grey">#595959</color>
+    <color name="monokai_light_yellow">#F8F8F2</color>
+    <color name="monokai_light_blue">#89BDFF</color>
+    <color name="monokai_light_green">#A6E22E</color>
+    <color name="monokai_green">#A6E22A</color>
+    <color name="monokai_purple">#abae81ff</color>
+    <color name="monokai_light_purple">#FD5FF1</color>
+
+    <color name="subtle_dull_purple">#BFA4A4</color>
+    <color name="subtle_dull_aqua">#79C99E</color>
 </resources>

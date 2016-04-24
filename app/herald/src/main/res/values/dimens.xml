@@ -9,4 +9,6 @@
     <dimen name="text_margin">16dp</dimen>
     <!-- List item stuff -->
     <dimen name="list_item_height">80dp</dimen>
+    <!-- NH list card stuff -->
+    <dimen name="nh_desc_width">150dip</dimen>
 </resources>

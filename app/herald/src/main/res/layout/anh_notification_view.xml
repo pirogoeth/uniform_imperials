@@ -9,11 +9,15 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/nh_card_container"
-        app:layout_top="prev.bottom + 4dp"
+        app:layout_top="prev.bottom + 8dp"
         app:layout_centerX="50%"
         app:layout_width="100%-10dp"
         app:layout_height="wrap_content"
-        card_view:cardCornerRadius="4dp">
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardBackgroundColor="@color/subtle_dull_purple"
+        card_view:cardElevation="20dp">
 
         <com.github.mmin18.widget.FlexLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -25,16 +29,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingTop="5dp"
-                android:paddingLeft="5dp"
-                android:paddingBottom="5dp"
+                app:layout_top="5dp"
+                app:layout_left="5dp"
+                app:layout_bottom="100%-5dp"
+                app:layout_height="100%-10dp"
                 android:id="@+id/nh_item_icon" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nh_item_title"
-                android:textColor="@android:color/black"
+                android:textColor="@color/monokai_dark_grey"
                 app:layout_left="nh_item_icon.right+10dp"
                 android:textSize="18dp" />
 
@@ -42,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nh_item_content"
-                android:textColor="@android:color/black"
+                android:textColor="@color/monokai_dark_grey"
                 app:layout_left="nh_item_icon.right+10dp"
                 app:layout_top="nh_item_title.bottom+2dp"
                 app:layout_right="parent.width-5dp"
@@ -53,11 +58,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nh_item_date"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@color/monokai_light_yellow"
                 app:layout_right="100%-2dp"
-                app:layout_top="nh_item_content.bottom+2dp"
+                app:layout_top="nh_item_content.bottom"
                 android:layout_gravity="right"
-                android:textSize="15dp"/>
+                android:textSize="15dp" />
 
         </com.github.mmin18.widget.FlexLayout>
 

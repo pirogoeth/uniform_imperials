@@ -9,7 +9,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.joshdholtz.sentry.Sentry;
 import com.uniform_imperials.herald.MainApplication;
 import com.uniform_imperials.herald.R;
 import com.uniform_imperials.herald.fragments.NotificationHistoryFragment;
@@ -138,19 +137,21 @@ public class NotificationHistoryAdapter
         Date d;
         try {
             // TODO: Parse date *properly* from string.
-            d = new SimpleDateFormat().parse(
+            d = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy").parse(
                     mValues.get(position).getReceiveDate()
             );
             holder.mDateView.setText(d.toString());
         } catch (ParseException e) {
-            Sentry.captureException(e);
+            // Sentry.captureException(e);
+            System.out.println("Date parsing failed :(");
             holder.mDateView.setText(mValues.get(position).getReceiveDate());
         }
 
-        // Do some display math to set the maxEms on mContentView
-
         // Animate for the list item entry.
         this.runEnterAnimation(holder.mView);
+
+        // Do some display math to set the maxEms on mContentView
+        holder.mDescriptionView.setMaxWidth(R.dimen.nh_desc_width);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
