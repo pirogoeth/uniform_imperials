@@ -1,4 +1,4 @@
-package com.uniform_imperials.herald.util;
+package com.uniform_imperials.herald.http;
 
 
 import com.joshdholtz.sentry.Sentry;
@@ -17,9 +17,8 @@ import java.util.HashMap;
 
 
 /**
- * Created by Matt on 4/22/2016.
+ * Created by Matt Humphrieson 4/22/2016.
  */
-
 
 /**
  * http://developer.android.com/reference/java/net/HttpURLConnection.html
@@ -29,13 +28,19 @@ import java.util.HashMap;
  * Other HTTP methods (OPTIONS, HEAD, PUT, DELETE and TRACE)
  * can be used with setRequestMethod(String).
  */
-abstract class HTTP_BASE {
+abstract class HTTPBaseClient {
 
+	/**
+	 * Connection URL
+	 */
 	private String url;
-	//private URL server;
+
+	/**
+	 * String -> String mapping of arguments to
+	 */
 	private HashMap<String, String> args;
 
-	public HTTP_BASE(String url, HashMap args){
+	public HTTPBaseClient(String url, HashMap<String, String> args){
 	}
 
 	/**
@@ -57,14 +62,15 @@ abstract class HTTP_BASE {
 
 			writeStream(out);
 			readStream(in);
-			finally {
-				hc.disconnect();
-			}
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			Sentry.captureException(e);
+		} finally {
+			hc.disconnect();
 		}
 
 	}
+
 	//UE
 	private void put(String URL, HashMap args){
 		HttpURLConnection hc;
