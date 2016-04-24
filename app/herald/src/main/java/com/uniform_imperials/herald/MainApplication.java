@@ -1,9 +1,10 @@
 package com.uniform_imperials.herald;
 
 import android.app.Application;
+import android.content.Context;
+import android.util.Log;
 
 import com.joshdholtz.sentry.Sentry;
-
 import com.uniform_imperials.herald.model.Models;
 import com.uniform_imperials.herald.util.DefaultSettings;
 
@@ -12,9 +13,6 @@ import io.requery.android.sqlite.DatabaseSource;
 import io.requery.sql.Configuration;
 import io.requery.sql.EntityDataStore;
 import io.requery.sql.TableCreationMode;
-
-import android.content.Context;
-import android.util.Log;
 
 /**
  * Created by Sean Johnson on 3/29/2016.
@@ -42,7 +40,7 @@ public class MainApplication extends Application {
     /**
      * Database schema version
      */
-    public static final int DB_SCHEMA_VERSION = 2;
+    public static final int DB_SCHEMA_VERSION = 3;
 
     @Override
     public void onCreate() {

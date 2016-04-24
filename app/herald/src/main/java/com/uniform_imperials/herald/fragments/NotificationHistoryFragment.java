@@ -1,6 +1,9 @@
 package com.uniform_imperials.herald.fragments;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,20 +15,26 @@ import com.uniform_imperials.herald.BaseFragment;
 import com.uniform_imperials.herald.R;
 import com.uniform_imperials.herald.adapters.NotificationHistoryAdapter;
 import com.uniform_imperials.herald.model.HistoricalNotification;
-import com.uniform_imperials.herald.services.NotificationMonitoringService;
-import com.uniform_imperials.herald.util.NotificationUtil;
+import com.uniform_imperials.herald.util.IntentUtil;
 
 /**
  * Created by Sean Johnson on 3/29/2016.
  * Modified by Gustavo Moreira on 4/22/2016
  */
 public class NotificationHistoryFragment
-        extends BaseFragment
-        implements NotificationMonitoringService.INMSListener {
+        extends BaseFragment {
 
+    /**
+     * Interaction listener.
+     */
     private HistoricalNotificationFragmentInteractionListener mListener;
 
+    /**
+     * Internal recycler view instance.
+     */
     private RecyclerView nestedView = null;
+
+    private NMSActionBroadcastReceiver mABRecv = null;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -44,11 +53,37 @@ public class NotificationHistoryFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        // Create the broadcast receiver.
+//        this.mABRecv = new NMSActionBroadcastReceiver();
+//        IntentFilter mIf = new IntentFilter(IntentUtil.NHF_ACTION_RELOAD);
+//        this.getActivity().registerReceiver(this.mABRecv, mIf);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        if (this.mABRecv != null) {
+            this.getActivity().unregisterReceiver(this.mABRecv);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (this.mABRecv == null) {
+            this.mABRecv = new NMSActionBroadcastReceiver();
+            IntentFilter mIf = new IntentFilter(IntentUtil.NHF_ACTION_RELOAD);
+            this.getActivity().registerReceiver(this.mABRecv, mIf);
+        }
     }
 
     @Override
     public View createView(LayoutInflater inflater, ViewGroup container) {
-        View view = inflater.inflate(R.layout.activity_notif_history, container, false);
+        View parent = inflater.inflate(R.layout.activity_notif_history, container, false);
+        View view = parent.findViewById(R.id.nh_list);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -84,36 +119,6 @@ public class NotificationHistoryFragment
     }
 
     /**
-     * Implementation of the receiver for NMS onNotificationRecv event
-     *
-     * @param cn captured notification data
-     */
-    public void onNotificationReceived(NotificationUtil.CapturedNotification cn) {
-        RecyclerView.Adapter adapter = this.nestedView.getAdapter();
-        if (adapter instanceof NotificationHistoryAdapter) {
-            NotificationHistoryAdapter nha = (NotificationHistoryAdapter) adapter;
-            nha.reloadNotifications();
-        }
-    }
-
-    /**
-     * Implementation of the receiver for NMS onNotificationRmvd event
-     *
-     * @param cn captured notification data
-     */
-    public void onNotificationRemoved(NotificationUtil.CapturedNotification cn) {
-        // no-op
-    }
-
-    /**
-     * Implementation of the receiver for NMS onNMSDisable event
-     */
-    public void onNMSDisable() {
-        NotificationMonitoringService nms = this.getActivity().getSystemService(NotificationMonitoringService.class);
-        nms.unregisterHandler(this);
-    }
-
-    /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
@@ -128,4 +133,16 @@ public class NotificationHistoryFragment
         void onHistoricalNotificationFragmentInteraction(HistoricalNotification notification);
     }
 
+    public class NMSActionBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context mContext, Intent mIntent) {
+            if (mIntent.getAction().equals(IntentUtil.NHF_ACTION_RELOAD)) {
+                RecyclerView.Adapter adapter = nestedView.getAdapter();
+                if (adapter instanceof NotificationHistoryAdapter) {
+                    NotificationHistoryAdapter nha = (NotificationHistoryAdapter) adapter;
+                    nha.reloadNotifications();
+                }
+            }
+        }
+    }
 }

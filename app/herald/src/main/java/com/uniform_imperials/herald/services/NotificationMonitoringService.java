@@ -5,19 +5,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
 
 import com.uniform_imperials.herald.MainApplication;
 import com.uniform_imperials.herald.model.HistoricalNotification;
+import com.uniform_imperials.herald.util.IntentUtil;
 import com.uniform_imperials.herald.util.NotificationUtil;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import io.requery.Persistable;
 import io.requery.sql.EntityDataStore;
@@ -63,57 +60,6 @@ public class NotificationMonitoringService extends NotificationListenerService {
     private EntityDataStore<Persistable> dataStore;
 
     /**
-     * List of handlers implementing the INMSListener class for notifications.
-     */
-    private List<INMSListener> mNMSHandlers = new ArrayList<>();
-
-    /**
-     * Registers a NMS handler for watching notification post and remove events.
-     *
-     * @param l INMSListener-implementing class instance
-     * @return boolean registration successful
-     */
-    public boolean registerHandler(INMSListener l) {
-        if (l == null) {
-            return false;
-        }
-
-        if (this.mNMSHandlers.contains(l)) {
-            return false;
-        }
-
-        boolean added = this.mNMSHandlers.add(l);
-        if (added) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Unregisters a NMS handler.
-     *
-     * @param l INMSListener-implementing class instance
-     * @return boolean de-registration successful
-     */
-    public boolean unregisterHandler(INMSListener l) {
-        if (l == null) {
-            return false;
-        }
-
-        if (this.mNMSHandlers.contains(l)) {
-            boolean removed = this.mNMSHandlers.remove(l);
-            if (removed) {
-                return true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Perform the typical onCreate tasks of setting up the service, database, etc.
      */
     @Override
@@ -136,17 +82,6 @@ public class NotificationMonitoringService extends NotificationListenerService {
     @Override
     public void onDestroy() {
         this.unregisterReceiver(this.mReceiver);
-
-        // Make sure there are no more NMS listeners *leaking*
-        for (INMSListener l : this.mNMSHandlers) {
-            Log.w(
-                    TAG,
-                    String.format(
-                            "Listener %s leaking -- unregister needed when onNMSDisable()",
-                            l.getClass().getCanonicalName()
-                    )
-            );
-        }
     }
 
     /**
@@ -179,15 +114,6 @@ public class NotificationMonitoringService extends NotificationListenerService {
         // Make sure the receiver is unregistered on unbind.
         this.unregisterReceiver(this.mReceiver);
 
-        // Send the onNMSDisable event to NMS listeners
-        for (INMSListener l : this.mNMSHandlers) {
-            if (l == null) {
-                Log.w(TAG, "NMSListener was null -- forcible addition?");
-            }
-
-            l.onNMSDisable();
-        }
-
         // Unmark the notification access flag to warn the user.
         notificationAccessEnabled = false;
 
@@ -212,6 +138,7 @@ public class NotificationMonitoringService extends NotificationListenerService {
         cn.srcPackage = notification.getPackageName();
 
         HistoricalNotification hn = new HistoricalNotification();
+        hn.setEpoch(cn.postedTime);
         hn.setReceiveDate(new Date(cn.postedTime).toString());
         hn.setNotificationKey(notification.getKey());
         hn.setNotificationContent(cn.text);
@@ -219,14 +146,8 @@ public class NotificationMonitoringService extends NotificationListenerService {
         hn.setSourceApplication(cn.srcPackage);
         hn.setAppIcon(cn.largeIcon);
 
-        // TODO: Fire INMSListener.onNotificationReceived handlers.
-        for (INMSListener l : this.mNMSHandlers) {
-            if (l == null) {
-                Log.w(TAG, "NMSListener was null -- forcible addition?");
-            }
-
-            l.onNotificationReceived(cn);
-        }
+        // Fire off a broadcast so the NHF reloads its data set.
+        sendBroadcast(new Intent(IntentUtil.NHF_ACTION_RELOAD));
 
         this.dataStore.insert(hn);
     }
@@ -244,14 +165,5 @@ public class NotificationMonitoringService extends NotificationListenerService {
         public void onReceive(Context context, Intent intent) {
             return;
         }
-    }
-
-    /**
-     * Interface for app chunks that want to register for notification receiver updates.
-     */
-    public interface INMSListener {
-        void onNotificationReceived(NotificationUtil.CapturedNotification mNotif);
-        void onNotificationRemoved(NotificationUtil.CapturedNotification mNotif);
-        void onNMSDisable();
     }
 }

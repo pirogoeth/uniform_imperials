@@ -9,12 +9,9 @@ import android.databinding.Bindable;
 import android.databinding.Observable;
 import android.os.Parcelable;
 
-import java.util.Date;
-
 import io.requery.Entity;
 import io.requery.Generated;
 import io.requery.Key;
-import io.requery.OneToOne;
 import io.requery.Persistable;
 
 @Entity
@@ -50,6 +47,14 @@ public interface IHistoricalNotification extends Observable, Parcelable, Persist
 
     @Bindable
     String getReceiveDate();
-    void setReceiveDate(String d);
+    void setReceiveDate(String s);
+
+    /**
+     * Unix TS/Epoch version of receive date.
+     * @return
+     */
+    @Bindable
+    long getEpoch();
+    void setEpoch(long l);
 
 }

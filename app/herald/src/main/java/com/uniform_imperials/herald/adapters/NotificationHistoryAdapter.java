@@ -1,6 +1,5 @@
 package com.uniform_imperials.herald.adapters;
 
-import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,12 +12,13 @@ import com.uniform_imperials.herald.MainApplication;
 import com.uniform_imperials.herald.R;
 import com.uniform_imperials.herald.fragments.NotificationHistoryFragment;
 import com.uniform_imperials.herald.model.HistoricalNotification;
-import static com.uniform_imperials.herald.util.NotificationUtil.base64DecodeBitmap;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import static com.uniform_imperials.herald.util.NotificationUtil.base64DecodeBitmap;
 
 /**
  * Created by Sean Johnson on 3/29/2016.
@@ -53,12 +53,13 @@ public class NotificationHistoryAdapter
     public void reloadNotifications() {
         System.out.println("Reloading notifications....");
 
-        this.mValues.clear();
-        this.mValues.addAll(MainApplication.getEntitySourceInstance()
+        this.mValues = null;
+        this.mValues = MainApplication.getEntitySourceInstance()
                 .select(HistoricalNotification.class)
+                .orderBy(HistoricalNotification.EPOCH.asc())
                 .limit(50)
                 .get()
-                .toList());
+                .toList();
 
         this.notifyDataSetChanged();
     }
