@@ -1,9 +1,16 @@
 package com.uniform_imperials.herald.util;
 
+
+import com.joshdholtz.sentry.Sentry;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
@@ -23,19 +30,12 @@ import java.util.HashMap;
  * can be used with setRequestMethod(String).
  */
 abstract class HTTP_BASE {
-	private URL url;
-	private HashMap<String, String> args;
-	public HTTP_BASE(){
-		url = new URL("http://suckitbitches.middlefinger");
-		HttpURLConnection hc = (HttpURLConnection) URL.openConnection();
-		try {
-			InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-			readStream(in);
-			finally{
-				urlConnection.disconnect();
-			}
-		}
 
+	private String url;
+	//private URL server;
+	private HashMap<String, String> args;
+
+	public HTTP_BASE(String url, HashMap args){
 	}
 
 	/**
@@ -46,43 +46,45 @@ abstract class HTTP_BASE {
 	 */
 	private get(String URL, HashMap args) {
 		HttpURLConnection hc;
-
+		hc.setDoOutput(true);
+		URL server;
+		InputStream in;
+		OutputStream out;
 		try {
-			hc = (HttpURLConnection) url.openConnection();
-
-			hc.setDoOutput(true);
+			server = new URL(url);
+			hc = (HttpURLConnection) server.openConnection();
 			hc.setChunkedStreamingMode(0);
 
-			OutputStream out = new BufferedOutputStream(hc.getOutputStream());
 			writeStream(out);
-
-			InputStream in = new BufferedInputStream(hc.getInputStream());
 			readStream(in);
 			finally {
 				hc.disconnect();
 			}
-		}//TODO CATCH
+		}catch (Exception e) {
+			Sentry.captureException(e);
+		}
 
 	}
 	//UE
-	private put(String URL, HashMap args){
+	private void put(String URL, HashMap args){
 		HttpURLConnection hc;
-		hc.setRequestMethod(PUT);
+		hc.setDoOutput(true);
+		URL server;
+		InputStream in;
+		OutputStream out;
 		try {
-			hc = (HttpURLConnection) url.openConnection();
-
-			hc.setDoOutput(true);
+			hc = (HttpURLConnection) server.openConnection();
+			hc.setRequestMethod(PUT);
 			hc.setChunkedStreamingMode(0);
 
-			OutputStream out = new BufferedOutputStream(hc.getOutputStream());
 			writeStream(out);
-
-			InputStream in = new BufferedInputStream(hc.getInputStream());
 			readStream(in);
 			finally {
 				hc.disconnect();
 			}
-		}//TODO CATCH
+		}catch (Exception e) {
+			Sentry.captureException(e);
+		}
 	}
 
 	/**
@@ -90,35 +92,79 @@ abstract class HTTP_BASE {
 	 * returned by getInputStream(). If the response has
 	 * no body, that method returns an empty stream.
 	 */
-	private post(String URL, HashMap args){
-		HttpURLConnection hc = (HttpURLConnection) url.openConnection();
+	private void post(String URL, HashMap args){
+		HttpURLConnection hc;
+		hc.setDoOutput(true);
+		URL server;
+		InputStream in;
+		OutputStream out;
 		try {
-			hc.setDoOutput(true);
+			hc = (HttpURLConnection) server.openConnection();
 			hc.setChunkedStreamingMode(0);
-
-			OutputStream out = new BufferedOutputStream(hc.getOutputStream());
 			writeStream(out);
-
-			InputStream in = new BufferedInputStream(hc.getInputStream());
 			readStream(in);
 			finally {
 				hc.disconnect();
 			}
-		}//TODO catch
+		}catch (Exception e) {
+			Sentry.captureException(e);
+		}
 	}
 
 	//QS
-	private delete(String URL, HashMap args){
+	private void delete(URL URL, HashMap args){
 		HttpURLConnection hc;
-		hc.setRequestMethod(DELETE);
-		hc = (HttpURLConnection) url.openConnection();
+		URL server;
+		OutputStream out;
+		try {
+			hc = (HttpURLConnection) server.openConnection();
+			hc.setRequestMethod(DELETE);
+			writeStream(out);
+			finally {
+				hc.disconnect();
+			}
+		} catch (Exception e) {
+			Sentry.captureException(e);
+		}
 	}
 
-	private head(String URL, HashMap args){
+	private void head(String URL, HashMap args) {
 		HttpURLConnection hc;
-		hc.setRequestMethod(HEAD);
-		hc = (HttpURLConnection) url.openConnection();
+		hc.setDoOutput(true);
+		URL server;
+		InputStream in;
+		OutputStream out;
+		try {
+			hc = (HttpURLConnection) server.openConnection();
+			hc.setRequestMethod(HEAD);
+			readStream(in);
+		} catch (Exception e) {
+			Sentry.captureException(e);
+		}
 	}
+	private void readStream(InputStream streamIn){
+		BufferedInputStream in = new BufferedReader(streamIn);
+		String inputLn;
+		StringBuffer response = new StringBuffer();
+		try{
+			for(inputLn = in.readLine();inputLn != null; inputLn = in.readLine()){
+				response.append(inputLn);
+			}
+			in.close();
+		}catch (Exception e) {
+			Sentry.captureException(e);
+		}
 
-
+		System.out.println(response.toString());
+	}
+	private void writeStream(OutputStream write){
+		BufferedOutputStream out;
+		try {
+			out = new BufferedOutputStream(write);
+			//TODO finisih writer
+			out.close();
+		}catch(Exception e){
+			Sentry.captureException(e);
+		}
+	}
 }
