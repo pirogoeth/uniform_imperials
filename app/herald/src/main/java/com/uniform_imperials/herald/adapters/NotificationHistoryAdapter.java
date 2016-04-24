@@ -92,6 +92,10 @@ public class NotificationHistoryAdapter
                         .get()
                         .toList());
 
+        if (addedNotifs.size() == 0) {
+            return;
+        }
+
         // The new notifications should be pushed on to the front of the adapter's data set.
         // This requires a small loop :(
         for (int i = addedNotifs.size() - 1; i >= 0; i--) {

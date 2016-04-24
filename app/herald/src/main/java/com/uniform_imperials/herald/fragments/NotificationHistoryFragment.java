@@ -133,10 +133,6 @@ public class NotificationHistoryFragment
             srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    nestedView.removeAllViewsInLayout();
-//                    NotificationHistoryAdapter adapter = new NotificationHistoryAdapter(mListener);
-//                    nestedView.setAdapter(adapter);
-
                     NotificationHistoryAdapter nha = (NotificationHistoryAdapter) nestedView.getAdapter();
                     nha.loadNewNotifications();
                     updateEmptyDataView();
