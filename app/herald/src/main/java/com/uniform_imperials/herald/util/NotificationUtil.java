@@ -2,6 +2,7 @@ package com.uniform_imperials.herald.util;
 
 import android.app.Notification;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.util.Base64;
 
+import com.joshdholtz.sentry.Sentry;
 import com.uniform_imperials.herald.MainApplication;
 
 import java.io.ByteArrayOutputStream;
@@ -72,6 +74,25 @@ public class NotificationUtil {
             e.printStackTrace();
         }
         return bmp;
+    }
+
+    public static String resolveApplicationName(String packageUri) {
+        PackageManager pm = MainApplication.getStaticBaseContext().getPackageManager();
+        String applicationName;
+
+        try {
+            applicationName = (String) pm.getApplicationLabel(
+                    pm.getApplicationInfo(
+                            packageUri, PackageManager.GET_META_DATA
+                    )
+            );
+        } catch (PackageManager.NameNotFoundException exc) {
+            // Could not find the name :(
+            Sentry.captureException(exc);
+            return packageUri;
+        }
+
+        return applicationName;
     }
 
     public static String base64EncodeIcon(Icon i) {

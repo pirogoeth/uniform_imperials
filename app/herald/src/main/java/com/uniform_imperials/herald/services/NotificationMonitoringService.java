@@ -58,6 +58,7 @@ public class NotificationMonitoringService extends NotificationListenerService {
         hn.setReceiveDate(new Date(cn.postedTime).toString());
         hn.setNotificationKey(notification.getKey());
         hn.setNotificationContent(cn.text);
+        hn.setNotificationTitle(NotificationUtil.resolveApplicationName(cn.srcPackage));
         hn.setSourceApplication(cn.srcPackage);
         hn.setAppIcon(cn.largeIcon);
         this.dataStore.insert(hn);

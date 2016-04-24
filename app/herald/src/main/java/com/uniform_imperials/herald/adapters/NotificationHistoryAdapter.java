@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.joshdholtz.sentry.Sentry;
 import com.uniform_imperials.herald.MainApplication;
 import com.uniform_imperials.herald.R;
 import com.uniform_imperials.herald.fragments.NotificationHistoryFragment;
@@ -71,20 +72,22 @@ public class NotificationHistoryAdapter
     @Override
     public void onBindViewHolder(HNViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mTitleView.setText(mValues.get(position).getSourceApplication());
+        holder.mTitleView.setText(mValues.get(position).getNotificationTitle());
         holder.mDescriptionView.setText(mValues.get(position).getNotificationContent());
         holder.mIconView.setImageBitmap(base64DecodeBitmap(mValues.get(position).getAppIcon()));
 
         Date d;
         try {
-            d = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(
+            // TODO: Parse date *properly* from string.
+            d = new SimpleDateFormat().parse(
                     mValues.get(position).getReceiveDate()
             );
+            holder.mDateView.setText(d.toString());
         } catch (ParseException e) {
-            long epochTime = Long.parseLong(mValues.get(position).getReceiveDate());
-            d = new Date(epochTime);
+            Sentry.captureException(e);
+            holder.mDateView.setText(mValues.get(position).getReceiveDate());
         }
-        holder.mDateView.setText(d.toString());
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
