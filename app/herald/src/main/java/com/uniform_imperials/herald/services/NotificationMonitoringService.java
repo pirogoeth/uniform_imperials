@@ -146,10 +146,10 @@ public class NotificationMonitoringService extends NotificationListenerService {
         hn.setSourceApplication(cn.srcPackage);
         hn.setAppIcon(cn.largeIcon);
 
+        this.dataStore.insert(hn);
+
         // Fire off a broadcast so the NHF reloads its data set.
         sendBroadcast(new Intent(IntentUtil.NHF_ACTION_RELOAD));
-
-        this.dataStore.insert(hn);
     }
 
     @Override

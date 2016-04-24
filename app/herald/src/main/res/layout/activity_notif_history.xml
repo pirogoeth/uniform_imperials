@@ -1,11 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout android:id="@+id/activity_main_swipe_refresh_layout"
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/nh_swipe_refresh_frame"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <com.github.mmin18.widget.FlexLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/nh_empty_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/nh_empty"
+            app:layout_top="prev.bottom + 4dp"
+            app:layout_centerX="50%"
+            app:layout_width="100%-10dp"
+            app:layout_height="25%"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardBackgroundColor="@color/cardview_dark_background"
+            card_view:cardElevation="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/nh_empty"
+                android:textColor="@color/subtle_textColor" />
+
+        </android.support.v7.widget.CardView>
+
+    </com.github.mmin18.widget.FlexLayout>
+
     <android.support.v7.widget.RecyclerView
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/nh_list"

@@ -1,9 +1,13 @@
 package com.uniform_imperials.herald.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,6 +44,7 @@ public class NotificationHistoryAdapter
     public NotificationHistoryAdapter(NotificationHistoryFragment.HistoricalNotificationFragmentInteractionListener mListener) {
         this.mValues = MainApplication.getEntitySourceInstance()
                 .select(HistoricalNotification.class)
+                .orderBy(HistoricalNotification.EPOCH.desc())
                 .limit(50)
                 .get()
                 .toList();
@@ -49,14 +54,17 @@ public class NotificationHistoryAdapter
 
     /**
      * Reloads the notification list on an event call from NMSListener -> NHFragment
+     *
+     * NOTE: Potentially deprecated by different reloading behaviour.
      */
+    @Deprecated
     public void reloadNotifications() {
         System.out.println("Reloading notifications....");
 
         this.mValues = null;
         this.mValues = MainApplication.getEntitySourceInstance()
                 .select(HistoricalNotification.class)
-                .orderBy(HistoricalNotification.EPOCH.asc())
+                .orderBy(HistoricalNotification.EPOCH.desc())
                 .limit(50)
                 .get()
                 .toList();
@@ -106,6 +114,8 @@ public class NotificationHistoryAdapter
             holder.mDateView.setText(mValues.get(position).getReceiveDate());
         }
 
+        // Animate for the list item entry.
+        this.runEnterAnimation(holder.mView);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +131,17 @@ public class NotificationHistoryAdapter
     }
 
     /**
+     * Handles view recycle events
+     *
+     * @param holder viewholder
+     */
+    @Override
+    public void onViewDetachedFromWindow(HNViewHolder holder) {
+        // Animate for the list item entry.
+        this.runExitAnimation(holder.mView);
+    }
+
+    /**
      * Returns dataset length
      *
      * @return dataset length
@@ -128,6 +149,52 @@ public class NotificationHistoryAdapter
     @Override
     public int getItemCount() {
         return this.mValues.size();
+    }
+
+    /**
+     * Performs a simple sliding entry animation for list view.
+     *
+     * @param view View to animate
+     */
+    private void runEnterAnimation(View view) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        Context ctx = MainApplication.getStaticBaseContext()
+                .getApplicationContext();
+
+        WindowManager wm = (WindowManager) ctx
+                .getSystemService(Context.WINDOW_SERVICE);
+
+        wm.getDefaultDisplay().getMetrics(metrics);
+
+        view.setTranslationY(metrics.heightPixels);
+        view.animate()
+                .translationY(0)
+                .setInterpolator(new DecelerateInterpolator(3.f))
+                .setDuration(300)
+                .start();
+    }
+
+    /**
+     * Performs a simple sliding entry animation for list view exit.
+     *
+     * @param view View to animate
+     */
+    private void runExitAnimation(View view) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        Context ctx = MainApplication.getStaticBaseContext()
+                .getApplicationContext();
+
+        WindowManager wm = (WindowManager) ctx
+                .getSystemService(Context.WINDOW_SERVICE);
+
+        wm.getDefaultDisplay().getMetrics(metrics);
+
+        view.setTranslationX(0);
+        view.animate()
+                .translationX(metrics.widthPixels)
+                .setInterpolator(new DecelerateInterpolator(3.f))
+                .setDuration(150)
+                .start();
     }
 
     public class HNViewHolder extends RecyclerView.ViewHolder {

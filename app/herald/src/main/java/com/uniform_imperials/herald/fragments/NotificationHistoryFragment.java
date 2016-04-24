@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,6 +35,9 @@ public class NotificationHistoryFragment
      */
     private RecyclerView nestedView = null;
 
+    /**
+     * Broadcast receiver for reload notifications.
+     */
     private NMSActionBroadcastReceiver mABRecv = null;
 
     /**
@@ -84,6 +88,7 @@ public class NotificationHistoryFragment
     public View createView(LayoutInflater inflater, ViewGroup container) {
         View parent = inflater.inflate(R.layout.activity_notif_history, container, false);
         View view = parent.findViewById(R.id.nh_list);
+        View refreshLayout = parent.findViewById(R.id.nh_swipe_refresh_frame);
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -97,7 +102,36 @@ public class NotificationHistoryFragment
             // Create the adapter and attach it to the view.
             recyclerView.setAdapter(new NotificationHistoryAdapter(this.mListener));
         }
-        return view;
+
+        // TODO: Make the emptyMsgView not swallow the Recycler
+        // Display the "empty" content if adapter is empty.
+        if (this.nestedView.getAdapter().getItemCount() == 0) {
+            View emptyMsgView = parent.findViewById(R.id.nh_empty_container);
+            emptyMsgView.setVisibility(View.VISIBLE);
+        } else {
+            View emptyMsgView = parent.findViewById(R.id.nh_empty_container);
+            if (emptyMsgView.getVisibility() == View.VISIBLE) {
+                emptyMsgView.setVisibility(View.GONE);
+            }
+        }
+
+        // Set up the swipe refresh layout
+        if (refreshLayout instanceof SwipeRefreshLayout) {
+            SwipeRefreshLayout srl = (SwipeRefreshLayout) refreshLayout;
+
+            // Create the swipe-refresh handler
+            srl.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    nestedView.removeAllViewsInLayout();
+                    NotificationHistoryAdapter adapter = new NotificationHistoryAdapter(mListener);
+                    nestedView.setAdapter(adapter);
+                    srl.setRefreshing(false);
+                }
+            });
+        }
+
+        return parent;
     }
 
     @Override
@@ -137,11 +171,8 @@ public class NotificationHistoryFragment
         @Override
         public void onReceive(Context mContext, Intent mIntent) {
             if (mIntent.getAction().equals(IntentUtil.NHF_ACTION_RELOAD)) {
-                RecyclerView.Adapter adapter = nestedView.getAdapter();
-                if (adapter instanceof NotificationHistoryAdapter) {
-                    NotificationHistoryAdapter nha = (NotificationHistoryAdapter) adapter;
-                    nha.reloadNotifications();
-                }
+                NotificationHistoryAdapter adapter = new NotificationHistoryAdapter(mListener);
+                nestedView.setAdapter(adapter);
             }
         }
     }

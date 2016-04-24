@@ -14,6 +14,8 @@
     <string name="nav_sp_title">Settings</string>
     <string name="nav_ap_title">About this App</string>
 
+    <string name="nh_empty">There\'s nothing here :(</string>
+
     <string name="notif_enabled">Notification mirroring enabled!</string>
     <string name="notif_disabled">Notification mirroring disabled!</string>
 
