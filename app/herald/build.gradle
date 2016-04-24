@@ -71,6 +71,7 @@ dependencies {
     compile 'com.android.databinding:adapters:1.0-rc5'
     compile 'me.dm7.barcodescanner:zxing:1.8.4'
     compile 'com.github.mmin18:flexlayout:1.2.0'
+    compile 'com.android.support:support-v4:23.0.+'
 
     // Development and debugging dependencies.
     compile 'com.squareup.okhttp3:okhttp:3.2.0'
