@@ -166,7 +166,9 @@ public class NotificationHistoryAdapter
         display.getSize(size);
         int totalWidth = size.x;
         int width = totalWidth - holder.mIconView.getMeasuredWidth();
-        double ems = ((double)width-25)/(15*4);
+
+        float density  = MainApplication.getStaticBaseContext().getResources().getDisplayMetrics().density;
+        double ems = ((double)width-25)/(15*(density+0.5));
         System.out.println(String.format("width: %d, ems: %f", width, ems));
         holder.mDescriptionView.setEms((int)ems);
 
