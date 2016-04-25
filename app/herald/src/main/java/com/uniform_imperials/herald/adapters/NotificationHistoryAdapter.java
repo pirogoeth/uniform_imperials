@@ -1,10 +1,14 @@
 package com.uniform_imperials.herald.adapters;
 
+import android.content.Context;
+import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -151,7 +155,21 @@ public class NotificationHistoryAdapter
         this.runEnterAnimation(holder.mView);
 
         // Do some display math to set the maxEms on mContentView
-        holder.mDescriptionView.setMaxWidth(R.dimen.nh_desc_width);
+        //holder.mDescriptionView.setMaxWidth(R.dimen.nh_desc_width);
+        holder.mDescriptionView.measure(0,0);
+        holder.mIconView.measure(0,0);
+        holder.mView.measure(0,0);
+
+        WindowManager wm = (WindowManager) MainApplication.getStaticBaseContext().getSystemService(MainApplication.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int totalWidth = size.x;
+        int width = totalWidth - holder.mIconView.getMeasuredWidth();
+        double ems = ((double)width-25)/(15*4);
+        System.out.println(String.format("width: %d, ems: %f", width, ems));
+        holder.mDescriptionView.setEms((int)ems);
+
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
