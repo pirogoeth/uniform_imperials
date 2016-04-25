@@ -1,14 +1,10 @@
 package com.uniform_imperials.herald.adapters;
 
-import android.content.Context;
-import android.graphics.Point;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -135,7 +131,7 @@ public class NotificationHistoryAdapter
     public void onBindViewHolder(HNViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mTitleView.setText(mValues.get(position).getNotificationTitle());
-        holder.mDescriptionView.setText(mValues.get(position).getNotificationContent());
+        holder.mContentView.setText(mValues.get(position).getNotificationContent());
         holder.mIconView.setImageBitmap(base64DecodeBitmap(mValues.get(position).getAppIcon()));
 
         Date d;
@@ -155,23 +151,10 @@ public class NotificationHistoryAdapter
         this.runEnterAnimation(holder.mView);
 
         // Do some display math to set the maxEms on mContentView
-        //holder.mDescriptionView.setMaxWidth(R.dimen.nh_desc_width);
-        holder.mDescriptionView.measure(0,0);
-        holder.mIconView.measure(0,0);
-        holder.mView.measure(0,0);
+        int descriptionViewMaxEms = DisplayUtil.calculateMaxEms(
+                holder.mContentView, holder.mIconView);
 
-        WindowManager wm = (WindowManager) MainApplication.getStaticBaseContext().getSystemService(MainApplication.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int totalWidth = size.x;
-        int width = totalWidth - holder.mIconView.getMeasuredWidth();
-
-        float density  = MainApplication.getStaticBaseContext().getResources().getDisplayMetrics().density;
-        double ems = ((double)width-25)/(15*(density+0.5));
-        System.out.println(String.format("width: %d, ems: %f", width, ems));
-        holder.mDescriptionView.setEms((int)ems);
-
+        holder.mContentView.setEms(descriptionViewMaxEms);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,7 +224,7 @@ public class NotificationHistoryAdapter
     public class HNViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mTitleView;
-        public final TextView mDescriptionView;
+        public final TextView mContentView;
         public final ImageView mIconView;
         public final TextView mDateView;
         public HistoricalNotification mItem;
@@ -250,7 +233,7 @@ public class NotificationHistoryAdapter
             super(view);
             mView = view;
             mTitleView = (TextView) view.findViewById(R.id.nh_item_title);
-            mDescriptionView = (TextView) view.findViewById(R.id.nh_item_content);
+            mContentView = (TextView) view.findViewById(R.id.nh_item_content);
             mIconView = (ImageView) view.findViewById(R.id.nh_item_icon);
             mDateView = (TextView) view.findViewById(R.id.nh_item_date);
         }

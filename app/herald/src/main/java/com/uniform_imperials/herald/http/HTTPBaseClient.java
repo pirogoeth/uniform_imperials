@@ -3,21 +3,25 @@ package com.uniform_imperials.herald.http;
 
 import com.joshdholtz.sentry.Sentry;
 
-import java.io.BufferedInputStream;
+import org.apache.commons.io.IOUtils;
+
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 
@@ -42,7 +46,7 @@ abstract class HTTPBaseClient {
 
     /**
      * Returns the string representing the base API url for requests.
-     * @return
+     * @return String
      */
     public static String getBaseApiUrl() {
         if (baseApiUrl == null) {
@@ -70,7 +74,34 @@ abstract class HTTPBaseClient {
         baseApiUrl = apiBase;
     }
 
-    public Future<IHttpResponse> get(String uri, HashMap<String, String> args) {
+    /**
+     * Set of executors for requests. Serve as the works for resolving Futures and fun stuff.
+     */
+    private final ExecutorService httpRequestPool = Executors.newFixedThreadPool(4);
+
+    /**
+     * Class to decode received messages in to.
+     */
+    private Class<? extends HttpResponse> decodingTarget;
+
+    /**
+     * Sets the decoding target class for this request.
+     *
+     * @param c Class to decode into.
+     */
+    public void setDecodingTarget(Class<? extends HttpResponse> c) {
+        this.decodingTarget = c;
+    }
+
+    /**
+     * Performs an HTTP GET request. GET does not accept a request body, but it does accept
+     * arguments in the form of query string arguments at the end of the URL.
+     *
+     * @param uri URI to request.
+     * @param args HashMap of query string arguments.
+     * @return Future<IHttpRequest> resolvable future
+     */
+    public Future<HttpResponse> get(String uri, HashMap<String, String> args) {
         URL requestUrl;
 
         try {
@@ -83,7 +114,14 @@ abstract class HTTPBaseClient {
         return null;
     }
 
-    public Future<IHttpResponse> post(String uri, HashMap<String, String> args) {
+    /**
+     * Performs an HTTP POST request. POST accepts text/x-www-form-urlencoded (or other) data.
+     *
+     * @param uri URI to request.
+     * @param args HashMap of args to urlencode.
+     * @return Future<IHttpRequest> resolvable future
+     */
+    public Future<HttpResponse> post(String uri, HashMap<String, String> args) {
         URL requestUrl;
         String requestBody = this.encodeParamString(args);
 
@@ -97,15 +135,117 @@ abstract class HTTPBaseClient {
         return null;
     }
 
-    public Future<IHttpResponse> put(String uri, HashMap<String, String> args) {
+    /**
+     * Performs an HTTP POST request. POST accepts text/x-www-form-urlencoded (or other) data.
+     *
+     * @param uri URI to request.
+     * @param payload Body payload to send to upstream.
+     * @param payloadType HTTP Content-Type of submitted payload.
+     * @return Future<IHttpRequest> resolvable future.
+     */
+    public Future<HttpResponse> post(String uri, String payload, String payloadType) {
+        URL requestUrl;
+
+        try {
+            requestUrl = this.buildRequestUrl(uri);
+        } catch (Exception exc) {
+            // Shit
+            return null;
+        }
+
+        URLConnection conn;
+        try {
+            conn = requestUrl.openConnection();
+        } catch (IOException exc) {
+            // Shiiiiit
+            return null;
+        }
+
+        conn.setDoOutput(true);
+        conn.setRequestProperty("Accept-Charset", "UTF-8");
+        conn.setRequestProperty("Content-Type", payloadType);
+
+        HttpURLConnection hc = (HttpURLConnection) conn;
+        try {
+            hc.setRequestMethod("POST");
+        } catch (ProtocolException exc) {
+            // SHIT.
+            return null;
+        }
+
+        try {
+            OutputStream out = conn.getOutputStream();
+            out.write(payload.getBytes("UTF-8"));
+        } catch (IOException exc) {
+            // Couldn't grab the output stream.
+            System.out.println("Could not open or write HTTP OutputStream");
+        }
+
+        return this.httpRequestPool.submit(new Callable<HttpResponse>() {
+            @Override
+            public HttpResponse call() throws Exception {
+                try {
+                    InputStream in = conn.getInputStream();
+                    String jsonResponse = IOUtils.toString(in, StandardCharsets.UTF_8);
+
+                    HttpResponse resp = decodingTarget.newInstance();
+                    resp.decode(jsonResponse);
+
+                    resp.setStatusCode(hc.getResponseCode());
+                    resp.setErrorMessage(hc.getResponseMessage());
+
+                    return resp;
+                } catch (Exception exc) {
+                    HttpResponse resp = decodingTarget.newInstance();
+
+                    resp.setStatusCode(hc.getResponseCode());
+                    resp.setErrorMessage(hc.getResponseMessage());
+
+                    return resp;
+                }
+            }
+        });
+    }
+
+    /**
+     * Performs an HTTP PUT request. PUT accepts data via request body, similar to POST.
+     * In our case, we will only submit JSON data via PUT, so an argument URL encoder and HTTP
+     * Content-Type specifications are unneeded.
+     *
+     * @param uri URI to request.
+     * @param jsonPayload JSON-encoded payload to send to upstream.
+     * @return Future<IHttpRequest> resolvable future.
+     */
+    public Future<HttpResponse> put(String uri, String jsonPayload) {
+        URL requestUrl;
+
+        try {
+            requestUrl = this.buildRequestUrl(uri);
+        } catch (Exception exc) {
+            // Shit
+            return null;
+        }
+
         return null;
     }
 
-    public Future<IHttpResponse> delete(String uri, HashMap<String, String> args) {
-        return null;
-    }
+    /**
+     * Performs an HTTP DELETE request. DELETE accepts data via query string params.
+     *
+     * @param uri URI to request.
+     * @param args HashMap of query string arguments to url encode.
+     * @return Future<IHttpRequest> resolvable future.
+     */
+    public Future<HttpResponse> delete(String uri, HashMap<String, String> args) {
+        URL requestUrl;
 
-    public Future<IHttpResponse> head(String uri, HashMap<String, String> args) {
+        try {
+            requestUrl = this.buildRequestUrl(uri, this.encodeParamString(args));
+        } catch (Exception exc) {
+            // Shit
+            return null;
+        }
+
         return null;
     }
 
