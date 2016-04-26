@@ -50,25 +50,6 @@ public class MainApplication extends Application {
         baseContext = this.getBaseContext();
 
         DefaultSettings.ensureSettingsExist();
-//
-//        try {
-//            HttpClient hc = new HttpClient("http://66.76.118.158:19050/");
-//            ChannelModel.ChannelJson chanCreateRes = ChannelModel.createChannel(hc);
-//            if (chanCreateRes == null) {
-//                System.out.println("ChannelCreate result is null :(");
-//            }
-//            System.out.println(
-//                    String.format(
-//                            Locale.getDefault(),
-//                            "createChannel() returns %d -> %s [Exc: %s]",
-//                            chanCreateRes.getStatusCode(),
-//                            chanCreateRes.getStatusMessage(),
-//                            chanCreateRes.getErrorMessage()
-//                    )
-//            );
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        }
 
         Sentry.init(this.getApplicationContext(),
                 getString(R.string.sentry_url),

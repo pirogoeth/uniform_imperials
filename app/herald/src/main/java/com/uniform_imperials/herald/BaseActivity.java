@@ -29,8 +29,6 @@ import butterknife.ButterKnife;
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private static final int DB_SCHEMA_VERSION = 1;
-
     /**
      * Global drawer layout.
      */

@@ -159,6 +159,12 @@ public class NotificationMonitoringService extends NotificationListenerService {
             exc.printStackTrace();
         }
 
+        Thread senderThread = new Thread() {
+            @Override
+            public void run() {
+
+            }
+        };
     }
 
     @Override

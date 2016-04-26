@@ -22,8 +22,6 @@ public class ChannelModel {
                                         // created with a HMAC-SHA1 signature with the encryption
                                         // key as the key and the channel uuid as the data.
 
-//        public CreateChannelJson() {}
-
         @Override
         public String encode(CreateChannelJson o) {
             return this.encode(CreateChannelJson.class, o);
@@ -37,8 +35,6 @@ public class ChannelModel {
         ChannelPushReqMetadataJson metadata;
         byte[] payload;                 // aes256-encrypted JSON payload
         byte[] signature;               // salted HMAC-SHA1 payload signature
-
-//        public ChannelPushReqJson() {}
 
         @Override
         public String encode(ChannelPushReqJson o) {
@@ -54,8 +50,6 @@ public class ChannelModel {
         long pushed_at;                 // <unix ts> time notification was pushed to backend
         String from_id;                 // device uuid that pushed notification
         List<String> to_id;             // list of device uuids notifications are forwarded to
-
-//        public ChannelPushReqMetadataJson() {}
     }
 
     //// JSON Response Classes
@@ -67,8 +61,6 @@ public class ChannelModel {
         String uuid;                    // string uuid
         String alias;                   // alias generated name mapping of uuid
         ChannelStatsJson stats = null;  // stats object
-
-//        public ChannelJson() {}
 
         @Override
         public ChannelJson decode(String jsonString) {
@@ -82,8 +74,6 @@ public class ChannelModel {
     public static class ChannelStatsJson {
         int members;                    // member count
         int messages;                   // message count
-
-//        public ChannelStatsJson() {}
     }
 
     /**
@@ -94,8 +84,6 @@ public class ChannelModel {
         String status;                  // string (accepted|rejected)
         String message;                 // return message
         String job_id;                  // push uuid
-
-//        public ChannelPushRespJson() {}
 
         @Override
         public ChannelPushRespJson decode(String jsonString) {
@@ -110,8 +98,6 @@ public class ChannelModel {
         String channel;                 // channel uuid
         List<String> devices;           // list of device uuids
 
-//        public ChannelDevicesJson() {}
-
         @Override
         public ChannelDevicesJson decode(String jsonString) {
             return this.decode(ChannelDevicesJson.class, jsonString);
@@ -124,8 +110,6 @@ public class ChannelModel {
     public static class ChannelStatusJson extends AbstractHttpResponse<ChannelStatusJson> {
         String channel;                 // channel uuid
         String status;                  // channel status
-
-//        public ChannelStatusJson() {}
 
         @Override
         public ChannelStatusJson decode(String jsonString) {
