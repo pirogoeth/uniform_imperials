@@ -48,7 +48,6 @@ public class MainApplication extends Application {
         this.getData();
         baseContext = this.getBaseContext();
 
-
         Sentry.init(this.getApplicationContext(),
                 getString(R.string.sentry_url),
                 getString(R.string.sentry_dsn));

@@ -157,7 +157,7 @@ public class HttpClient {
      * @return Future<AbstractHttpRequest> resolvable future
      */
     public Future<AbstractHttpResponse> post(String uri) {
-        return this.post(uri, null);
+        return this.post(uri, (HashMap) null);
     }
 
     /**
@@ -177,52 +177,22 @@ public class HttpClient {
             requestBody = null;
         }
 
-        try {
-            requestUrl = this.buildRequestUrl(uri);
-        } catch (Exception exc) {
-            // Shit
-            exc.printStackTrace();
-            return null;
-        }
-
-        URLConnection conn;
-        try {
-            conn = requestUrl.openConnection();
-        } catch (IOException exc) {
-            // Shiiiiit
-            exc.printStackTrace();
-            return null;
-        }
-
-        conn.setDoOutput(true);
-        conn.setRequestProperty("Accept-Charset", "UTF-8");
-        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-        HttpURLConnection hc = (HttpURLConnection) conn;
-        try {
-            hc.setRequestMethod("POST");
-        } catch (ProtocolException exc) {
-            // SHIT.
-            exc.printStackTrace();
-            return null;
-        }
-
-        if (requestBody != null) {
-            try {
-                OutputStream out = conn.getOutputStream();
-                out.write(requestBody.getBytes("UTF-8"));
-            } catch (IOException exc) {
-                // Couldn't grab the output stream.
-                System.out.println("Could not open or write HTTP OutputStream");
-                exc.printStackTrace();
-            }
-        }
-
-        return this.httpRequestPool.submit(this.generateHttpResponseReader(conn));
+        return this.post(uri, requestBody, "application/x-www-form-urlencoded");
     }
 
     /**
-     * Performs an HTTP POST request. POST accepts text/x-www-form-urlencoded (or other) data.
+     * Performs an HTTP POST request. POST accepts application/json (or other) data.
+     *
+     * @param uri URI to request.
+     * @param request AbstractHttpRequest object to encode and send.
+     * @return Future<AbstractHttpRequest> resolvable future.
+     */
+    public Future<AbstractHttpResponse> post(String uri, AbstractHttpRequest request) {
+        return this.post(uri, request.encode(request), "application/json");
+    }
+
+    /**
+     * Performs an HTTP POST request. POST accepts application/x-www-form-urlencoded (or other) data.
      *
      * @param uri URI to request.
      * @param payload Body payload to send to upstream.
@@ -289,7 +259,35 @@ public class HttpClient {
             return null;
         }
 
-        return null;
+        URLConnection conn;
+        try {
+            conn = requestUrl.openConnection();
+        } catch (IOException exc) {
+            // Shiiiiit
+            return null;
+        }
+
+        conn.setDoOutput(true);
+        conn.setRequestProperty("Accept-Charset", "UTF-8");
+        conn.setRequestProperty("Content-Type", "application/json");
+
+        HttpURLConnection hc = (HttpURLConnection) conn;
+        try {
+            hc.setRequestMethod("PUT");
+        } catch (ProtocolException exc) {
+            // SHIT.
+            return null;
+        }
+
+        try {
+            OutputStream out = conn.getOutputStream();
+            out.write(jsonPayload.getBytes("UTF-8"));
+        } catch (IOException exc) {
+            // Couldn't grab the output stream.
+            System.out.println("Could not open or write HTTP OutputStream");
+        }
+
+        return this.httpRequestPool.submit(this.generateHttpResponseReader(conn));
     }
 
     /**
@@ -301,8 +299,8 @@ public class HttpClient {
      * @param request Request object to encode and send.
      * @return Future<AbstractHttpRequest> resolvable future.
      */
-    public Future<AbstractHttpResponse> put(String uri, AbstractHttpRequest request, Object dataObj) {
-        return this.put(uri, request.encode(dataObj));
+    public Future<AbstractHttpResponse> put(String uri, AbstractHttpRequest request) {
+        return this.put(uri, request.encode(request));
     }
 
     /**

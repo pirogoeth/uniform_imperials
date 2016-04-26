@@ -24,6 +24,24 @@
         <item name="android:titleTextAppearance">@style/Subtle.ActionBar.Text</item>
     </style>
 
+    <style name="Subtle.Text" parent="@android:style/TextAppearance">
+        <item name="android:textColorPrimary">@color/subtle2_primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/subtle2_secondaryTextColor</item>
+        <item name="android:textColor">@color/subtle2_textColor</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:keyTextSize">16sp</item>
+        <item name="android:labelTextSize">12sp</item>
+    </style>
+
+    <style name="Subtle.Preference" parent="@android:style/Theme.NoTitleBar">
+        <item name="android:editTextPreferenceStyle">@style/Subtle.Text</item>
+        <item name="android:dialogPreferenceStyle">@style/Subtle.Text</item>
+        <item name="android:checkBoxPreferenceStyle">@style/Subtle.Text</item>
+        <item name="android:yesNoPreferenceStyle">@style/Subtle.Text</item>
+        <item name="android:switchPreferenceStyle">@style/Subtle.Text</item>
+        <item name="android:preferenceStyle">@style/Subtle.Text</item>
+    </style>
+
     <style name="Subtle.ActionBar.Text" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/subtle2_textColor</item>
         <item name="android:textSize">20dp</item>

@@ -9,6 +9,7 @@ import android.os.IBinder;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
+import com.joshdholtz.sentry.Sentry;
 import com.uniform_imperials.herald.MainApplication;
 import com.uniform_imperials.herald.model.HistoricalNotification;
 import com.uniform_imperials.herald.util.IntentUtil;
@@ -130,32 +131,33 @@ public class NotificationMonitoringService extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification notification) {
         Notification n = notification.getNotification();
 
-        NotificationUtil.CapturedNotification cn = NotificationUtil.getData(
-                notification,
-                this.getApplicationContext());
-        if (cn == null) {
-            return;
-        }
-
-        cn.srcPackage = notification.getPackageName();
-
-        HistoricalNotification hn = new HistoricalNotification();
-        hn.setEpoch(cn.postedTime);
-        hn.setReceiveDate(new Date(cn.postedTime).toString());
-        hn.setNotificationKey(NotificationUtil.getNotificationKey(notification));
-        hn.setNotificationContent(cn.text);
-        hn.setNotificationTitle(NotificationUtil.resolveApplicationName(cn.srcPackage));
-        hn.setSourceApplication(cn.srcPackage);
-        hn.setLargeAppIcon(cn.largeIcon);
-        hn.setSmallAppIcon(cn.smallIcon);
-
         try {
+            NotificationUtil.CapturedNotification cn = NotificationUtil.getData(
+                    notification,
+                    this.getApplicationContext());
+            if (cn == null) {
+                return;
+            }
+
+            cn.srcPackage = notification.getPackageName();
+
+            HistoricalNotification hn = new HistoricalNotification();
+            hn.setEpoch(cn.postedTime);
+            hn.setReceiveDate(new Date(cn.postedTime).toString());
+            hn.setNotificationKey(NotificationUtil.getNotificationKey(notification));
+            hn.setNotificationContent(cn.text);
+            hn.setNotificationTitle(NotificationUtil.resolveApplicationName(cn.srcPackage));
+            hn.setSourceApplication(cn.srcPackage);
+            hn.setLargeAppIcon(cn.largeIcon);
+            hn.setSmallAppIcon(cn.smallIcon);
+
             this.dataStore.insert(hn);
 
             // Fire off a broadcast so the NHF reloads its data set.
             sendBroadcast(new Intent(IntentUtil.NHF_ACTION_RELOAD));
         } catch (Exception exc) {
             // Chances are this is because of a SQLite constraint.
+            Sentry.captureException(exc);
             exc.printStackTrace();
         }
 

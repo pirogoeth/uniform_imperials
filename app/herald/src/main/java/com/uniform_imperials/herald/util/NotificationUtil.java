@@ -301,9 +301,7 @@ public class NotificationUtil {
             return null;
         }
 
-        Bitmap bmp = ((BitmapDrawable) d).getBitmap();
-
-        return base64EncodeBitmap(bmp);
+        return base64EncodeImage(d);
     }
 
     /**

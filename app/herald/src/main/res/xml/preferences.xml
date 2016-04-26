@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:theme="@style/Subtle.Preference">
+
     <PreferenceCategory
         android:title="Stealth Mode">
+
         <CheckBoxPreference
-            android:key="Mirroring"
-            android:title="Mirroring"
-            android:defaultValue="TRUE"
-            android:summary="Allow_notification_mirroring"/>
+            android:key="mirroring_disabled"
+            android:title="Disable Outbound Mirroring"
+            android:defaultValue="false"
+            android:summary="Disable outbound notification mirroring"
+            android:theme="@style/Subtle.Preference"
+            android:textAppearance="@style/Subtle.Text"/>
 
     </PreferenceCategory>
 
@@ -14,14 +20,41 @@
         android:title="Server">
 
         <EditTextPreference
-            android:key="Server_URL"
-            android:title="Server_URL"
+            android:key="server_url"
+            android:title="Herald Push Server URL"
+            android:dialogTitle="Herald Push Server URL"
+            android:summary="URL of server to push notifications through for distribution."
             android:defaultValue="https://hpush-pub0.maiome-infra.net"/>
 
         <EditTextPreference
-            android:key="Enter_Channel_UUID"
-            android:title="Channel_UUID"
-            android:defaultValue= "" />
+            android:key="channel_uuid"
+            android:title="Notification Channel UUID or Alias"
+            android:summary="UUID or alias of private notification broadcast channel."
+            android:defaultValue="null" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Device">
+
+        <EditTextPreference
+            android:editable="false"
+            android:key="device_uuid"
+            android:title="Device UUID"
+            android:defaultValue="null" />
+
+        <EditTextPreference
+            android:key="device_friendly_name"
+            android:title="Device friendly name"
+            android:summary="Friendly name of this device as it will appear to the channel"
+            android:defaultValue="null" />
+
+        <EditTextPreference
+            android:key="crypto_passphrase"
+            android:title="Crypto Passphrase"
+            android:summary="Passphrase used for AES128 encryption and crypto. sigs."
+            android:defaultValue="null" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

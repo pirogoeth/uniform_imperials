@@ -21,7 +21,7 @@
         android:paddingBottom="4dp"
         android:layout_gravity="center"
         card_view:cardCornerRadius="4dp"
-        card_view:cardBackgroundColor="@color/subtle2_colorPrimary"
+        card_view:cardBackgroundColor="@android:color/white"
         card_view:cardElevation="2dp">
 
         <com.github.mmin18.widget.FlexLayout
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nh_item_date"
-                android:textColor="@color/subtle2_primaryTextColor"
+                android:textColor="@color/subtle2_secondaryTextColor"
                 app:layout_right="100%-2dp"
                 app:layout_top="nh_item_content.bottom"
                 android:layout_gravity="right"
