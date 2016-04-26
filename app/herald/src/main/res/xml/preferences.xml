@@ -8,7 +8,7 @@
 
         <CheckBoxPreference
             android:key="mirroring_disabled"
-            android:title="Disable Outbound Mirroring"
+            android:title=""
             android:defaultValue="false"
             android:summary="Disable outbound notification mirroring"
             android:theme="@style/Subtle.Preference"
@@ -21,14 +21,14 @@
 
         <EditTextPreference
             android:key="server_url"
-            android:title="Herald Push Server URL"
+            android:title=""
             android:dialogTitle="Herald Push Server URL"
             android:summary="URL of server to push notifications through for distribution."
             android:defaultValue="https://hpush-pub0.maiome-infra.net"/>
 
         <EditTextPreference
             android:key="channel_uuid"
-            android:title="Notification Channel UUID or Alias"
+            android:title=""
             android:summary="UUID or alias of private notification broadcast channel."
             android:defaultValue="null" />
 
@@ -39,19 +39,21 @@
 
         <EditTextPreference
             android:editable="false"
+            android:clickable="false"
             android:key="device_uuid"
-            android:title="Device UUID"
+            android:title=""
+            android:summary="Device UUID"
             android:defaultValue="null" />
 
         <EditTextPreference
             android:key="device_friendly_name"
-            android:title="Device friendly name"
+            android:title=""
             android:summary="Friendly name of this device as it will appear to the channel"
             android:defaultValue="null" />
 
         <EditTextPreference
             android:key="crypto_passphrase"
-            android:title="Crypto Passphrase"
+            android:title=""
             android:summary="Passphrase used for AES128 encryption and crypto. sigs."
             android:defaultValue="null" />
 
