@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout="@layout/alt_settings" >
+    android:layout="@layout/alt_settings"
+    android:textAppearance="@style/Subtle.Preference">
 
     <PreferenceCategory
         android:title="Stealth Mode">
@@ -12,7 +13,7 @@
             android:defaultValue="false"
             android:summary="Disable outbound notification mirroring"
             android:theme="@style/Subtle.Preference"
-            android:textAppearance="@style/Subtle.Text"/>
+            android:textAppearance="@style/Subtle.Preference"/>
 
     </PreferenceCategory>
 

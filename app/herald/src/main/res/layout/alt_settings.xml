@@ -7,5 +7,4 @@
     android:theme="@style/Subtle"
     android:layoutMode="clipBounds">
 
-
 </LinearLayout>
