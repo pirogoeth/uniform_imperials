@@ -10,6 +10,16 @@
     <color name="subtle_textColor">#FFFFFF</color>
     <color name="subtle_colorActivatedHighlight">#02C5E9</color>
 
+    <color name="subtle2_colorPrimary">#607d8b</color>
+    <color name="subtle2_colorPrimaryLight">#cfd8dc</color>
+    <color name="subtle2_colorPrimaryDark">#455a64</color>
+    <color name="subtle2_textColor">#ffffff</color>
+    <color name="subtle2_iconColor">#ffffff</color>
+    <color name="subtle2_colorAccent">#009688</color>
+    <color name="subtle2_primaryTextColor">#212121</color>
+    <color name="subtle2_secondaryTextColor">#727272</color>
+    <color name="subtle2_dividerColor">#b6b6b6</color>
+
     <color name="monokai_dark_grey">#272822</color>
     <color name="monokai_light_grey">#E6E6E6</color>
     <color name="monokai_lighter_grey">#595959</color>

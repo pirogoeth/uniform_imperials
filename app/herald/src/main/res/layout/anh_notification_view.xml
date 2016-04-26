@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.github.mmin18.widget.FlexLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -9,15 +9,20 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/nh_card_container"
-        app:layout_top="prev.bottom + 8dp"
-        app:layout_centerX="50%"
-        app:layout_width="100%-10dp"
-        app:layout_height="wrap_content"
-        android:paddingBottom="2dp"
-        android:paddingTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_gravity="center"
         card_view:cardCornerRadius="4dp"
-        card_view:cardBackgroundColor="@color/subtle_dull_purple"
-        card_view:cardElevation="20dp">
+        card_view:cardBackgroundColor="@color/subtle2_colorPrimary"
+        card_view:cardElevation="2dp">
 
         <com.github.mmin18.widget.FlexLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,20 +31,19 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                app:layout_top="5dp"
                 app:layout_left="5dp"
                 app:layout_bottom="100%-5dp"
                 app:layout_height="100%-10dp"
-                android:id="@+id/nh_item_icon" />
+                app:layout_width="10%"
+                android:id="@+id/nh_item_icon"
+                android:elevation="5dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nh_item_title"
-                android:textColor="@color/monokai_dark_grey"
+                android:textColor="@color/subtle2_primaryTextColor"
                 app:layout_left="nh_item_icon.right+10dp"
                 android:textSize="18dp" />
 
@@ -47,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nh_item_content"
-                android:textColor="@color/monokai_dark_grey"
+                android:textColor="@color/subtle2_primaryTextColor"
                 app:layout_left="nh_item_icon.right+10dp"
                 app:layout_top="nh_item_title.bottom+2dp"
                 app:layout_right="parent.width-5dp"
@@ -58,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/nh_item_date"
-                android:textColor="@color/monokai_light_yellow"
+                android:textColor="@color/subtle2_primaryTextColor"
                 app:layout_right="100%-2dp"
                 app:layout_top="nh_item_content.bottom"
                 android:layout_gravity="right"
@@ -68,4 +72,4 @@
 
     </android.support.v7.widget.CardView>
 
-</com.github.mmin18.widget.FlexLayout>
+</LinearLayout>

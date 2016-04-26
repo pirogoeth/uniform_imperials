@@ -167,9 +167,6 @@ public class NotificationHistoryFragment
      * Updates the "nh list empty" view with the proper visibility setting.
      */
     private void updateEmptyDataView() {
-        System.out.println("Updating data-empty view visibility");
-
-        // TODO: Make the emptyMsgView not swallow the Recycler
         // Display the "empty" content if adapter is empty.
         if (this.nestedView.getAdapter().getItemCount() == 0) {
             View emptyMsgView = this.parentView.findViewById(R.id.nh_empty);

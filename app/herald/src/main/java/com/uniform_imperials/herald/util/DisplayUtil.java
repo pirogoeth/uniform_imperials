@@ -60,6 +60,6 @@ public class DisplayUtil {
 
         float density = getDisplayMetrics().density;
 
-        return (int) (((double) width - 25) / (15 * (density + 0.5)));
+        return (int) (((double) width - 25) / (15 * (density + 1.0)));
     }
 }

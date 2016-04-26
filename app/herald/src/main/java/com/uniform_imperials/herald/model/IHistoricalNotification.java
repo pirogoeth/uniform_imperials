@@ -9,6 +9,7 @@ import android.databinding.Bindable;
 import android.databinding.Observable;
 import android.os.Parcelable;
 
+import io.requery.Column;
 import io.requery.Entity;
 import io.requery.Generated;
 import io.requery.Key;
@@ -16,15 +17,11 @@ import io.requery.Persistable;
 
 @Entity
 public interface IHistoricalNotification extends Observable, Parcelable, Persistable {
+
     @Key
     @Generated
     int getId();
 
-    /**
-     * NOTE: Notification title may or may not be used.
-     *
-     * @return
-     */
     @Bindable
     String getNotificationTitle();
     void setNotificationTitle(String s);
@@ -34,6 +31,7 @@ public interface IHistoricalNotification extends Observable, Parcelable, Persist
     void setNotificationContent(String s);
 
     @Bindable
+    @Column(unique = true)
     String getNotificationKey();
     void setNotificationKey(String s);
 
@@ -42,8 +40,12 @@ public interface IHistoricalNotification extends Observable, Parcelable, Persist
     void setSourceApplication(String s);
 
     @Bindable
-    String getAppIcon();
-    void setAppIcon(String s);
+    String getLargeAppIcon();
+    void setLargeAppIcon(String s);
+
+    @Bindable
+    String getSmallAppIcon();
+    void setSmallAppIcon(String s);
 
     @Bindable
     String getReceiveDate();

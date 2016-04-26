@@ -1,11 +1,9 @@
 package com.uniform_imperials.herald.http;
 
-
 import com.joshdholtz.sentry.Sentry;
 
 import org.apache.commons.io.IOUtils;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -24,7 +22,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-
 /**
  * Created by Matt Humphries 4/22/2016.
  */
@@ -34,33 +31,51 @@ import java.util.concurrent.Future;
  *
  * HttpURLConnection uses the GET method by default.
  * It will use POST if setDoOutput(true) has been called.
- * Other HTTP methods (OPTIONS, HEAD, PUT, DELETE and TRACE)
+ * Other HTTP methods (OPTIONS, HEAD, and TRACE)
  * can be used with setRequestMethod(String).
  */
-abstract class HTTPBaseClient {
+public class HttpClient {
+
+    /**
+     * Set of executors for requests. Serve as the works for resolving Futures and fun stuff.
+     */
+    private final ExecutorService httpRequestPool = Executors.newFixedThreadPool(4);
+
+    /**
+     * Class to decode received messages in to.
+     */
+    private Class<? extends AbstractHttpResponse> decodingTarget;
 
     /**
      * Base API Url for requests.
      */
-	private static URL baseApiUrl;
+    private URL baseApiUrl;
+
+    public HttpClient(String baseApiUrl) {
+        try {
+            this.setBaseApiUrl(baseApiUrl);
+        } catch (MalformedURLException exc) {
+            exc.printStackTrace();
+        }
+    }
 
     /**
      * Returns the string representing the base API url for requests.
      * @return String
      */
-    public static String getBaseApiUrl() {
-        if (baseApiUrl == null) {
+    public String getBaseApiUrl() {
+        if (this.baseApiUrl == null) {
             return null;
         }
 
-        return baseApiUrl.toString();
+        return this.baseApiUrl.toString();
     }
 
     /**
      * Sets the base API url for requests.
      * @throws MalformedURLException if the URL given is invalid.
      */
-    public static void setBaseApiUrl(String s) throws MalformedURLException {
+    public void setBaseApiUrl(String s) throws MalformedURLException {
         URL apiBase = null;
 
         try {
@@ -71,26 +86,25 @@ abstract class HTTPBaseClient {
             Sentry.captureException(exc);
         }
 
-        baseApiUrl = apiBase;
+        this.baseApiUrl = apiBase;
     }
-
-    /**
-     * Set of executors for requests. Serve as the works for resolving Futures and fun stuff.
-     */
-    private final ExecutorService httpRequestPool = Executors.newFixedThreadPool(4);
-
-    /**
-     * Class to decode received messages in to.
-     */
-    private Class<? extends HttpResponse> decodingTarget;
 
     /**
      * Sets the decoding target class for this request.
      *
      * @param c Class to decode into.
      */
-    public void setDecodingTarget(Class<? extends HttpResponse> c) {
+    public void setDecodingTarget(Class<? extends AbstractHttpResponse> c) {
         this.decodingTarget = c;
+    }
+
+    /**
+     * Performs an HTTP GET request without any arguments.
+     * @param uri
+     * @return
+     */
+    public Future<AbstractHttpResponse> get(String uri) {
+        return this.get(uri, null);
     }
 
     /**
@@ -101,17 +115,49 @@ abstract class HTTPBaseClient {
      * @param args HashMap of query string arguments.
      * @return Future<IHttpRequest> resolvable future
      */
-    public Future<HttpResponse> get(String uri, HashMap<String, String> args) {
+    public Future<AbstractHttpResponse> get(String uri, HashMap<String, String> args) {
         URL requestUrl;
 
         try {
-            requestUrl = this.buildRequestUrl(uri, this.encodeParamString(args));
+            if (args != null) {
+                requestUrl = this.buildRequestUrl(uri, this.encodeParamString(args));
+            } else {
+                requestUrl = this.buildRequestUrl(uri, null);
+            }
         } catch (Exception exc) {
             // Shit
             return null;
         }
 
-        return null;
+        URLConnection conn;
+        try {
+            conn = requestUrl.openConnection();
+        } catch (IOException exc) {
+            // Shiiiit
+            return null;
+        }
+
+        conn.setRequestProperty("Accept-Charset", "UTF-8");
+
+        HttpURLConnection hc = (HttpURLConnection) conn;
+        try {
+            hc.setRequestMethod("GET");
+        } catch (ProtocolException exc) {
+            // Shit
+            return null;
+        }
+
+        return this.httpRequestPool.submit(this.generateHttpResponseReader(conn));
+    }
+
+    /**
+     * Performs an HTTP POST request with an empty request body.
+     *
+     * @param uri URI to request.
+     * @return Future<AbstractHttpRequest> resolvable future
+     */
+    public Future<AbstractHttpResponse> post(String uri) {
+        return this.post(uri, null);
     }
 
     /**
@@ -119,20 +165,60 @@ abstract class HTTPBaseClient {
      *
      * @param uri URI to request.
      * @param args HashMap of args to urlencode.
-     * @return Future<IHttpRequest> resolvable future
+     * @return Future<AbstractHttpRequest> resolvable future
      */
-    public Future<HttpResponse> post(String uri, HashMap<String, String> args) {
+    public Future<AbstractHttpResponse> post(String uri, HashMap<String, String> args) {
         URL requestUrl;
-        String requestBody = this.encodeParamString(args);
+
+        String requestBody;
+        if (args != null) {
+            requestBody = this.encodeParamString(args);
+        } else {
+            requestBody = null;
+        }
 
         try {
             requestUrl = this.buildRequestUrl(uri);
         } catch (Exception exc) {
             // Shit
+            exc.printStackTrace();
             return null;
         }
 
-        return null;
+        URLConnection conn;
+        try {
+            conn = requestUrl.openConnection();
+        } catch (IOException exc) {
+            // Shiiiiit
+            exc.printStackTrace();
+            return null;
+        }
+
+        conn.setDoOutput(true);
+        conn.setRequestProperty("Accept-Charset", "UTF-8");
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+        HttpURLConnection hc = (HttpURLConnection) conn;
+        try {
+            hc.setRequestMethod("POST");
+        } catch (ProtocolException exc) {
+            // SHIT.
+            exc.printStackTrace();
+            return null;
+        }
+
+        if (requestBody != null) {
+            try {
+                OutputStream out = conn.getOutputStream();
+                out.write(requestBody.getBytes("UTF-8"));
+            } catch (IOException exc) {
+                // Couldn't grab the output stream.
+                System.out.println("Could not open or write HTTP OutputStream");
+                exc.printStackTrace();
+            }
+        }
+
+        return this.httpRequestPool.submit(this.generateHttpResponseReader(conn));
     }
 
     /**
@@ -141,9 +227,9 @@ abstract class HTTPBaseClient {
      * @param uri URI to request.
      * @param payload Body payload to send to upstream.
      * @param payloadType HTTP Content-Type of submitted payload.
-     * @return Future<IHttpRequest> resolvable future.
+     * @return Future<AbstractHttpRequest> resolvable future.
      */
-    public Future<HttpResponse> post(String uri, String payload, String payloadType) {
+    public Future<AbstractHttpResponse> post(String uri, String payload, String payloadType) {
         URL requestUrl;
 
         try {
@@ -181,30 +267,7 @@ abstract class HTTPBaseClient {
             System.out.println("Could not open or write HTTP OutputStream");
         }
 
-        return this.httpRequestPool.submit(new Callable<HttpResponse>() {
-            @Override
-            public HttpResponse call() throws Exception {
-                try {
-                    InputStream in = conn.getInputStream();
-                    String jsonResponse = IOUtils.toString(in, StandardCharsets.UTF_8);
-
-                    HttpResponse resp = decodingTarget.newInstance();
-                    resp.decode(jsonResponse);
-
-                    resp.setStatusCode(hc.getResponseCode());
-                    resp.setErrorMessage(hc.getResponseMessage());
-
-                    return resp;
-                } catch (Exception exc) {
-                    HttpResponse resp = decodingTarget.newInstance();
-
-                    resp.setStatusCode(hc.getResponseCode());
-                    resp.setErrorMessage(hc.getResponseMessage());
-
-                    return resp;
-                }
-            }
-        });
+        return this.httpRequestPool.submit(this.generateHttpResponseReader(conn));
     }
 
     /**
@@ -214,9 +277,9 @@ abstract class HTTPBaseClient {
      *
      * @param uri URI to request.
      * @param jsonPayload JSON-encoded payload to send to upstream.
-     * @return Future<IHttpRequest> resolvable future.
+     * @return Future<AbstractHttpRequest> resolvable future.
      */
-    public Future<HttpResponse> put(String uri, String jsonPayload) {
+    public Future<AbstractHttpResponse> put(String uri, String jsonPayload) {
         URL requestUrl;
 
         try {
@@ -230,13 +293,26 @@ abstract class HTTPBaseClient {
     }
 
     /**
+     * Performs an HTTP PUT request. PUT accepts data via request body, similar to POST.
+     * In our case, we will only submit JSON data via PUT, so an argument URL encoder and HTTP
+     * Content-Type specifications are unneeded.
+     *
+     * @param uri URI to request.
+     * @param request Request object to encode and send.
+     * @return Future<AbstractHttpRequest> resolvable future.
+     */
+    public Future<AbstractHttpResponse> put(String uri, AbstractHttpRequest request, Object dataObj) {
+        return this.put(uri, request.encode(dataObj));
+    }
+
+    /**
      * Performs an HTTP DELETE request. DELETE accepts data via query string params.
      *
      * @param uri URI to request.
      * @param args HashMap of query string arguments to url encode.
-     * @return Future<IHttpRequest> resolvable future.
+     * @return Future<AbstractHttpRequest> resolvable future.
      */
-    public Future<HttpResponse> delete(String uri, HashMap<String, String> args) {
+    public Future<AbstractHttpResponse> delete(String uri, HashMap<String, String> args) {
         URL requestUrl;
 
         try {
@@ -246,7 +322,25 @@ abstract class HTTPBaseClient {
             return null;
         }
 
-        return null;
+        URLConnection conn;
+        try {
+            conn = requestUrl.openConnection();
+        } catch (IOException exc) {
+            // Shiiiit
+            return null;
+        }
+
+        conn.setRequestProperty("Accept-Charset", "UTF-8");
+
+        HttpURLConnection hc = (HttpURLConnection) conn;
+        try {
+            hc.setRequestMethod("DELETE");
+        } catch (ProtocolException exc) {
+            // Shit
+            return null;
+        }
+
+        return this.httpRequestPool.submit(this.generateHttpResponseReader(conn));
     }
 
     private URL buildRequestUrl(String uri) throws Exception {
@@ -261,7 +355,12 @@ abstract class HTTPBaseClient {
         StringBuilder requestUrl = new StringBuilder();
 
         // First, process the base url.
-        String baseUrl = baseApiUrl.toString();
+        String baseUrl;
+        try {
+            baseUrl = getBaseApiUrl().toString();
+        } catch (NullPointerException exc) {
+            baseUrl = null;
+        }
         if (baseUrl == null) {
             throw new Exception("Must provide a base URL before making a request.");
         }
@@ -345,30 +444,33 @@ abstract class HTTPBaseClient {
         return paramString;
     }
 
-	private void readStream(InputStream streamIn) {
-//        BufferedInputStream in = new BufferedReader(streamIn);
-//        String inputLn;
-//        StringBuffer response = new StringBuffer();
-//        try {
-//            for (inputLn = in.readLine(); inputLn != null; inputLn = in.readLine()) {
-//                response.append(inputLn);
-//            }
-//            in.close();
-//        } catch (Exception e) {
-//            Sentry.captureException(e);
-//        }
-//
-//        System.out.println(response.toString());
-    }
+    private Callable<AbstractHttpResponse> generateHttpResponseReader(URLConnection conn) {
+        HttpURLConnection hc = (HttpURLConnection) conn;
 
-	private void writeStream(OutputStream write){
-		BufferedOutputStream out;
-		try {
-			out = new BufferedOutputStream(write);
-			//TODO finisih writer
-			out.close();
-		}catch(Exception e){
-			Sentry.captureException(e);
-		}
-	}
+        return new Callable<AbstractHttpResponse>() {
+            @Override
+            public AbstractHttpResponse call() throws Exception {
+                try {
+                    InputStream in = conn.getInputStream();
+                    String jsonResponse = IOUtils.toString(in, StandardCharsets.UTF_8);
+
+                    AbstractHttpResponse resp = decodingTarget.newInstance();
+                    resp.decode(jsonResponse);
+
+                    resp.setStatusCode(hc.getResponseCode());
+                    resp.setStatusMessage(hc.getResponseMessage());
+
+                    return resp;
+                } catch (Exception exc) {
+                    AbstractHttpResponse resp = decodingTarget.newInstance();
+
+                    resp.setStatusCode(hc.getResponseCode());
+                    resp.setStatusMessage(hc.getResponseMessage());
+                    resp.setErrorMessage(exc.getLocalizedMessage());
+
+                    return resp;
+                }
+            }
+        };
+    }
 }

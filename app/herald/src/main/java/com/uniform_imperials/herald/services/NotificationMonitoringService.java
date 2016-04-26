@@ -142,20 +142,23 @@ public class NotificationMonitoringService extends NotificationListenerService {
         HistoricalNotification hn = new HistoricalNotification();
         hn.setEpoch(cn.postedTime);
         hn.setReceiveDate(new Date(cn.postedTime).toString());
-        try {
-            hn.setNotificationKey(notification.getKey());
-        } catch (NoSuchMethodError e) {
-            hn.setNotificationKey(NotificationUtil.getNotificationKey(notification));
-        }
+        hn.setNotificationKey(NotificationUtil.getNotificationKey(notification));
         hn.setNotificationContent(cn.text);
         hn.setNotificationTitle(NotificationUtil.resolveApplicationName(cn.srcPackage));
         hn.setSourceApplication(cn.srcPackage);
-        hn.setAppIcon(cn.largeIcon);
+        hn.setLargeAppIcon(cn.largeIcon);
+        hn.setSmallAppIcon(cn.smallIcon);
 
-        this.dataStore.insert(hn);
+        try {
+            this.dataStore.insert(hn);
 
-        // Fire off a broadcast so the NHF reloads its data set.
-        sendBroadcast(new Intent(IntentUtil.NHF_ACTION_RELOAD));
+            // Fire off a broadcast so the NHF reloads its data set.
+            sendBroadcast(new Intent(IntentUtil.NHF_ACTION_RELOAD));
+        } catch (Exception exc) {
+            // Chances are this is because of a SQLite constraint.
+            exc.printStackTrace();
+        }
+
     }
 
     @Override

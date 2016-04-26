@@ -15,12 +15,10 @@ import com.uniform_imperials.herald.fragments.NotificationHistoryFragment;
 import com.uniform_imperials.herald.model.HistoricalNotification;
 import com.uniform_imperials.herald.util.DisplayUtil;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import static com.uniform_imperials.herald.util.NotificationUtil.base64DecodeBitmap;
+import static com.uniform_imperials.herald.util.NotificationUtil.getStoredNotificationIcon;
 
 /**
  * Created by Sean Johnson on 3/29/2016.
@@ -132,19 +130,14 @@ public class NotificationHistoryAdapter
         holder.mItem = mValues.get(position);
         holder.mTitleView.setText(mValues.get(position).getNotificationTitle());
         holder.mContentView.setText(mValues.get(position).getNotificationContent());
-        holder.mIconView.setImageBitmap(base64DecodeBitmap(mValues.get(position).getAppIcon()));
+        holder.mIconView.setImageBitmap(getStoredNotificationIcon(mValues.get(position)));
 
-        Date d;
-        try {
-            // TODO: Parse date *properly* from string.
-            d = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy").parse(
-                    mValues.get(position).getReceiveDate()
-            );
-            holder.mDateView.setText(d.toString());
-        } catch (ParseException e) {
-            // Sentry.captureException(e);
-            System.out.println("Date parsing failed :(");
+        // TODO: Parse date *properly* from string.
+        Date d = new Date(holder.mItem.getEpoch());
+        if (d.before(new Date(0))) {  // Is date before the epoch?
             holder.mDateView.setText(mValues.get(position).getReceiveDate());
+        } else {
+            holder.mDateView.setText(d.toString());
         }
 
         // Animate for the list item entry.

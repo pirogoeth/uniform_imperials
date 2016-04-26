@@ -21,7 +21,7 @@
             app:layout_width="100%-10dp"
             app:layout_height="25%"
             card_view:cardCornerRadius="4dp"
-            card_view:cardBackgroundColor="@color/subtle_dull_purple"
+            card_view:cardBackgroundColor="@color/subtle2_colorPrimary"
             card_view:cardElevation="10dp">
 
             <TextView
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/nh_empty"
-                android:textColor="@color/monokai_dark_grey" />
+                android:textColor="@color/subtle2_primaryTextColor" />
 
         </android.support.v7.widget.CardView>
 
