@@ -1,7 +1,7 @@
 package com.uniform_imperials.herald.activities;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
@@ -11,17 +11,17 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.app.FragmentManager;
 
 import com.joshdholtz.sentry.Sentry;
 import com.uniform_imperials.herald.BaseActivity;
 import com.uniform_imperials.herald.R;
 import com.uniform_imperials.herald.fragments.NotificationHistoryFragment;
-import com.uniform_imperials.herald.fragments.SettingFragment;
-import com.uniform_imperials.herald.model.AppSetting;
+import com.uniform_imperials.herald.fragments.PrefsFragment;
 import com.uniform_imperials.herald.model.HistoricalNotification;
 import com.uniform_imperials.herald.services.NotificationMonitoringService;
 
-public class MainActivity extends BaseActivity implements SettingFragment.AppSettingFragmentInteractionListener, NotificationHistoryFragment.HistoricalNotificationFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements NotificationHistoryFragment.HistoricalNotificationFragmentInteractionListener {
 
     public final String TAG = this.getClass().getSimpleName();
 
@@ -71,7 +71,6 @@ public class MainActivity extends BaseActivity implements SettingFragment.AppSet
         // Open the default fragment view.
         this.selectDrawerItem(R.id.nav_nh);
 
-
     }
 
     @Override
@@ -118,9 +117,7 @@ public class MainActivity extends BaseActivity implements SettingFragment.AppSet
         // this.mDrawer.openDrawer(GravityCompat.START);
     }
 
-    public void onAppSettingFragmentInteraction(AppSetting setting) {
-        // TODO: Trigger a modification dialog for the appropriate key value.
-    }
+
 
     public void onHistoricalNotificationFragmentInteraction(HistoricalNotification notification) {
         // TODO: Trigger a modification dialog for the appropriate key value.

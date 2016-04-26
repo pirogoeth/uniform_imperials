@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Stealth Mode">
+        <CheckBoxPreference
+            android:key="Mirroring"
+            android:title="Mirroring"
+            android:defaultValue="TRUE"
+            android:summary="Allow_notification_mirroring"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Server">
+
+        <EditTextPreference
+            android:key="Server_URL"
+            android:title="Server_URL"
+            android:defaultValue="https://hpush-pub0.maiome-infra.net"/>
+
+        <EditTextPreference
+            android:key="Enter_Channel_UUID"
+            android:title="Channel_UUID"
+            android:defaultValue= "" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

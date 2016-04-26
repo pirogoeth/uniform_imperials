@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import com.joshdholtz.sentry.Sentry;
 import com.uniform_imperials.herald.activities.MainActivity;
 import com.uniform_imperials.herald.fragments.NotificationHistoryFragment;
-import com.uniform_imperials.herald.fragments.SettingFragment;
+import com.uniform_imperials.herald.fragments.PrefsFragment;
 
 import butterknife.ButterKnife;
 
@@ -258,7 +258,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 cFrag = NotificationHistoryFragment.class;
                 break;
             case R.id.nav_sp:  // Settings pane
-                cFrag = SettingFragment.class;
+                cFrag = PrefsFragment.class;
                 break;
             case R.id.nav_ap:  // About pane
                 // cFrag = AboutPanelActivity.class

@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.joshdholtz.sentry.Sentry;
 import com.uniform_imperials.herald.model.Models;
-import com.uniform_imperials.herald.util.DefaultSettings;
 
 import io.requery.Persistable;
 import io.requery.android.sqlite.DatabaseSource;
@@ -49,7 +48,6 @@ public class MainApplication extends Application {
         this.getData();
         baseContext = this.getBaseContext();
 
-        DefaultSettings.ensureSettingsExist();
 
         Sentry.init(this.getApplicationContext(),
                 getString(R.string.sentry_url),
