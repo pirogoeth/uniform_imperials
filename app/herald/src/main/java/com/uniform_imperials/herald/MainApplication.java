@@ -5,13 +5,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.joshdholtz.sentry.Sentry;
-import com.uniform_imperials.herald.http.HttpClient;
-import com.uniform_imperials.herald.http.models.ChannelModel;
 import com.uniform_imperials.herald.model.Models;
 import com.uniform_imperials.herald.util.DefaultSettings;
-
-import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 import io.requery.Persistable;
 import io.requery.android.sqlite.DatabaseSource;
@@ -55,25 +50,25 @@ public class MainApplication extends Application {
         baseContext = this.getBaseContext();
 
         DefaultSettings.ensureSettingsExist();
-
-        try {
-            HttpClient hc = new HttpClient("http://66.76.118.158:19050/");
-            ChannelModel.ChannelJson chanCreateRes = ChannelModel.createChannel(hc);
-            if (chanCreateRes == null) {
-                System.out.println("ChannelCreate result is null :(");
-            }
-            System.out.println(
-                    String.format(
-                            Locale.getDefault(),
-                            "createChannel() returns %d -> %s [Exc: %s]",
-                            chanCreateRes.getStatusCode(),
-                            chanCreateRes.getStatusMessage(),
-                            chanCreateRes.getErrorMessage()
-                    )
-            );
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+//
+//        try {
+//            HttpClient hc = new HttpClient("http://66.76.118.158:19050/");
+//            ChannelModel.ChannelJson chanCreateRes = ChannelModel.createChannel(hc);
+//            if (chanCreateRes == null) {
+//                System.out.println("ChannelCreate result is null :(");
+//            }
+//            System.out.println(
+//                    String.format(
+//                            Locale.getDefault(),
+//                            "createChannel() returns %d -> %s [Exc: %s]",
+//                            chanCreateRes.getStatusCode(),
+//                            chanCreateRes.getStatusMessage(),
+//                            chanCreateRes.getErrorMessage()
+//                    )
+//            );
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
 
         Sentry.init(this.getApplicationContext(),
                 getString(R.string.sentry_url),

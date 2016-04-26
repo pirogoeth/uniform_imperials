@@ -8,8 +8,9 @@ public interface HttpRequest<T> {
     /**
      * Encodes a Java object into a JSON string.
      *
+     * @param Class<T> class to encode to
      * @param T object to encode
      * @return String
      */
-    String encode(T object);
+    String encode(Class<T> encodeTarget, T o);
 }
