@@ -1,18 +1,51 @@
+# vim: set sts=2 ts=2 sw=2 syntax=yaml ai:
+
+---
 language: android
 jdk: oraclejdk7
 env:
   matrix:
-    - ANDROID_TARGET=android-23  ANDROID_ABI=armeabi-v7a
+  - ANDROID_TARGET=android-22  ANDROID_ABI=armeabi-v7a
+  - ANDROID_TARGET=android-23  ANDROID_ABI=armeabi-v7a
 
 android:
   components:
-    - build-tools-23.0.0
+  - tools
+  - platform-tools
+  - build-tools-23.0.3
+  ### Build targets
+  - android-22
+  - android-23
+  ### Build target emulator system images
+  - sys-img-armeabi-v7a-android-22
+  - sys-img-armeabi-v7a-android-23
+  ### Support libraries and additional repos
+  - extra-android-support
+  - extra-google-google_play_services
+  - extra-google-m2repository
+  - extra-android-m2repository
 
 before_script:
-  # Create and start emulator
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
   - emulator -avd test -no-skin -no-audio -no-window &
   - adb wait-for-device
   - adb shell input keyevent 82 &
+  - chmod +x ./gradlew
 
-script: ./gradlew connectedAndroidTest
+script:
+  ### Only execute an application build. Testing comes later.
+  - "./gradlew build"
+  ### - "./gradlew build connectedCheck"
+  ### - "./gradlew connectedAndroidTest"
+
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
+notifications:
+  slack:
+    secure: FKEE2yydunabZ9j7eASPyWhPGYyTu2DTkPELuv3lOK7vSPrPhKcPiVRiOSeqd7H2IM7kenvnFHvcaK8Yt7rD986ra+ZGmra4KOUeEqq4M5+6ivus0IMdCQ5BtQT5r1xmwP2B6N1iKaPP6p/OFDgKrQcMKNUM9IRG1ypJCtXAbGJ/x6HHA7jQOQyLD9L1bHAWG/+eswI+oOQnmjpYVNKltzkSqH3WvKjRlhRxVQK7CLB3n0totwzFOopYHSXlbPiRioQ2l4IL8OE4El5bd8zLmG1Vkya2nzQ17SwK8JZvEW1eJ3AE/5YFjU+cvwxzn7anSy8gRRF2PJFbSrv5AfMpGe4vfn7ATDNd7pNKzuzgR7gplU/zeVk1XCtW3NAu61W4tQ9cDxcYDR/xH44BAA0gUub4FdH/pwLNENR1h7PUP8xVLipTGMPE2T4hf+Ve507d8m4onD5fD74SnkELnfboKCrPxdYE50IACL5FQeqJNulVTOmT37hyNE5/JKY4+4XWnnjehvf3/88MO0n4Jm3q/YTafPYlXnVoZac8RxskgepArApsZts9aYnA4mp/ltG/5eDnRGoks/JOOGcbPzVXuEJVpwqzfK7urVlVXoYxSEBMZxzdZ+LDb7eBdT53+TyYgEC1Hj6T9kWQaWeYiutPFjwuKAtdKxYqF9w+VYFXkss=
