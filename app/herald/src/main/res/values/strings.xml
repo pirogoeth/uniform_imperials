@@ -7,6 +7,8 @@
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_quicktoggles">Quick Toggles</string>
+    <string name="drawer_qt_mirror">Disable Mirroring</string>
 
     <string name="nav_nh_title">Notifications</string>
     <string name="nav_am_title">Applications</string>
@@ -14,6 +16,10 @@
     <string name="nav_sp_title">Settings</string>
     <string name="nav_ap_title">About this App</string>
 
+    <string name="nh_empty">There\'s nothing here :(</string>
+
     <string name="notif_enabled">Notification mirroring enabled!</string>
     <string name="notif_disabled">Notification mirroring disabled!</string>
+
+    <string name="debug_xmit_setting">debug.allow_event_xmit</string>
 </resources>

@@ -10,26 +10,45 @@
     </style>
 
     <style name="Subtle" parent="AppTheme">
-        <item name="colorPrimary">@color/subtle_colorPrimary</item>
-        <item name="colorPrimaryDark">@color/subtle_colorPrimaryDark</item>
-        <item name="colorAccent">@color/subtle_colorAccent</item>
-        <item name="android:textColor">@color/subtle_textColor</item>
+        <item name="colorPrimary">@color/subtle2_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/subtle2_colorPrimaryDark</item>
+        <item name="colorAccent">@color/subtle2_colorAccent</item>
+        <item name="android:textColor">@color/subtle2_textColor</item>
         <item name="android:actionBarStyle">@style/Subtle.ActionBar</item>
-        <item name="android:colorActivatedHighlight">@color/subtle_colorActivatedHighlight</item>
+        <item name="android:colorActivatedHighlight">@color/subtle2_colorPrimaryLight</item>
+        <item name="android:textAppearanceListItem">@color/subtle2_primaryTextColor</item>
     </style>
 
     <style name="Subtle.ActionBar" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:background">@color/subtle_colorPrimaryDark</item>
+        <item name="android:background">@color/subtle2_colorPrimaryDark</item>
         <item name="android:titleTextAppearance">@style/Subtle.ActionBar.Text</item>
     </style>
 
+    <style name="Subtle.Text" parent="@android:style/TextAppearance">
+        <item name="android:textColorPrimary">@color/subtle2_primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/subtle2_secondaryTextColor</item>
+        <item name="android:textColor">@color/subtle2_textColor</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:keyTextSize">16sp</item>
+        <item name="android:labelTextSize">12sp</item>
+    </style>
+
+    <style name="Subtle.Preference" parent="@android:style/Theme.NoTitleBar">
+        <item name="android:editTextPreferenceStyle">@style/Subtle.Text</item>
+        <item name="android:dialogPreferenceStyle">@style/Subtle.Text</item>
+        <item name="android:checkBoxPreferenceStyle">@style/Subtle.Text</item>
+        <item name="android:yesNoPreferenceStyle">@style/Subtle.Text</item>
+        <item name="android:switchPreferenceStyle">@style/Subtle.Text</item>
+        <item name="android:preferenceStyle">@style/Subtle.Text</item>
+    </style>
+
     <style name="Subtle.ActionBar.Text" parent="@android:style/TextAppearance">
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">@color/subtle2_textColor</item>
         <item name="android:textSize">20dp</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="color">@android:color/white</item>
+        <item name="color">@color/subtle2_iconColor</item>
         <item name="thickness">2dp</item>
         <item name="gapBetweenBars">4dp</item>
         <item name="drawableSize">26dp</item>

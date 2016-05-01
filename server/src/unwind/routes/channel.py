@@ -1,6 +1,9 @@
 import json
 import uuid
 
+from bottle import request
+from bottle import response
+
 from malibu.util import log
 
 from rest_api import routing
@@ -132,10 +135,26 @@ class ChannelAPIRouter(routing.base.APIRouter):
                 }
         """
 
-        resp = routing.base.generate_error_response(code=501)
-        resp["message"] = "Not yet implemented."
+        if not request.json:
+            resp = routing.base.generate_error_response(code=409)
+            resp["message"] = "Missing POST body"
 
-        return json.dumps(resp) + "\n"
+            return json.dumps(resp) + "\n"
+
+        # TODO: Verify the payload with the signature
+
+        metadata = request.json["metadata"]
+        for device_id in metadata["to_id"]:
+            d = Device.get(uuid=device_id)
+            if not d:
+                resp = routing.base.generate_error_response(code=404)
+                resp["message"] = "Unregistered device id: %s" % (device_id)
+                return json.dumps(resp) + "\n"
+
+            trimmed_payload = dict(request.json)
+            del trimmed_payload['metadata']['to_id']
+
+            d.send_payload(trimmed_payload)
 
     @api_route(path="/channel/<identifier>/devices",
                actions=["GET"],
@@ -156,8 +175,26 @@ class ChannelAPIRouter(routing.base.APIRouter):
                 }
         """
 
-        resp = routing.base.generate_error_response(code=501)
-        resp["message"] = "Not yet implemented."
+        try:
+            identifier = str(uuid.UUID(identifier))
+        except:
+            identifier = Channel.uuid_by_alias(identifier)
+
+        c = Channel.get(uuid=identifier)
+        if not c:
+            resp = routing.base.generate_error_response(code=404)
+            resp["message"] = "Could not find channel: %s" % (identifier)
+            return json.dumps(resp) + "\n"
+
+        devices = (Device.select()
+                         .where(Device.channel == c))
+
+        resp = routing.base.generate_bare_response()
+        resp["channel"] = c.uuid
+        resp["devices"] = []
+
+        for d in devices:
+            resp["devices"].append(d.uuid)
 
         return json.dumps(resp) + "\n"
 
@@ -171,7 +208,7 @@ class ChannelAPIRouter(routing.base.APIRouter):
 
             Return data:
                 {
-                    "channel": "<uuid>",
+                    "uuid": "<uuid>",
                     "status": "deleted"
                 }
         """

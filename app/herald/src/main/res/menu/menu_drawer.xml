@@ -10,35 +10,32 @@
         <item
             android:id="@+id/nav_am"
             android:icon="@drawable/am_nav_icon"
-            android:title="@string/nav_am_title" />
+            android:title="@string/nav_am_title"
+            android:enabled="false" />
 
         <item
             android:id="@+id/nav_dm"
             android:icon="@drawable/dm_nav_icon"
-            android:title="@string/nav_dm_title" />
+            android:title="@string/nav_dm_title"
+            android:enabled="false" />
 
-        <item android:title="Configure">
-            <menu>
-                <item
-                    android:id="@+id/nav_sp"
-                    android:icon="@drawable/sp_nav_icon"
-                    android:title="@string/nav_sp_title" />
+        <item
+            android:id="@+id/nav_sp"
+            android:icon="@drawable/sp_nav_icon"
+            android:title="@string/nav_sp_title" />
 
-                <item
-                    android:id="@+id/nav_ap"
-                    android:icon="@drawable/ap_nav_icon"
-                    android:title="@string/nav_ap_title" />
+        <item
+            android:id="@+id/nav_ap"
+            android:icon="@drawable/ap_nav_icon"
+            android:title="@string/nav_ap_title" />
 
-            </menu>
-        </item>
-
-        <item android:title="Quick Toggles">
+        <item android:title="@string/drawer_quicktoggles">
             <menu>
                 <item
                     android:id="@+id/nav_disable_mirror"
                     android:icon="@drawable/mirror_status"
                     app:actionLayout="@layout/action_disable_global"
-                    android:title="Disable Mirroring" />
+                    android:title="@string/drawer_qt_mirror" />
             </menu>
         </item>
     </group>

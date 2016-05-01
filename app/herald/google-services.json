@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "709250539500",
+    "project_id": "herald-1518f"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:709250539500:android:5a3f5f0345dec80b",
+        "android_client_info": {
+          "package_name": "com.uniform_imperials.herald"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN_6uZoBZmfrtf06K8z4uqgHNlV30nuVc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
