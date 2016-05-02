@@ -1,5 +1,6 @@
 package com.uniform_imperials.herald.util;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.security.AlgorithmParameters;
@@ -25,8 +26,66 @@ import javax.crypto.spec.SecretKeySpec;
  * Created by Sean Johnson on 4/25/2016.
  *
  * Utilities for cryptography.
+ *
+ * NOTE: Most (if not all) of this code was written around 4 AM on submission day. It will
+ * eventually get refactored and be less abhorrent.
  */
 public class CryptoUtil {
+
+    public static class EncryptedPayload implements Serializable {
+        /**
+         * Encrypted payload; array of bytes.
+         */
+        private byte[] payload;
+
+        /**
+         * Initialization vector used to create the above payload.
+         */
+        private byte[] iv;
+
+        public EncryptedPayload(byte[] ct, byte[] iv) {
+            this.payload = ct;  // cipher text
+            this.iv = iv;       // initialization vector
+        }
+
+        public byte[] getPayload() {
+            return this.payload;
+        }
+
+        public byte[] getIv() {
+            return this.iv;
+        }
+
+        public String decrypt(String password, byte[] salt) {
+            if (password == null || salt == null) {
+                return null;
+            }
+            char[] pw = password.toCharArray();
+
+            return this.decrypt(pw, salt);
+        }
+
+        public String decrypt(char[] password, byte[] salt) {
+            if (password == null || salt == null) {
+                return null;
+            }
+
+            SecretKey key = getSecretKeySpec(password, salt);
+            if (key == null) {
+                return null;
+            }
+
+            return this.decrypt(key);
+        }
+
+        public String decrypt(SecretKey key) {
+            if (key == null) {
+                return null;
+            }
+
+            return aesDecryptData(key, this.getPayload(), this.getIv());
+        }
+    }
 
     public static final int DERIVATION_ITERATION_COUNT = 65536;
     public static final int KEY_SIZE = 128;
@@ -55,15 +114,14 @@ public class CryptoUtil {
             return null;
         }
 
-        SecretKey secret = new SecretKeySpec(tmp.getEncoded(), "AES");
-        return secret;
+        return new SecretKeySpec(tmp.getEncoded(), "AES");
     }
 
-    public static byte[] aes256GenerateIV(char[] password, byte[] salt) {
-        return aes256GenerateIV(getSecretKeySpec(password, salt));
+    public static byte[] aesGenerateIV(char[] password, byte[] salt) {
+        return aesGenerateIV(getSecretKeySpec(password, salt));
     }
 
-    public static byte[] aes256GenerateIV(SecretKey secret) {
+    public static byte[] aesGenerateIV(SecretKey secret) {
         Cipher cipher;
         try {
             cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -95,11 +153,11 @@ public class CryptoUtil {
         return iv;
     }
 
-    public static byte[] aes256EncryptData(char[] password, byte[] salt, String data) {
-        return aes256EncryptData(getSecretKeySpec(password, salt), data);
+    public static EncryptedPayload aesEncryptData(char[] password, byte[] salt, String data) {
+        return aesEncryptData(getSecretKeySpec(password, salt), data);
     }
 
-    public static byte[] aes256EncryptData(SecretKey secret, String data) {
+    public static EncryptedPayload aesEncryptData(SecretKey secret, String data) {
         Cipher cipher;
         try {
             cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -145,14 +203,14 @@ public class CryptoUtil {
             return null;
         }
 
-        return ciphertext;
+        return new EncryptedPayload(ciphertext, iv);
     }
 
-    public static String aes256DecryptData(char[] password, byte[] salt, byte[] data) {
-        return aes256DecryptData(getSecretKeySpec(password, salt), data);
+    public static String aesDecryptData(char[] password, byte[] salt, byte[] data, byte[] iv) {
+        return aesDecryptData(getSecretKeySpec(password, salt), data, iv);
     }
 
-    public static String aes256DecryptData(SecretKey secret, byte[] data) {
+    public static String aesDecryptData(SecretKey secret, byte[] data, byte[] iv) {
         Cipher cipher;
         try {
             cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -162,7 +220,6 @@ public class CryptoUtil {
             return null;
         }
 
-        byte[] iv = aes256GenerateIV(secret);
         try {
             cipher.init(Cipher.DECRYPT_MODE, secret, new IvParameterSpec(iv));
         } catch (InvalidKeyException exc) {
@@ -184,5 +241,4 @@ public class CryptoUtil {
 
         return plaintext;
     }
-
 }

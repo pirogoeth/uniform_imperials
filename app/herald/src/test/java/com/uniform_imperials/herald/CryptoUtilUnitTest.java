@@ -1,15 +1,17 @@
 package com.uniform_imperials.herald;
 
+import com.uniform_imperials.herald.util.CryptoUtil;
+
 import org.junit.Test;
 
-import static com.uniform_imperials.herald.util.CryptoUtil.aes256DecryptData;
-import static com.uniform_imperials.herald.util.CryptoUtil.aes256EncryptData;
 import static com.uniform_imperials.herald.util.CryptoUtil.generateSalt;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 /**
  * Created by Sean Johnson on 4/26/2016.
+ *
+ * This is a set of unit tests for the crypto utils.
  */
 public class CryptoUtilUnitTest {
 
@@ -17,16 +19,16 @@ public class CryptoUtilUnitTest {
 
     @Test
     public void aes256EncryptCycleTest() {
-        char[] encryptPassphrase = new String("password.01!").toCharArray();
+        char[] encryptPassphrase = "password.01!".toCharArray();
 
         byte[] salt = generateSalt(8);
         assertNotEquals(salt, null);
 
-        byte[] encryptedData = aes256EncryptData(encryptPassphrase, salt, dataString);
-        assertNotEquals(encryptedData, null);
+        CryptoUtil.EncryptedPayload p = CryptoUtil.aesEncryptData(encryptPassphrase, salt, dataString);
+        assertNotEquals(null, p.getPayload());
 
-        String decryptedData = aes256DecryptData(encryptPassphrase, salt, encryptedData);
-        assertEquals(decryptedData, dataString);
+        String decryptedData = p.decrypt(encryptPassphrase, salt);
+        assertEquals(dataString, decryptedData);
     }
 
 }
