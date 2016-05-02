@@ -100,8 +100,8 @@ public class HttpClient {
 
     /**
      * Performs an HTTP GET request without any arguments.
-     * @param uri
-     * @return
+     * @param uri URI to GET
+     * @return Future<AbstractHttpResponse>
      */
     public Future<AbstractHttpResponse> get(String uri) {
         return this.get(uri, null);
@@ -113,7 +113,7 @@ public class HttpClient {
      *
      * @param uri URI to request.
      * @param args HashMap of query string arguments.
-     * @return Future<IHttpRequest> resolvable future
+     * @return Future<AbstractHttpResponse> resolvable future
      */
     public Future<AbstractHttpResponse> get(String uri, HashMap<String, String> args) {
         URL requestUrl;
@@ -157,7 +157,7 @@ public class HttpClient {
      * @return Future<AbstractHttpRequest> resolvable future
      */
     public Future<AbstractHttpResponse> post(String uri) {
-        return this.post(uri, (HashMap) null);
+        return this.post(uri, (HashMap<String, String>) null);
     }
 
     /**
@@ -168,8 +168,6 @@ public class HttpClient {
      * @return Future<AbstractHttpRequest> resolvable future
      */
     public Future<AbstractHttpResponse> post(String uri, HashMap<String, String> args) {
-        URL requestUrl;
-
         String requestBody;
         if (args != null) {
             requestBody = this.encodeParamString(args);
@@ -187,6 +185,7 @@ public class HttpClient {
      * @param request AbstractHttpRequest object to encode and send.
      * @return Future<AbstractHttpRequest> resolvable future.
      */
+    @SuppressWarnings("unchecked")
     public Future<AbstractHttpResponse> post(String uri, AbstractHttpRequest request) {
         return this.post(uri, request.encode(request), "application/json");
     }
@@ -299,6 +298,7 @@ public class HttpClient {
      * @param request Request object to encode and send.
      * @return Future<AbstractHttpRequest> resolvable future.
      */
+    @SuppressWarnings("unchecked")
     public Future<AbstractHttpResponse> put(String uri, AbstractHttpRequest request) {
         return this.put(uri, request.encode(request));
     }
@@ -355,7 +355,7 @@ public class HttpClient {
         // First, process the base url.
         String baseUrl;
         try {
-            baseUrl = getBaseApiUrl().toString();
+            baseUrl = getBaseApiUrl();
         } catch (NullPointerException exc) {
             baseUrl = null;
         }
@@ -392,7 +392,12 @@ public class HttpClient {
 
         URL fullRequestUrl;
         try {
-            fullRequestUrl = new URL(requestUrl.toString());
+            if (params != null) {
+                String fullUrl = requestUrl.toString() + params;
+                fullRequestUrl = new URL(fullUrl);
+            } else {
+                fullRequestUrl = new URL(requestUrl.toString());
+            }
         } catch (MalformedURLException exc) {
             // What alternatives do we have?
             Sentry.captureException(exc);
@@ -445,29 +450,26 @@ public class HttpClient {
     private Callable<AbstractHttpResponse> generateHttpResponseReader(URLConnection conn) {
         HttpURLConnection hc = (HttpURLConnection) conn;
 
-        return new Callable<AbstractHttpResponse>() {
-            @Override
-            public AbstractHttpResponse call() throws Exception {
-                try {
-                    InputStream in = conn.getInputStream();
-                    String jsonResponse = IOUtils.toString(in, StandardCharsets.UTF_8);
+        return () -> {
+            try {
+                InputStream in = conn.getInputStream();
+                String jsonResponse = IOUtils.toString(in, StandardCharsets.UTF_8);
 
-                    AbstractHttpResponse resp = decodingTarget.newInstance();
-                    resp.decode(jsonResponse);
+                AbstractHttpResponse resp = decodingTarget.newInstance();
+                resp.decode(jsonResponse);
 
-                    resp.setStatusCode(hc.getResponseCode());
-                    resp.setStatusMessage(hc.getResponseMessage());
+                resp.setStatusCode(hc.getResponseCode());
+                resp.setStatusMessage(hc.getResponseMessage());
 
-                    return resp;
-                } catch (Exception exc) {
-                    AbstractHttpResponse resp = decodingTarget.newInstance();
+                return resp;
+            } catch (Exception exc) {
+                AbstractHttpResponse resp = decodingTarget.newInstance();
 
-                    resp.setStatusCode(hc.getResponseCode());
-                    resp.setStatusMessage(hc.getResponseMessage());
-                    resp.setErrorMessage(exc.getLocalizedMessage());
+                resp.setStatusCode(hc.getResponseCode());
+                resp.setStatusMessage(hc.getResponseMessage());
+                resp.setErrorMessage(exc.getLocalizedMessage());
 
-                    return resp;
-                }
+                return resp;
             }
         };
     }

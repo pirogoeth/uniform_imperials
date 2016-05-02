@@ -43,6 +43,10 @@ android {
     dataBinding {
         enabled = true
     }
+
+    lintOptions {
+        disable 'InvalidPackage','NewApi'
+    }
 }
 
 retrolambda {
@@ -79,7 +83,6 @@ dependencies {
     compile 'com.github.mmin18:flexlayout:1.2.0'
 
     // Development and debugging dependencies.
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
     compile 'com.squareup.moshi:moshi:1.1.0'
     compile 'com.joshdholtz.sentry:sentry-android:1.2.1'
 

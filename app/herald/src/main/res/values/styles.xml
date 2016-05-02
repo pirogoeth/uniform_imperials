@@ -44,7 +44,7 @@
 
     <style name="Subtle.ActionBar.Text" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/subtle2_textColor</item>
-        <item name="android:textSize">20dp</item>
+        <item name="android:textSize">20sp</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">

@@ -36,6 +36,7 @@
                 app:layout_bottom="100%-5dp"
                 app:layout_height="100%-10dp"
                 app:layout_width="10%"
+                android:contentDescription="@string/nh_icon_desc"
                 android:id="@+id/nh_item_icon"
                 android:elevation="5dp" />
 
@@ -45,7 +46,7 @@
                 android:id="@+id/nh_item_title"
                 android:textColor="@color/subtle2_primaryTextColor"
                 app:layout_left="nh_item_icon.right+10dp"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -56,7 +57,7 @@
                 app:layout_top="nh_item_title.bottom+2dp"
                 app:layout_right="parent.width-5dp"
                 android:singleLine="false"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -65,8 +66,8 @@
                 android:textColor="@color/subtle2_secondaryTextColor"
                 app:layout_right="100%-2dp"
                 app:layout_top="nh_item_content.bottom"
-                android:layout_gravity="right"
-                android:textSize="15dp" />
+                android:layout_gravity="end"
+                android:textSize="15sp" />
 
         </com.github.mmin18.widget.FlexLayout>
 

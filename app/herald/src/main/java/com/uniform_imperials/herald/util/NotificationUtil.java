@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
 import android.graphics.drawable.VectorDrawable;
+import android.os.Build;
 import android.service.notification.StatusBarNotification;
 import android.util.Base64;
 
@@ -54,8 +55,12 @@ public class NotificationUtil {
             cn.postedTime = notification.when;
 
             try {
-                cn.smallIcon = base64EncodeImage(notification.getSmallIcon());
-                cn.largeIcon = base64EncodeImage(notification.getLargeIcon());
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    throw new NoSuchMethodError("getSmallIcon and getSmallIcon require API 23.");
+                } else {
+                    cn.smallIcon = base64EncodeImage(notification.getSmallIcon());
+                    cn.largeIcon = base64EncodeImage(notification.getLargeIcon());
+                }
             } catch (NoSuchMethodError e) {
                 // API version < 23, use getNotificationIconBitmap
                 Bitmap b = getNotificationIconBitmap(sbn.getPackageName(), ctx);
@@ -138,8 +143,13 @@ public class NotificationUtil {
         Drawable d;
         try {
             Resources.Theme t = ctx.getResources().newTheme();
-            d = ctx.getResources().getDrawable(R.drawable.unknown_icon, t);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                throw new NoSuchMethodError("getDrawable(int, Theme) requires API 21.");
+            } else {
+                d = ctx.getResources().getDrawable(R.drawable.unknown_icon, t);
+            }
         } catch (NoSuchMethodError exc) {
+            //noinspection deprecation
             d = ctx.getResources().getDrawable(R.drawable.unknown_icon);
         }
 
@@ -251,7 +261,11 @@ public class NotificationUtil {
 
         Drawable d;
         try {
-            d = v.mutate();
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                throw new NoSuchMethodError("mutate() requires API 21.");
+            } else {
+                d = v.mutate();
+            }
         } catch (NoSuchMethodError e) {
             return null;
         }
@@ -296,7 +310,11 @@ public class NotificationUtil {
 
         Drawable d;
         try {
-            d = i.loadDrawable(MainApplication.getStaticBaseContext());
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                throw new NoSuchMethodError("loadDrawable(Context) requires API 23.");
+            } else {
+                d = i.loadDrawable(MainApplication.getStaticBaseContext());
+            }
         } catch (NoSuchMethodError e) {
             return null;
         }
