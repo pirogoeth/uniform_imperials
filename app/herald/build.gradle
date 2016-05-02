@@ -1,4 +1,18 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+    }
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 23
@@ -6,44 +20,77 @@ android {
 
     compileOptions {
         encoding "UTF-8"
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
+
     defaultConfig {
         applicationId "com.uniform_imperials.herald"
-        minSdkVersion 22
+//        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
+
+    lintOptions {
+        disable 'InvalidPackage','NewApi'
+    }
+}
+
+retrolambda {
+    jdk System.getenv("JAVA8_HOME")
+    oldJdk System.getenv("JAVA7_HOME")
 }
 
 repositories {
     jcenter()
+    maven {
+        url "https://jitpack.io"
+    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12-beta-3'
 
+    // Android/Google deps
+    compile 'com.android.support:appcompat-v7:23.3.0'
+    compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.android.support:design:23.3.0'
+    compile 'com.android.support:recyclerview-v7:23.3.0'
+    compile 'com.android.support:cardview-v7:23.3.0'
+    compile 'com.android.databinding:library:1.0-rc5'
+    compile 'com.android.databinding:adapters:1.0-rc5'
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'
+
     // Design and compat libraries.
-    compile 'com.android.support:appcompat-v7:23.2.1'
-    compile 'com.android.support:design:23.2.1'
-    compile 'com.android.support:recyclerview-v7:23.2.1'
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.github.android-cjj:JJSearchViewAnim:49a43019d6'
+    compile 'commons-io:commons-io:2.5'
+    compile 'me.dm7.barcodescanner:zxing:1.8.4'
+    compile 'com.github.mmin18:flexlayout:1.2.0'
 
     // Development and debugging dependencies.
-    compile 'com.squareup.okhttp3:okhttp:3.2.0'
-    compile 'me.dm7.barcodescanner:zxing:1.8.4'
-    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.squareup.moshi:moshi:1.1.0'
     compile 'com.joshdholtz.sentry:sentry-android:1.2.1'
 
     // Database & ORM dependencies
     compile 'io.requery:sqlite-android:3.12.0'
-    compile 'io.requery:requery-android:1.0.0-beta11'
+    compile 'io.requery:requery:1.0.0-beta16'
+    compile 'io.requery:requery-android:1.0.0-beta16'
+    apt 'io.requery:requery-processor:1.0.0-beta16'
 }
+
+apply plugin: 'com.google.gms.google-services'

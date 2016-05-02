@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout="@layout/alt_settings"
+    android:textAppearance="@style/Subtle.Preference">
+
+    <PreferenceCategory
+        android:title="Stealth Mode">
+
+        <CheckBoxPreference
+            android:key="mirroring_disabled"
+            android:title=""
+            android:defaultValue="false"
+            android:summary="Disable outbound notification mirroring"
+            android:theme="@style/Subtle.Preference"
+            android:textAppearance="@style/Subtle.Preference"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Server">
+
+        <EditTextPreference
+            android:key="server_url"
+            android:title=""
+            android:dialogTitle="Herald Push Server URL"
+            android:summary="URL of server to push notifications through for distribution."
+            android:defaultValue="https://hpush-pub0.maiome-infra.net"/>
+
+        <EditTextPreference
+            android:key="channel_uuid"
+            android:title=""
+            android:summary="UUID or alias of private notification broadcast channel."
+            android:defaultValue="null" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Device">
+
+        <EditTextPreference
+            android:editable="false"
+            android:clickable="false"
+            android:key="device_uuid"
+            android:title=""
+            android:summary="Device UUID"
+            android:defaultValue="null" />
+
+        <EditTextPreference
+            android:key="device_friendly_name"
+            android:title=""
+            android:summary="Friendly name of this device as it will appear to the channel"
+            android:defaultValue="null" />
+
+        <EditTextPreference
+            android:key="crypto_passphrase"
+            android:title=""
+            android:summary="Passphrase used for AES128 encryption and crypto. sigs."
+            android:defaultValue="null" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

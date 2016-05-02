@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">Herald</string>
+    <string name="notification_monitoring_service">Herald: Notification Monitoring</string>
 
     <string name="sentry_url">https://sentry.maio.me</string>
     <string name="sentry_dsn">https://fa7080abd3a84674b724b36055692f53:ad2aa4eac17c42e2ada13749515529af@sentry.maio.me/5</string>
 
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="drawer_quicktoggles">Quick Toggles</string>
+    <string name="drawer_qt_mirror">Disable Mirroring</string>
 
     <string name="nav_nh_title">Notifications</string>
     <string name="nav_am_title">Applications</string>
@@ -13,6 +16,12 @@
     <string name="nav_sp_title">Settings</string>
     <string name="nav_ap_title">About this App</string>
 
+    <string name="nh_empty">There\'s nothing here :(</string>
+
     <string name="notif_enabled">Notification mirroring enabled!</string>
     <string name="notif_disabled">Notification mirroring disabled!</string>
+
+    <string name="nh_icon_desc">Notification app icon</string>
+
+    <string name="debug_xmit_setting">debug.allow_event_xmit</string>
 </resources>

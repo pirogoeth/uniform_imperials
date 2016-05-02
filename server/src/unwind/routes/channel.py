@@ -2,6 +2,8 @@ import json
 import uuid
 
 from bottle import request
+from bottle import response
+
 from malibu.util import log
 
 from rest_api import routing
@@ -21,6 +23,12 @@ class ChannelAPIRouter(routing.base.APIRouter):
         GET /channel/:uuid-or-:alias/devices
         DELETE /channel/:uuid-or-:alias
     """
+
+    def __init__(self, manager):
+
+        routing.base.APIRouter.__init__(self, manager)
+
+        self.__log = log.LoggingDriver.find_logger()
 
     @api_route(path="/channel/create",
                actions=["POST"],
@@ -46,7 +54,7 @@ class ChannelAPIRouter(routing.base.APIRouter):
 
         return json.dumps(resp) + "\n"
 
-    @api_route(path="/channel/:identifier",
+    @api_route(path="/channel/<identifier>",
                actions=["GET"],
                returns="application/json")
     def channel_get_info(identifier):
@@ -87,4 +95,125 @@ class ChannelAPIRouter(routing.base.APIRouter):
                 "devices": len(d),
             },
         }
+        return json.dumps(resp) + "\n"
+
+    @api_route(path="/channel/<identifier>/push",
+               actions=["POST"],
+               returns="application/json")
+    def channel_push_payload(identifier):
+        """ POST /channel/:identifier/push
+
+            Accepts a structured JSON payload and forwards it onward to
+            the GCM servers for the available registered devices.
+
+            TODO: Instead of directly forwarding notifications, we should
+                  enqueue the push job with Huey and assign a job ID to
+                  retrieve results later.
+
+            Request data:
+                {
+                    "metadata": {
+                        "received_at": <unix ts>,
+                        "pushed_at": <unix ts>,
+                        "from_id": "<device uuid>",
+                        "to_id": [
+                            "<device uuid>",
+                            "<device uuid>",
+                            ...
+                        ],
+                    },
+                    "payload": "<aes256 encrypted JSON payload>",
+                    "signature": "<salted HMAC-SHA payload signature>"
+                }
+
+            Return data:
+                {
+                    "timestamp": <unix ts>,
+                    "status": "<accepted|rejected>",
+                    "message": "<Error message|okay>"
+                    "job_id": <long push id> -or- "<push uuid>"
+                }
+        """
+
+        if not request.json:
+            resp = routing.base.generate_error_response(code=409)
+            resp["message"] = "Missing POST body"
+
+            return json.dumps(resp) + "\n"
+
+        # TODO: Verify the payload with the signature
+
+        metadata = request.json["metadata"]
+        for device_id in metadata["to_id"]:
+            d = Device.get(uuid=device_id)
+            if not d:
+                resp = routing.base.generate_error_response(code=404)
+                resp["message"] = "Unregistered device id: %s" % (device_id)
+                return json.dumps(resp) + "\n"
+
+            trimmed_payload = dict(request.json)
+            del trimmed_payload['metadata']['to_id']
+
+            d.send_payload(trimmed_payload)
+
+    @api_route(path="/channel/<identifier>/devices",
+               actions=["GET"],
+               returns="application/json")
+    def channel_get_devices(identifier):
+        """ GET /channel/:identifier/devices
+
+            Lists the device ids that are registered to this channel.
+
+            Return data:
+                {
+                    "channel": "<uuid>",
+                    "devices": [
+                        "<device uuid>",
+                        "<device uuid>",
+                        ...
+                    ]
+                }
+        """
+
+        try:
+            identifier = str(uuid.UUID(identifier))
+        except:
+            identifier = Channel.uuid_by_alias(identifier)
+
+        c = Channel.get(uuid=identifier)
+        if not c:
+            resp = routing.base.generate_error_response(code=404)
+            resp["message"] = "Could not find channel: %s" % (identifier)
+            return json.dumps(resp) + "\n"
+
+        devices = (Device.select()
+                         .where(Device.channel == c))
+
+        resp = routing.base.generate_bare_response()
+        resp["channel"] = c.uuid
+        resp["devices"] = []
+
+        for d in devices:
+            resp["devices"].append(d.uuid)
+
+        return json.dumps(resp) + "\n"
+
+    @api_route(path="/channel/<identifier>",
+               actions=["DELETE"],
+               returns="application/json")
+    def channel_delete(identifier):
+        """ DELETE /channel/:identifier
+
+            Allows deletion of a channel.
+
+            Return data:
+                {
+                    "uuid": "<uuid>",
+                    "status": "deleted"
+                }
+        """
+
+        resp = routing.base.generate_error_response(code=501)
+        resp["message"] = "Not yet implemented."
+
         return json.dumps(resp) + "\n"

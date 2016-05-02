@@ -4,9 +4,13 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="subtle_colorPrimary">#02B3D4</color>
-    <color name="subtle_colorPrimaryDark">#68595E</color>
-    <color name="subtle_colorAccent">#FFB671</color>
-    <color name="subtle_textColor">#FFFFFF</color>
-    <color name="subtle_colorActivatedHighlight">#02C5E9</color>
+    <color name="subtle2_colorPrimary">#607d8b</color>
+    <color name="subtle2_colorPrimaryLight">#cfd8dc</color>
+    <color name="subtle2_colorPrimaryDark">#455a64</color>
+    <color name="subtle2_textColor">#ffffff</color>
+    <color name="subtle2_iconColor">#ffffff</color>
+    <color name="subtle2_colorAccent">#009688</color>
+    <color name="subtle2_primaryTextColor">#212121</color>
+    <color name="subtle2_secondaryTextColor">#727272</color>
+    <color name="subtle2_dividerColor">#b6b6b6</color>
 </resources>
