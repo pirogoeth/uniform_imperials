@@ -21,7 +21,7 @@ android:
   ### Build targets
   - $ANDROID_TARGET
   ### Build target emulator system images
-  - sys-img-armeabi-v7a-$ANDROID_ABI
+  - sys-img-$ANDROID_ABI-$ANDROID_TARGET
   ### Support libraries and additional repos
   - extra-android-support
   - extra-google-google_play_services
